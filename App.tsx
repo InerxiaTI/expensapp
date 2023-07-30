@@ -1,6 +1,6 @@
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native'
 import React from 'react'// App.jsx
-import { View, Text } from 'react-native'
+import { View, Text, StatusBar } from 'react-native'
 import { TabsNavigator } from './src/navigation/TabsNavigator'
 import { COLORS } from './src/theme/Theme';
 
@@ -20,6 +20,8 @@ const MyTheme = {
 const App = () => {
   return (
     <NavigationContainer theme={MyTheme}>
+            <StatusBar animated={true} translucent backgroundColor="transparent" barStyle="dark-content" />
+
       <TabsNavigator />
     </NavigationContainer>
   )
