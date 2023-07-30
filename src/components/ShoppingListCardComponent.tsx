@@ -1,16 +1,19 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { BuysList } from '../screens/HomeScreen'
+import { useNavigation } from '@react-navigation/native'
 
 interface CardProps {
-    cardNumber: number
+    buysList: BuysList
 }
 
-const Cards = ({ cardNumber }: CardProps) => {
+const ShoppingListCardComponent = ({ buysList }: CardProps) => {
+    const navigator = useNavigation();
+
     return (
         <TouchableOpacity
-            onPress={() => console.log("click")}
+            onPress={() => navigator.navigate('ShoppingDetails')}
         >
-
             <View style={styles.card}>
                 <View style={styles.row1}>
                     <View style={styles.col1}>
@@ -18,13 +21,13 @@ const Cards = ({ cardNumber }: CardProps) => {
                         <Text style={styles.mainText}>Estado</Text>
                     </View>
                     <View style={styles.col1}>
-                        <Text style={styles.secondaryText}>24 mayo 2023</Text>
-                        <Text style={[styles.secondaryText]}>PAGADO</Text>
+                        <Text style={styles.secondaryText}>{buysList.fechaCierre}</Text>
+                        <Text style={[styles.secondaryText]}>{buysList.estado}</Text>
                     </View>
 
                 </View>
                 <View style={styles.col2}>
-                    <Text style={styles.priceText}>$ 513.727.999</Text>
+                    <Text style={styles.priceText}>$ {buysList.monto}</Text>
                 </View>
             </View>
         </TouchableOpacity>
@@ -43,7 +46,7 @@ const styles = StyleSheet.create({
         paddingBottom: 15,
         borderRadius: 8,
         borderColor: 'red',
-        borderWidth: 0,
+        borderWidth: 1,
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between'
@@ -99,4 +102,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default Cards
+export default ShoppingListCardComponent

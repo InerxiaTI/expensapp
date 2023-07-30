@@ -3,21 +3,29 @@ import { FlatList, Text, View } from 'react-native'
 import { COLORS } from '../theme/Theme'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import HeaderHomeComponent from '../components/HeaderHomeComponent'
-import Cards from '../components/Cards'
+import ShoppingListCardComponent from '../components/ShoppingListCardComponent'
+
+// interface de prueba
+export interface BuysList {
+  id: number,
+  fechaCierre: string,
+  estado: string,
+  monto: number,
+}
 
 const HomeScreen = () => {
 
   
 
-  const listasCompras = [
-    {fechaCierre: '24 mayo 2023', estado: 'PAGADO', monto: 513.233},
-    {fechaCierre: '23 abril 2023', estado: 'PAGADO', monto: 513.233},
-    {fechaCierre: '12 junio 2023', estado: 'PAGADO', monto: 513.233},
-    {fechaCierre: '6 julio 2023', estado: 'PAGADO', monto: 513.233},
-    {fechaCierre: '34 agosto 2023', estado: 'PAGADO', monto: 513.233},
-    {fechaCierre: '15 septiembre 2023', estado: 'PAGADO', monto: 513.233},
-    {fechaCierre: '24 octubre 2023', estado: 'PAGADO', monto: 513.233},
-    {fechaCierre: '24 diciembre 2023', estado: 'PAGADO', monto: 513.233},
+  const listasCompras: BuysList[] = [
+    {id: 1, fechaCierre: '24 mayo 2023', estado: 'PAGADO', monto: 513.233},
+    {id: 2, fechaCierre: '23 abril 2023', estado: 'PAGADO', monto: 513.233},
+    {id: 3, fechaCierre: '12 junio 2023', estado: 'PAGADO', monto: 513.233},
+    {id: 4, fechaCierre: '6 julio 2023', estado: 'PAGADO', monto: 513.233},
+    {id: 5, fechaCierre: '34 agosto 2023', estado: 'PAGADO', monto: 513.233},
+    {id: 6, fechaCierre: '15 septiembre 2023', estado: 'PAGADO', monto: 513.233},
+    {id: 7, fechaCierre: '24 octubre 2023', estado: 'PAGADO', monto: 513.233},
+    {id: 8, fechaCierre: '24 diciembre 2023', estado: 'PAGADO', monto: 513.233},
   ]
 
 
@@ -70,7 +78,7 @@ const HomeScreen = () => {
             data={listasCompras}
             keyExtractor={(item, index) => index.toString()} // Agrega esta línea
             renderItem={({item}) => (
-              <Cards cardNumber={1} />
+              <ShoppingListCardComponent buysList={item} />
               // <Text style={{marginVertical: 50}}>{item.fechaCierre}</Text>
             )} 
           

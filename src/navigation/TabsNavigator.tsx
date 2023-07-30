@@ -3,10 +3,10 @@ import React from 'react'
 import HomeScreen from '../screens/HomeScreen';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ProfileScreen from '../screens/ProfileScreen';
-import NewBuyListScreen from '../screens/NewBuyListScreen';
 import { COLORS } from '../theme/Theme';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { View } from 'react-native';
+import NewShoppingListScreen from '../screens/NewShoppingListScreen';
+import { HomeStackNavigator } from './HomeStackNavigator';
 
 
 const Tab = createMaterialBottomTabNavigator();
@@ -36,7 +36,7 @@ export const TabsNavigator = () => {
               iconName = focused ? 'home' : 'home-outline'
               break;
 
-            case 'NewBuyList':
+            case 'NewShoppingList':
               iconName = focused ? 'plus-circle' : 'plus-circle-outline'
               break;
 
@@ -50,8 +50,8 @@ export const TabsNavigator = () => {
       })}
 
     >
-      <Tab2.Screen name="Home" options={{ title: 'Inicio' }} component={HomeScreen} />
-      <Tab2.Screen name="NewBuyList" options={{ title: 'Nuevo' }} component={NewBuyListScreen} />
+      <Tab2.Screen name="Home" options={{ title: 'Inicio' }} component={HomeStackNavigator} />
+      <Tab2.Screen name="NewShoppingList" options={{ title: 'Nuevo' }} component={NewShoppingListScreen} />
       <Tab2.Screen name="Profile" options={{ tabBarLabel: 'Perfil' }} component={ProfileScreen} />
     </Tab2.Navigator>
   )
