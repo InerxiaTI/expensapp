@@ -47,7 +47,7 @@ const HomeScreen = () => {
           fontWeight: 'bold',
           letterSpacing: 1,
           marginBottom: 10
-        }}>   Kelly</Text>
+        }}>   Pepito</Text>
         {/* Header Home */}
         <HeaderHomeComponent />
 
