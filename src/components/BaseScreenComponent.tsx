@@ -8,9 +8,10 @@ interface BaseScreenProps {
 }
 
 const BaseScreenComponent = ({children, style}:BaseScreenProps) => {
-  const { top } = useSafeAreaInsets();
+  const { top, bottom, left, right} = useSafeAreaInsets();
 
   console.log(top);
+  console.log("Bottom"+bottom);
 
   return (
     <View

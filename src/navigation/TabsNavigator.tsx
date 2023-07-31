@@ -37,6 +37,16 @@ const TabMaterial = () => {
       //   borderWidth: 1
       // }}
 
+//       barStyle={{
+//         borderWidth: 0.5,
+//         borderBottomWidth: 1,
+//         backgroundColor:'white',
+//         borderTopLeftRadius: 30,
+//         borderTopRightRadius: 30,
+//         borderColor: 'transparent',
+//         overflow: 'hidden',
+// }}
+
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarIcon: ({ color, focused }) => {
@@ -77,7 +87,7 @@ const TabNoMaterial2 = () => {
   return (
     <Tab2.Navigator
       initialRouteName='Home'
-
+      
       screenOptions={({ route }) => ({
         headerShown: false,
         tabBarActiveTintColor: 'white',
@@ -86,14 +96,14 @@ const TabNoMaterial2 = () => {
         tabBarStyle: {
           borderTopWidth: 0,
           backgroundColor: COLORS.tabNavigatorPrimaryColor,
-          // paddingTop: 7,
-          borderTopLeftRadius: 30,
-          borderTopRightRadius: 30,
-          borderLeftWidth: 0.2,
-          borderRightWidth: 0.2,
+          paddingTop: 7,
+          // borderTopLeftRadius: 30,
+          // borderTopRightRadius: 30,
+          // borderLeftWidth: 0.2,
+          // borderRightWidth: 0.2,
           // borderColor: 'white',
-          position: 'absolute',
-          overflow: 'hidden',
+          // position: 'absolute',
+          // overflow: 'hidden',
 
           shadowColor: "green",
           shadowOffset: {
@@ -103,7 +113,8 @@ const TabNoMaterial2 = () => {
           shadowOpacity: 0.37,
           shadowRadius: 7.49,
 
-          elevation: 12,
+          elevation: 12,      
+
         },
         tabBarIcon: ({ color, focused }) => {
 
