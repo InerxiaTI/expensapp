@@ -1,15 +1,29 @@
 import React from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { StyleProp, View, ViewStyle } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 interface BaseScreenProps {
-    children: any
+    children: any,
+    style?: StyleProp<ViewStyle>,
 }
 
-const BaseScreenComponent = ({children}:BaseScreenProps) => {
+const BaseScreenComponent = ({children, style}:BaseScreenProps) => {
+  const { top } = useSafeAreaInsets();
+
+  console.log(top);
+
   return (
-    <SafeAreaView>
+    <View
+    style={{
+      flex: 1,
+      paddingTop: top,
+      borderWidth: 1,
+      borderColor: 'yellow',
+      ...style as any
+    }}
+    >
         {children}
-    </SafeAreaView>
+    </View>
   )
 }
 

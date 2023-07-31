@@ -1,9 +1,10 @@
 import React from 'react'
-import { FlatList, Text, View } from 'react-native'
+import { FlatList, ScrollView, Text, View } from 'react-native'
 import { COLORS } from '../theme/Theme'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import HeaderHomeComponent from '../components/HeaderHomeComponent'
 import ShoppingListCardComponent from '../components/ShoppingListCardComponent'
+import BaseScreenComponent from '../components/BaseScreenComponent'
 
 // interface de prueba
 export interface BuysList {
@@ -15,28 +16,22 @@ export interface BuysList {
 
 const HomeScreen = () => {
 
-  
+
 
   const listasCompras: BuysList[] = [
-    {id: 1, fechaCierre: '24 mayo 2023', estado: 'PAGADO', monto: 513.233},
-    {id: 2, fechaCierre: '23 abril 2023', estado: 'PAGADO', monto: 513.233},
-    {id: 3, fechaCierre: '12 junio 2023', estado: 'PAGADO', monto: 513.233},
-    {id: 4, fechaCierre: '6 julio 2023', estado: 'PAGADO', monto: 513.233},
-    {id: 5, fechaCierre: '34 agosto 2023', estado: 'PAGADO', monto: 513.233},
-    {id: 6, fechaCierre: '15 septiembre 2023', estado: 'PAGADO', monto: 513.233},
-    {id: 7, fechaCierre: '24 octubre 2023', estado: 'PAGADO', monto: 513.233},
-    {id: 8, fechaCierre: '24 diciembre 2023', estado: 'PAGADO', monto: 513.233},
+    { id: 1, fechaCierre: '24 mayo 2023', estado: 'PAGADO', monto: 513.233 },
+    { id: 2, fechaCierre: '23 abril 2023', estado: 'PAGADO', monto: 513.233 },
+    { id: 3, fechaCierre: '12 junio 2023', estado: 'PAGADO', monto: 513.233 },
+    { id: 4, fechaCierre: '6 julio 2023', estado: 'PAGADO', monto: 513.233 },
+    { id: 5, fechaCierre: '34 agosto 2023', estado: 'PAGADO', monto: 513.233 },
+    { id: 6, fechaCierre: '15 septiembre 2023', estado: 'PAGADO', monto: 513.233 },
+    { id: 7, fechaCierre: '24 octubre 2023', estado: 'PAGADO', monto: 513.233 },
+    { id: 8, fechaCierre: '24 diciembre 2023', estado: 'PAGADO', monto: 513.233 },
   ]
 
 
   return (
-    <SafeAreaView style={{
-      flex: 1,
-      backgroundColor: 
-      COLORS.backgroudPrimary, 
-      marginHorizontal: 10,
-      marginTop: 10,
-     }}>
+    <BaseScreenComponent style={{paddingHorizontal: 10}}>
 
         <Text style={{
           color: '#6B7280',
@@ -66,28 +61,27 @@ const HomeScreen = () => {
         }}>Listas de compras</Text>
 
         <View
-          style={{ 
+          style={{
             flex: 1,
-            borderColor: 'blue', 
+            borderColor: 'blue',
             borderWidth: 0,
-            
-        }}
+
+          }}
         >
-          <FlatList 
+          <FlatList
             showsVerticalScrollIndicator={false}
             data={listasCompras}
             keyExtractor={(item, index) => index.toString()} // Agrega esta línea
-            renderItem={({item}) => (
+            renderItem={({ item }) => (
               <ShoppingListCardComponent buysList={item} />
               // <Text style={{marginVertical: 50}}>{item.fechaCierre}</Text>
-            )} 
-          
+            )}
+
 
           />
         </View>
 
-
-    </SafeAreaView>
+    </BaseScreenComponent>
   )
 }
 

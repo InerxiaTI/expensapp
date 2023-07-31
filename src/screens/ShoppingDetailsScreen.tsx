@@ -1,11 +1,25 @@
 import React from 'react'
 import BaseScreenComponent from '../components/BaseScreenComponent'
-import { Text } from 'react-native-paper'
+import { Text, TouchableOpacity, View } from 'react-native'
+import { COLORS } from '../theme/Theme'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useNavigation } from '@react-navigation/native';
+import HeaderShoppingDetailComponent from '../components/HeaderShoppingDetailComponent';
+
 
 const ShoppingDetailsScreen = () => {
+
+  const navigator = useNavigation();
+
+
   return (
     <BaseScreenComponent>
-        <Text className="text-blue-300 text-3xl">Shopping Details</Text>
+      {/* Header */}
+      <HeaderShoppingDetailComponent />
+
+
+
+
     </BaseScreenComponent>
   )
 }

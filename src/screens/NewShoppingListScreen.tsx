@@ -1,12 +1,12 @@
 import React from 'react'
-import { Text, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Text } from 'react-native'
+import BaseScreenComponent from '../components/BaseScreenComponent';
 
 const NewShoppingListScreen = () => {
   return (
-    <SafeAreaView>
+    <BaseScreenComponent>
         <Text className="text-blue-300 text-3xl">new Buy list</Text>
-    </SafeAreaView>
+    </BaseScreenComponent>
   )
 }
 
