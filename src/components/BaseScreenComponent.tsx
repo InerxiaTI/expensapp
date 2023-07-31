@@ -8,7 +8,8 @@ interface BaseScreenProps {
 }
 
 const BaseScreenComponent = ({children, style}:BaseScreenProps) => {
-  const { top, bottom, left, right} = useSafeAreaInsets();
+
+  const { top, bottom } = useSafeAreaInsets();
 
   console.log(top);
   console.log("Bottom"+bottom);
@@ -18,7 +19,7 @@ const BaseScreenComponent = ({children, style}:BaseScreenProps) => {
     style={{
       flex: 1,
       paddingTop: top,
-      borderWidth: 1,
+      borderWidth: 0,
       borderColor: 'yellow',
       ...style as any
     }}
