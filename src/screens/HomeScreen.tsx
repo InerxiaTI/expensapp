@@ -51,7 +51,7 @@ const HomeScreen = () => {
           style={{
             flex: 1,
             borderColor: 'blue',
-            borderWidth: 0,
+            borderWidth: 1,
 
           }}
         >

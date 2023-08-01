@@ -5,8 +5,9 @@ import { COLORS } from '../theme/Theme'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 import HeaderShoppingDetailComponent from '../components/HeaderShoppingDetailComponent';
-import { listasCompras, listasCompras2, listasCompras3 } from '../testData/testData';
+import { detalleListaCompras1, detalleListaCompras2, detalleListaCompras3, listasCompras, listasCompras2, listasCompras3 } from '../testData/testData';
 import ShoppingListCardComponent from '../components/ShoppingListCardComponent';
+import ShoppingCardComponent from '../components/ShoppingCardComponent';
 
 // prueba
 interface Shoppers {
@@ -28,7 +29,7 @@ const ShoppingDetailsScreen = () => {
   ]
 
   const [user, setUser] = useState(0);
-  const [listasComprasFiltred, setListasComprasFiltred] = useState(listasCompras);
+  const [listasComprasFiltred, setListasComprasFiltred] = useState(detalleListaCompras1);
 
   const changeList = (index: number) => {
     console.log("user: "+index);
@@ -40,14 +41,14 @@ const ShoppingDetailsScreen = () => {
 
     switch (user) {
       case 1: {
-        setListasComprasFiltred(listasCompras2);
+        setListasComprasFiltred(detalleListaCompras2);
         break
       }
       case 2: {
-        setListasComprasFiltred(listasCompras3);
+        setListasComprasFiltred(detalleListaCompras3);
         break
       }
-      default: setListasComprasFiltred(listasCompras);
+      default: setListasComprasFiltred(detalleListaCompras1);
 
     }
 
@@ -114,13 +115,14 @@ const ShoppingDetailsScreen = () => {
           borderWidth: 0,
           borderColor: 'red',
           paddingVertical: 0,
+          paddingHorizontal: 10
         }}
       >
         <FlatList
           data={listasComprasFiltred}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <ShoppingListCardComponent buysList={item} />
+            <ShoppingCardComponent shopping={item}/>
           )}
           showsVerticalScrollIndicator={false}
 
