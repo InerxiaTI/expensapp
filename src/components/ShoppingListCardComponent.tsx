@@ -1,13 +1,13 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { BuysList } from '../screens/HomeScreen'
 import { useNavigation } from '@react-navigation/native'
+import { ShoppingList } from '../testData/testData'
 
-interface CardProps {
-    buysList: BuysList
+interface ShoppingListCardProps {
+    buysList: ShoppingList
 }
 
-const ShoppingListCardComponent = ({ buysList }: CardProps) => {
+const ShoppingListCardComponent = ({ buysList }: ShoppingListCardProps) => {
     const navigator = useNavigation();
 
     return (

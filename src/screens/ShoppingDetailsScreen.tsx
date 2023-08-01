@@ -5,27 +5,14 @@ import { COLORS } from '../theme/Theme'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 import HeaderShoppingDetailComponent from '../components/HeaderShoppingDetailComponent';
-import { detalleListaCompras1, detalleListaCompras2, detalleListaCompras3, } from '../testData/testData';
+import { detalleListaCompras1, detalleListaCompras2, detalleListaCompras3, shoppers, } from '../testData/testData';
 import ShoppingCardComponent from '../components/ShoppingCardComponent';
 
-// prueba
-interface Shoppers {
-  id: number;
-  nombre: string;
-  dineroGastado: string;
-  dineroQueLeDeben: string;
-  porcentaje: string
-}
+
 
 const ShoppingDetailsScreen = () => {
 
   const navigator = useNavigation();
-
-  const shoppers: Shoppers[] = [
-    { id: 1, nombre: 'Pepito Perez', dineroGastado: '10.567.900', dineroQueLeDeben: '12.000', porcentaje: '45' },
-    { id: 2, nombre: 'Juanito Alimaña', dineroGastado: '200.500', dineroQueLeDeben: '342.200.999', porcentaje: '25' },
-    { id: 3, nombre: 'Guillermo Alarcon', dineroGastado: '19.800', dineroQueLeDeben: '3.500', porcentaje: '30' },
-  ]
 
   const [user, setUser] = useState(0);
   const [listasComprasFiltred, setListasComprasFiltred] = useState(detalleListaCompras1);

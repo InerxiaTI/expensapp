@@ -7,13 +7,6 @@ import ShoppingListCardComponent from '../components/ShoppingListCardComponent'
 import BaseScreenComponent from '../components/BaseScreenComponent'
 import { listasCompras } from '../testData/testData'
 
-// interface de prueba
-export interface BuysList {
-  id: number,
-  fechaCierre: string,
-  estado: string,
-  monto: number,
-}
 
 const HomeScreen = () => {
 
