@@ -5,8 +5,7 @@ import { COLORS } from '../theme/Theme'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 import HeaderShoppingDetailComponent from '../components/HeaderShoppingDetailComponent';
-import { detalleListaCompras1, detalleListaCompras2, detalleListaCompras3, listasCompras, listasCompras2, listasCompras3 } from '../testData/testData';
-import ShoppingListCardComponent from '../components/ShoppingListCardComponent';
+import { detalleListaCompras1, detalleListaCompras2, detalleListaCompras3, } from '../testData/testData';
 import ShoppingCardComponent from '../components/ShoppingCardComponent';
 
 // prueba

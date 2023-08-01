@@ -1,5 +1,8 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import Icon from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import { Shopping } from '../testData/testData';
 import { sliceText } from '../utils/textUtil';
 
@@ -12,85 +15,42 @@ const ShoppingCardComponent = ({ shopping }: ShoppingCardProps) => {
 
         <TouchableOpacity>
             <View style={styles.card}>
+                <View style={styles.containerShoppingInfo}>
+                    <View style={styles.containerPerColumn}>
+                        <MaterialCommunityIcons name='shopping' size={14} color='white' />
+                        <Text style={{
+                            ...styles.shoppingText,
+                            color: 'white'
+                        }}>{sliceText(shopping.concepto, 23)}</Text>
 
-                <View style={{
-                    flex: 1,
-                    borderWidth: 0,
-                    borderColor: 'blue',
-                    gap: 2,
-                    justifyContent: 'center'
+                    </View>
+
+                    <Text style={styles.textGrey}>{shopping.comprador}</Text>
+
+                    <View style={styles.containerPerColumn}>
+                        <Icon name='calendar' size={12} color='white' />
+                        <Text style={styles.textGrey}>24 mayo 2023</Text>
+
+                    </View>
 
 
-                }}>
-                    <Text style={{
-                        borderWidth: 0,
-                        borderColor: 'white',
-                        fontSize: 14,
-                        color: 'white'
-                    }}>{sliceText(shopping.concepto, 23)}</Text>
-
-                    <Text style={{
-                        borderWidth: 0,
-                        borderColor: 'white',
-                        fontSize: 12,
-                        color: '#6B7280'
-                    }}>{shopping.comprador}</Text>
-
-                    <Text style={{
-                        borderWidth: 0,
-                        borderColor: 'white',
-                        fontSize: 12,
-                        color: '#6B7280'
-                    }}>24 mayo 2023</Text>
                 </View>
 
-                <View 
-                    style={{
-                        flex: 1,
-                        borderWidth: 0,
-                        borderColor: 'white',
-                        justifyContent: 'center'
-                    }}
-                >
-                    <View style={{
-                        borderWidth: 0,
-                        borderColor: 'yellow',
-                        gap: 10,
-                        justifyContent: 'center',
-                        alignItems: 'flex-start'
-                    }}>
+                <View style={styles.containerShoppingAmount} >
+                    <View style={styles.containerAmoutIconText}>
 
-                        <View style={{
-                            flexDirection: 'row',
-                            gap: 5
-                        }}>
-                            <Text
-                                style={{
-                                    fontSize: 14,
-                                    color: '#fff'
-                                }}
-                            >\()/</Text>
-                            <Text style={{
-                                fontSize: 14,
-                                color: '#FC2256'
-                            }}>$ {shopping.valorCompra}</Text>
+                        <View style={styles.containerPerColumn}>
+                            <Icon name='trending-down' size={14} color='white' />
+                            <Text style={{...styles.shoppingText, color: '#FC2256'}}>
+                                $ {shopping.valorCompra}
+                            </Text>
                         </View>
 
-                        <View style={{
-                            flexDirection: 'row',
-                            gap: 5
-                        }}>
-                            <Text
-                                style={{
-                                    fontSize: 14,
-                                    color: '#fff'
-                                }}
-                            >\()/</Text>
-
-                            <Text style={{
-                                fontSize: 14,
-                                color: '#00861D'
-                            }}>$ {shopping.cuantoDeben}</Text>
+                        <View style={styles.containerPerColumn}>
+                            <Icon name='trending-up' size={14} color='white' />
+                            <Text style={{...styles.shoppingText, color: '#00861D'}}>
+                                $ {shopping.cuantoDeben}
+                            </Text>
                         </View>
 
                     </View>
@@ -105,21 +65,54 @@ const ShoppingCardComponent = ({ shopping }: ShoppingCardProps) => {
 
 const styles = StyleSheet.create({
     card: {
+        gap: 5,
         width: '100%',
         height: 81,
         backgroundColor: '#262626',
         marginTop: 11,
         paddingStart: 16,
-        paddingEnd: 16,
         paddingTop: 8,
         paddingBottom: 5,
         borderRadius: 8,
         borderColor: 'green',
         borderWidth: 0,
-        flex: 1,
         flexDirection: 'row',
-        justifyContent: 'space-between'
     },
+    containerShoppingInfo: {
+        width: '55%',
+        borderWidth: 0,
+        borderColor: 'blue',
+        gap: 2,
+        justifyContent: 'center',
+    },
+    containerShoppingAmount: {
+        flex: 1,
+        borderWidth: 0,
+        borderColor: 'white',
+        justifyContent: 'center',
+    },
+    containerAmoutIconText: {
+        borderWidth: 0,
+        borderColor: 'yellow',
+        gap: 10,
+        justifyContent: 'center',
+        alignItems: 'flex-start'
+    },
+    containerPerColumn: {
+        flexDirection: 'row',
+        gap: 5,
+        borderWidth: 0,
+        borderColor: 'green'
+    },
+    shoppingText: {
+        fontSize: 14,
+        fontWeight: 'bold',
+    },
+    textGrey: {
+        fontSize: 12,
+        color: '#6B7280'
+    }
+
 });
 
 export default ShoppingCardComponent
