@@ -7,6 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import HeaderShoppingDetailComponent from '../components/HeaderShoppingDetailComponent';
 import { detalleListaCompras1, detalleListaCompras2, detalleListaCompras3, shoppers, } from '../testData/testData';
 import ShoppingCardComponent from '../components/ShoppingCardComponent';
+import FloatingActionButton from '../components/FloatingActionButton';
 
 
 
@@ -116,6 +117,11 @@ const ShoppingDetailsScreen = () => {
 
 
       </View>
+
+      <FloatingActionButton 
+            title={'cart-plus'}
+            onPress={()=> navigator.navigate('AddExpense')}
+        />
 
 
 

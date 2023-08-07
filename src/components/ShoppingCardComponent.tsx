@@ -11,9 +11,16 @@ interface ShoppingCardProps {
 }
 
 const ShoppingCardComponent = ({ shopping }: ShoppingCardProps) => {
+
+    const changeToolBar = () => {
+
+        console.log("cambiando toolbar");
+        
+    }
+
     return (
 
-        <TouchableOpacity>
+        <TouchableOpacity onLongPress={changeToolBar}>
             <View style={styles.card}>
                 <View style={styles.containerShoppingInfo}>
                     <View style={styles.containerPerColumn}>

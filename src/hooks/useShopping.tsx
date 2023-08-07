@@ -10,15 +10,12 @@ export const useShoppingLists = () => {
 
     const getShoppingLists = async () => {
         console.log("LLamando a la API para traer listas de compras");
-        
-
         try {
             const response = await expenseMateApi.get<ShoppingListsResponse>(
                 '/api/lista-compra/filter', 
                 {
                     params: {
                         usuarioCreador: 1,
-                        estado: 'PENDIENTE',
                     }
                 }
             )

@@ -1,21 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { View, TouchableOpacity } from 'react-native'
 import { COLORS } from '../theme/Theme'
 import { useNavigation } from '@react-navigation/native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import BaseHeaderComponent from './base/BaseHeaderComponent'
 
 const HeaderShoppingDetailComponent = () => {
-    const navigator = useNavigation();
-
+  const navigator = useNavigation();
 
   return (
-    <View style={{
-        backgroundColor: COLORS.backgroudPrimary,
-        height: 50,
-        flexDirection: 'row',
-        justifyContent: 'space-between'
-      }}>
-
+    <BaseHeaderComponent>
+      <>
         <View
           style={{
             width: 80,
@@ -31,7 +26,7 @@ const HeaderShoppingDetailComponent = () => {
 
             }}
           >
-            <Icon name='arrow-left' size={30} color='white' />
+            <Icon name='arrow-left' size={25} color='white' />
 
           </TouchableOpacity>
         </View>
@@ -47,7 +42,7 @@ const HeaderShoppingDetailComponent = () => {
           <TouchableOpacity
             onPress={() => { console.log("Navega hacia atras") }}
           >
-            <Icon name='dots-vertical' size={30} color='white' />
+            <Icon name='dots-vertical' size={25} color='white' />
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -57,22 +52,12 @@ const HeaderShoppingDetailComponent = () => {
 
             }}
           >
-            <Icon name='cart-plus' size={30} color='white' />
-          </TouchableOpacity>
-
-
-          <TouchableOpacity
-            onPress={() => { console.log("C") }}
-            style={{
-              marginRight: 10
-
-            }}
-          >
-            <Icon name='check-circle-outline' size={30} color='white' />
+            <Icon name='cart-check' size={25} color='white' />
           </TouchableOpacity>
 
         </View>
-      </View>
+      </>
+    </BaseHeaderComponent>
   )
 }
 
