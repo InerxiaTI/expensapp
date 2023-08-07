@@ -1,7 +1,8 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import { ShoppingList } from '../testData/testData'
+import { ShoppingList } from '../interfaces/ShoppingInterface'
+import currencyFormatter from 'currency-formatter'
 
 interface ShoppingListCardProps {
     buysList: ShoppingList
@@ -21,13 +22,15 @@ const ShoppingListCardComponent = ({ buysList }: ShoppingListCardProps) => {
                         <Text style={styles.mainText}>Estado</Text>
                     </View>
                     <View style={styles.col1}>
-                        <Text style={styles.secondaryText}>{buysList.fechaCierre}</Text>
+                        <Text style={styles.secondaryText}>{buysList.fechaFinalizado === null? 'N/A': buysList.fechaFinalizado}</Text>
                         <Text style={[styles.secondaryText]}>{buysList.estado}</Text>
                     </View>
 
                 </View>
                 <View style={styles.col2}>
-                    <Text style={styles.priceText}>$ {buysList.monto}</Text>
+                    <Text style={styles.priceText}>
+                        {currencyFormatter.format(buysList.totalCompras, {code: 'COP'})}
+                    </Text>
                 </View>
             </View>
         </TouchableOpacity>
