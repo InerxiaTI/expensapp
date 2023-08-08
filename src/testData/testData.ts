@@ -2,6 +2,7 @@
 // LISTAS DE COMPRAS
 
 import { ShoppingList } from "../interfaces/ShoppingInterface";
+import { User } from "../interfaces/UserInterface";
 
 
 
@@ -76,4 +77,20 @@ export const detalleListaCompras3: Shopping[] = [
     { id: 6, concepto: 'Aeropuerto a hotel', comprador: 'Guillermo Alarcon', valorCompra: '723.909', cuantoDeben: '4.500.999' },
     { id: 7, concepto: 'Propina', comprador: 'Guillermo Alarcon', valorCompra: '823.909', cuantoDeben: '774.500' },
     { id: 8, concepto: 'Subida teleferico', comprador: 'Guillermo Alarcon', valorCompra: '923.909', cuantoDeben: '74.500' },
+]
+
+
+// LOGIN
+/*
+id:         number;
+    nombres:    string;
+    apellidos:  string;
+    activo:     boolean;
+    correo:     string;
+    contrasena: string;
+*/
+export const usersDatabase: User[] = [
+    {id: 1, nombres: 'Guillermo', apellidos: 'Alarcon', activo: true, correo: "juan@gmail.com", contrasena: "12345"},
+    {id: 2, nombres: 'Pepito', apellidos: 'Perez', activo: false, correo: "pepito@gmail.com", contrasena: "12345"},
+
 ]

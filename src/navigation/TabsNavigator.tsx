@@ -120,7 +120,7 @@ const TabNoMaterial2 = () => {
 
           let iconName: string = '';
           switch (route.name) {
-            case 'HomeStack':
+            case 'Home':
               iconName = focused ? 'home' : 'home-outline'
               break;
 
@@ -138,7 +138,7 @@ const TabNoMaterial2 = () => {
       })}
 
     >
-      <Tab2.Screen name="HomeStack" options={{ title: 'Inicio' }} component={HomeStackNavigator} />
+      <Tab2.Screen name="Home" options={{ title: 'Inicio' }} component={HomeScreen} />
       <Tab2.Screen name="NewShoppingList" options={{ title: 'Nuevo' }} component={NewShoppingListScreen} />
       <Tab2.Screen name="Profile" options={{ tabBarLabel: 'Perfil' }} component={ProfileScreen} />
     </Tab2.Navigator>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { ActivityIndicator, FlatList, RefreshControl, ScrollView, Text, View } from 'react-native'
 import { COLORS } from '../theme/Theme'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -7,9 +7,14 @@ import ShoppingListCardComponent from '../components/ShoppingListCardComponent'
 import BaseScreenComponent from '../components/BaseScreenComponent'
 import { listasCompras } from '../testData/testData'
 import { useShoppingLists } from '../hooks/useShopping'
+import { AuthContext } from '../context/AuthContext'
 
 
 const HomeScreen = () => {
+  const {authState} = useContext(AuthContext);
+  console.log("auth: ", authState);
+  const user = authState.user
+  
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -57,7 +62,7 @@ const HomeScreen = () => {
         fontWeight: 'bold',
         letterSpacing: 1,
         marginBottom: 10
-      }}>   Pepito</Text>
+      }}>   {user!.nombres}</Text>
       {/* Header Home */}
       {/* <HeaderHomeComponent /> */}
 

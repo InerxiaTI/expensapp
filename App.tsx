@@ -8,6 +8,8 @@ import changeNavigationBarColor, {
   hideNavigationBar,
   showNavigationBar,
 } from 'react-native-navigation-bar-color';
+import { AuthContext, AuthProvider } from './src/context/AuthContext';
+import { HomeStackNavigator } from './src/navigation/HomeStackNavigator';
 
 // Define tu propio theme personalizado
 const MyTheme = {
@@ -23,6 +25,7 @@ const MyTheme = {
 };
 
 const App = () => {
+
   const setNavigationColor = (color: any) => {
     changeNavigationBarColor(color);
   };
@@ -31,10 +34,25 @@ const App = () => {
 
   return (
     <NavigationContainer theme={MyTheme}>
-      <StatusBar animated={true} translucent backgroundColor="transparent" barStyle="dark-content" />
-      <TabsNavigator />
+      <AppState>
+        <StatusBar animated={true} translucent backgroundColor="transparent" barStyle="dark-content" />
+        <HomeStackNavigator />
+      </AppState>
     </NavigationContainer>
   )
 }
 
+const AppState = ({ children }: any) => {
+  return (
+    <AuthProvider>
+      {children}
+    </AuthProvider>
+  )
+}
+
+
 export default App
+
+function useContext(AuthContext: any): { signIn: any; authState: any; } {
+  throw new Error('Function not implemented.');
+}
