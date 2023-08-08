@@ -22,6 +22,7 @@ export interface AuthContextProps {
     authState: AuthState,
     signIn: (user: User) => void,
     changeFavIcon: (icon: string) => void,
+    logOut: () => void
 
 }
 
@@ -43,6 +44,12 @@ export const AuthProvider = ({children}: any) => {
         dispatch({type: 'changeFavIcon', payload: icon})
     }
 
+    const logOut = async () => {
+        await AsyncStorage.removeItem('user');
+        dispatch({type: 'logOut'})
+
+    }
+
     // const changeUserName = (name: string) => {
     //     dispatch({type: 'changeUserName', payload: name})
     // }
@@ -52,7 +59,8 @@ export const AuthProvider = ({children}: any) => {
             value={{
                 authState,
                 signIn, 
-                changeFavIcon
+                changeFavIcon,
+                logOut
             }}
         >
             {children}

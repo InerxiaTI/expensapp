@@ -62,7 +62,7 @@ const HomeScreen = () => {
         fontWeight: 'bold',
         letterSpacing: 1,
         marginBottom: 10
-      }}>   {user!.nombres}</Text>
+      }}>   {user?.nombres}</Text>
       {/* Header Home */}
       {/* <HeaderHomeComponent /> */}
 
