@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { ShoppingList, ShoppingListsResponse } from "../interfaces/ShoppingInterface"
+import { CreateShoppingListRequest, CreateShoppingListResponse, ShoppingList, ShoppingListsResponse } from "../interfaces/ShoppingInterface"
 import expenseMateApi from "../api/expenseMateApi"
 
 
@@ -34,7 +34,47 @@ export const useShoppingLists = () => {
 	}, [])
 
     return {
+        getShoppingLists,
         isLoading,
         shoppingLists
     }
+}
+
+export const useNewShoppingLists = () => {
+    const [isLoading, setIsLoading] = useState(false)
+    const [shoppingList, setShoppingList] = useState<ShoppingList>()
+
+
+    const saveShoppingList = async (shoppingListName: string) => {
+
+        const request: CreateShoppingListRequest = {
+            usuarioCreador: 1,
+            nombre: shoppingListName,
+        }
+
+        try {
+            const response = await expenseMateApi.post<CreateShoppingListResponse>(
+                '/api/lista-compra/crear-lista-compra', 
+                request
+            )
+            console.log("response: "+JSON.stringify(response.data.body));
+            
+            setShoppingList(response.data.body)
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+
+        setIsLoading(false)
+    }
+
+
+    return {
+        isLoading,
+        setIsLoading,
+        shoppingList,
+        saveShoppingList
+    }
+
+
 }

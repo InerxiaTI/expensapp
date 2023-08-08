@@ -1,23 +1,19 @@
 
 // LISTAS DE COMPRAS
 
-export interface ShoppingList {
-    id: number,
-    fechaCierre: string,
-    estado: string,
-    monto: number,
-}
+import { ShoppingList } from "../interfaces/ShoppingInterface";
+
 
 
 export const listasCompras: ShoppingList[] = [
-    { id: 1, fechaCierre: '1 enero 2023', estado: 'PAGADO', monto: 513.233 },
-    { id: 2, fechaCierre: '2 febrero 2023', estado: 'PAGADO', monto: 513.233 },
-    { id: 3, fechaCierre: '3 marzo 2023', estado: 'PAGADO', monto: 513.233 },
-    { id: 4, fechaCierre: '4 abril 2023', estado: 'PAGADO', monto: 513.233 },
-    { id: 5, fechaCierre: '50 mayo 2023', estado: 'PAGADO', monto: 513.233 },
-    { id: 6, fechaCierre: '51 junio 2023', estado: 'PAGADO', monto: 513.233 },
-    { id: 7, fechaCierre: '52 julio 2023', estado: 'PAGADO', monto: 513.233 },
-    { id: 8, fechaCierre: '53 agosto 2023', estado: 'PAGADO', monto: 513.233 },
+    { id: 1, nombre: "Mi lista name", fechaCreacion: "2023-03-2", usuarioCreador: 1, codigoGenerado: "fxat57", fechaFinalizado: '1 enero 2023', estado: 'PAGADO', totalCompras: "513,2334" },
+    { id: 2, nombre: "Mi lista name", fechaCreacion: "2023-03-2", usuarioCreador: 1, codigoGenerado: "fxat57", fechaFinalizado: '2 febrero 2023', estado: 'PAGADO', totalCompras: "513,233" },
+    { id: 3, nombre: "Mi lista name", fechaCreacion: "2023-03-2", usuarioCreador: 1, codigoGenerado: "fxat57", fechaFinalizado: '3 marzo 2023', estado: 'PAGADO', totalCompras: "513,233" },
+    { id: 4, nombre: "Mi lista name", fechaCreacion: "2023-03-2", usuarioCreador: 1, codigoGenerado: "fxat57", fechaFinalizado: '4 abril 2023', estado: 'PAGADO', totalCompras: "513,233" },
+    { id: 5, nombre: "Mi lista name", fechaCreacion: "2023-03-2", usuarioCreador: 1, codigoGenerado: "fxat57", fechaFinalizado: '50 mayo 2023', estado: 'PAGADO', totalCompras: "513,233" },
+    { id: 6, nombre: "Mi lista name", fechaCreacion: "2023-03-2", usuarioCreador: 1, codigoGenerado: "fxat57", fechaFinalizado: '51 junio 2023', estado: 'PAGADO', totalCompras: "513,233" },
+    { id: 7, nombre: "Mi lista name", fechaCreacion: "2023-03-2", usuarioCreador: 1, codigoGenerado: "fxat57", fechaFinalizado: '52 julio 2023', estado: 'PAGADO', totalCompras: "513,233" },
+    { id: 8, nombre: "Mi lista name", fechaCreacion: "2023-03-2", usuarioCreador: 1, codigoGenerado: "fxat57", fechaFinalizado: '53 agosto 2023', estado: 'PAGADO', totalCompras: "513,233" },
 ]
 
 

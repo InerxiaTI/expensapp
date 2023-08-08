@@ -1,5 +1,5 @@
-import React from 'react'
-import { ActivityIndicator, FlatList, ScrollView, Text, View } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { ActivityIndicator, FlatList, RefreshControl, ScrollView, Text, View } from 'react-native'
 import { COLORS } from '../theme/Theme'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import HeaderHomeComponent from '../components/HeaderHomeComponent'
@@ -11,15 +11,34 @@ import { useShoppingLists } from '../hooks/useShopping'
 
 const HomeScreen = () => {
 
-  const { isLoading, shoppingLists } = useShoppingLists();
+  const [refreshing, setRefreshing] = useState(false);
 
-  if (isLoading) {
+  const [data, setData] = useState(listasCompras.slice(0, 2)); // Mostrar los primeros 2
+
+  const handleRefresh = () => {
+    setRefreshing(true)
+    setData(listasCompras.slice(0, data.length+2)); // Mostrar los siguientes 2
+    setRefreshing(false);
+
+  };
+
+
+
+  // const { isLoading, shoppingLists, getShoppingLists } = useShoppingLists();
+
+  // const actualizarLista = () => {
+  //   getShoppingLists(); // Actualizar datos
+  // };
+
+  // if (!isLoading) {
+    if (false) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <ActivityIndicator color={'white'} size={20} />
       </View>
     )
   }
+
 
   return (
     <BaseScreenComponent style={{ paddingHorizontal: 10 }}>
@@ -40,7 +59,7 @@ const HomeScreen = () => {
         marginBottom: 10
       }}>   Pepito</Text>
       {/* Header Home */}
-      <HeaderHomeComponent />
+      {/* <HeaderHomeComponent /> */}
 
       {/* FlatList de lista de compras */}
       <Text style={{
@@ -55,20 +74,20 @@ const HomeScreen = () => {
         style={{
           flex: 1,
           borderColor: 'blue',
-          borderWidth: 1,
+          borderWidth: 0,
 
         }}
       >
         <FlatList
           showsVerticalScrollIndicator={false}
-          data={shoppingLists}
-          keyExtractor={(item, index) => index.toString()} // Agrega esta línea
+          data={data}
+          keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => (
             <ShoppingListCardComponent buysList={item} />
-            // <Text style={{marginVertical: 50}}>{item.fechaCierre}</Text>
           )}
-
-
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={handleRefresh} />
+          }
         />
       </View>
 

@@ -9,6 +9,7 @@ import DatePicker, { getFormatedDate } from 'react-native-modern-datepicker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useNavigation } from '@react-navigation/native';
 import { SelectList } from 'react-native-dropdown-select-list';
+import HeaderAddExpenseComponent from '../components/HeaderAddExpenseComponent';
 
 const AddExpenseScreen = () => {
     const navigator = useNavigation();
@@ -48,44 +49,8 @@ const AddExpenseScreen = () => {
 
     return (
         <BaseScreenComponent>
-            <BaseHeaderComponent>
-                <>
-                    <View
-                        style={{
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                            borderWidth: 0,
-                            borderColor: 'white'
-                        }}
-                    >
-                        <TouchableOpacity
-                            onPress={() => { navigator.goBack() }}
-                            style={{
-                                paddingHorizontal: 15,
-                                borderWidth: 0,
-                                borderColor: 'blue'
-
-                            }}
-                        >
-                            <MaterialCommunityIcons name='arrow-left' size={25} color='white' />
-
-                        </TouchableOpacity>
-
-                        <View
-                            style={{
-                                flexDirection: 'row',
-                                alignItems: 'center',
-                                borderWidth: 0,
-                                borderColor: 'green'
-                            }}>
-                            <Text style={{
-                                fontSize: 18,
-                                color: 'white'
-                            }}>Agregar gasto</Text>
-                        </View>
-                    </View>
-                </>
-            </BaseHeaderComponent>
+            {/* Header */}
+            <HeaderAddExpenseComponent title='Agregar gasto'/>
 
             {/* Imagen */}
 
@@ -375,7 +340,6 @@ const AddExpenseScreen = () => {
                     paddingHorizontal: 28
                 }}
             >
-
                 <TouchableOpacity
                     activeOpacity={0.3}
                     onPress={() => console.log("add")}
@@ -397,15 +361,7 @@ const AddExpenseScreen = () => {
                         }}
                     >Agregar Gasto</Text>
                 </TouchableOpacity>
-
-
             </View>
-
-
-
-
-
-
         </BaseScreenComponent>
     )
 }
