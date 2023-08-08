@@ -2,6 +2,7 @@ import React, { createContext, useReducer } from 'react'
 import { View } from 'react-native'
 import { authReducer } from './AuthReducer';
 import { User } from '../interfaces/UserInterface';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export interface AuthState {
     isLoggedIn: boolean,
@@ -33,8 +34,8 @@ export const AuthProvider = ({children}: any) => {
 
     const [authState, dispatch] = useReducer(authReducer, authInitialState)
 
-    const signIn = (user: User) => {
-
+    const signIn = async (user: User) => {
+        await AsyncStorage.setItem('user', JSON.stringify(user));
         dispatch({type: 'signIn', payload: user})
     }
 

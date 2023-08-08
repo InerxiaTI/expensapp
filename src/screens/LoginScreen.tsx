@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -7,6 +7,7 @@ import { usersDatabase } from '../testData/testData'
 import BaseScreenComponent from '../components/BaseScreenComponent'
 import { AuthContext } from '../context/AuthContext'
 import { User } from '../interfaces/UserInterface'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const { height } = Dimensions.get('window');
 
@@ -45,6 +46,19 @@ const LoginScreen = () => {
       (user: User) => user.correo === email && user.contrasena === password
     );
   };
+
+  useEffect(() => {
+    const getUserFromStorage = async () => {
+      const userData = await AsyncStorage.getItem('user');
+      if (userData) {
+        const parsedUserData = JSON.parse(userData);
+        // Actualizar el contexto con los datos del usuario almacenados
+        signIn(parsedUserData);
+      }
+    };
+
+    getUserFromStorage();
+  }, []);
 
   return (
     <SafeAreaView style={{ borderColor: 'white', borderWidth: 0, flex: 1 }}>
