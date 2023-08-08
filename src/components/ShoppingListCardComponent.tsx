@@ -16,22 +16,53 @@ const ShoppingListCardComponent = ({ buysList }: ShoppingListCardProps) => {
             onPress={() => navigator.navigate('ShoppingDetails')}
         >
             <View style={styles.card}>
-                <View style={styles.row1}>
-                    <View style={styles.col1}>
-                        <Text style={styles.mainText}>Fecha de cierre</Text>
-                        <Text style={styles.mainText}>Estado</Text>
-                    </View>
-                    <View style={styles.col1}>
-                        <Text style={styles.secondaryText}>{buysList.fechaFinalizado === null? 'N/A': buysList.fechaFinalizado}</Text>
-                        <Text style={[styles.secondaryText]}>{buysList.estado}</Text>
-                    </View>
 
+                <View
+                    style={{
+                        borderWidth: 0,
+                        borderColor: 'white'
+                    }}
+                >
+                    <View
+                        style={{
+                            borderWidth: 0,
+                            borderColor: 'blue'
+                        }}
+                    >
+                        <Text style={styles.mainText}>{buysList.nombre}</Text>
+                    </View>
+                    <View
+                        style={{
+                            borderWidth: 0,
+                            borderColor: 'green',
+                            flexDirection: 'row',
+                            gap: 10,
+                            marginTop: 10
+                        }}
+                    >
+                        <Text style={styles.secondaryText}>Fecha de finalización</Text>
+                        <Text style={styles.secondaryText}>{buysList.fechaFinalizado === null ? 'N/A' : buysList.fechaFinalizado}</Text>
+                    </View>
+                    <View
+                        style={{
+                            borderWidth: 0,
+                            borderColor: 'yellow'
+                        }}
+                    >
+                        <Text style={styles.secondaryText}>{buysList.estado}</Text>
+                    </View>
                 </View>
-                <View style={styles.col2}>
-                    <Text style={styles.priceText}>
-                        {currencyFormatter.format(buysList.totalCompras, {code: 'COP'})}
-                    </Text>
+
+                <View
+                    style={{
+                        borderWidth: 0,
+                        borderColor: 'red',
+                        justifyContent: 'center'
+                    }}
+                >
+                    <Text style={styles.priceText}>{currencyFormatter.format(buysList.totalCompras, { code: 'COP' })}</Text>
                 </View>
+
             </View>
         </TouchableOpacity>
     )
@@ -56,38 +87,13 @@ const styles = StyleSheet.create({
     },
     mainText: {
         color: 'white',
-        marginBottom: 10,
         fontStyle: 'normal',
-        fontSize: 14,
+        fontSize: 16,
         fontWeight: '400',
         lineHeight: 16
 
     },
-    row1: {
-        height: '100%',
-        flex: 2,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'flex-start',
-        paddingEnd: 50,
-        borderColor: 'red',
-        borderWidth: 0,
-    },
-    col1: {
-        height: '100%',
-        flex: 1,
-
-    },
-    col2: {
-        height: '100%',
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderColor: 'red',
-        borderWidth: 0,
-    },
     secondaryText: {
-        marginBottom: 10,
         color: '#89898A',
         fontSize: 14,
         fontStyle: 'normal',

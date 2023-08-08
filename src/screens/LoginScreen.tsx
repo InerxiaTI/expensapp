@@ -1,10 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import { Dimensions, KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
-import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { usersDatabase } from '../testData/testData'
-import BaseScreenComponent from '../components/BaseScreenComponent'
 import { AuthContext } from '../context/AuthContext'
 import { User } from '../interfaces/UserInterface'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -13,14 +12,15 @@ const { height } = Dimensions.get('window');
 
 
 const LoginScreen = () => {
-  const {signIn, authState} = useContext(AuthContext);
+  const { signIn } = useContext(AuthContext);
+  const passwordInputRef = useRef<TextInput>(null);
 
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   console.log("email: " + email);
-  
+
 
   const handleAuth = () => {
     console.log("email: " + email);
@@ -31,13 +31,11 @@ const LoginScreen = () => {
     if (user && user.activo === true) {
       console.log("usuario encontrado");
       signIn(user)
-      
+
     } else {
       console.log("usuario o contraseña incorrecta / o usuario inactivo");
-      
-    }
-    
 
+    }
 
   }
 
@@ -90,64 +88,76 @@ const LoginScreen = () => {
               fontSize: 24,
               fontWeight: '700',
               fontStyle: 'normal',
-              marginTop: height*0.06,
+              marginTop: height * 0.06,
               alignSelf: 'center'
 
             }}
           >Iniciar sesión</Text>
 
           {/* Inputs */}
-          <View
-            style={{
-              marginHorizontal: 33,
-              borderColor: 'blue',
-              borderWidth: 0,
-
-            }}
+          <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
           >
-            <View style={styles.searchContainer}>
-
-              <TextInput
-                value={email}
-                keyboardType='email-address'
-                autoCapitalize='none'
-                placeholder='Email'
-                onChangeText={setEmail}
-                placeholderTextColor={'#89898A'}
-                style={styles.searchTextInput}
-              />
-            </View>
-            <View style={styles.searchContainer}>
-
-              <TextInput
-                value={password}
-                keyboardType='default'
-                placeholder='Contraseña'
-                onChangeText={setPassword}
-                placeholderTextColor={'#89898A'}
-                style={styles.searchTextInput}
-              />
-            </View>
-
             <View
               style={{
-                borderColor: 'red',
+                marginHorizontal: 33,
+                borderColor: 'blue',
                 borderWidth: 0,
-                marginTop: 10,
-                flexDirection: 'row-reverse'
+
               }}
             >
+              <View style={styles.searchContainer}>
 
-              <Text
+                <TextInput
+                  value={email}
+                  keyboardType='email-address'
+                  returnKeyType="next"
+                  onSubmitEditing={() => passwordInputRef.current!.focus()}
+                  autoCapitalize='none'
+                  placeholder='Email'
+                  onChangeText={setEmail}
+                  placeholderTextColor={'#89898A'}
+                  style={styles.searchTextInput}
+                />
+              </View>
+              <View style={styles.searchContainer}>
+
+                <TextInput
+                  ref={passwordInputRef} // Referencia al input de contraseña
+                  value={password}
+                  secureTextEntry={true}
+                  returnKeyType="done" // Cambiar el tipo de tecla
+                  onSubmitEditing={handleAuth}
+                  keyboardType='default'
+                  placeholder='Contraseña'
+                  onChangeText={setPassword}
+                  placeholderTextColor={'#89898A'}
+                  style={styles.searchTextInput}
+                />
+              </View>
+
+              <View
                 style={{
-                  color: '#59D8E0',
-                  fontSize: 14,
-                  fontWeight: '700',
-
+                  borderColor: 'red',
+                  borderWidth: 0,
+                  marginTop: 10,
+                  flexDirection: 'row-reverse'
                 }}
-              >Olvidaste la contraseña?</Text>
+              >
+
+                <Text
+                  style={{
+                    color: '#59D8E0',
+                    fontSize: 14,
+                    fontWeight: '700',
+
+                  }}
+                >Olvidaste la contraseña?</Text>
+              </View>
             </View>
-          </View>
+
+          </KeyboardAvoidingView>
+
 
           {/* Boton */}
           <View
@@ -155,7 +165,7 @@ const LoginScreen = () => {
               borderWidth: 0,
               borderColor: 'yellow',
               marginHorizontal: 33,
-              marginTop: height*0.08
+              marginTop: height * 0.08
             }}
           >
             <TouchableOpacity
@@ -229,7 +239,7 @@ const LoginScreen = () => {
               borderWidth: 0,
               justifyContent: 'center',
               alignItems: 'center',
-              marginTop: height*0.06
+              marginTop: height * 0.06
 
             }}
           >
@@ -243,7 +253,7 @@ const LoginScreen = () => {
 
             <View
               style={{
-                marginTop: height*0.03,
+                marginTop: height * 0.03,
                 flexDirection: 'row',
                 gap: 10,
               }}
