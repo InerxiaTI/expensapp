@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import { View, TouchableOpacity } from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { View, TouchableOpacity, Modal, Text, TouchableWithoutFeedback, StyleSheet, SafeAreaView } from 'react-native'
 import { COLORS } from '../theme/Theme'
 import { useNavigation } from '@react-navigation/native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -7,6 +7,19 @@ import BaseHeaderComponent from './base/BaseHeaderComponent'
 
 const HeaderShoppingDetailComponent = () => {
   const navigator = useNavigation();
+
+  const [isContextMenuVisible, setContextMenuVisible] = useState(true);
+
+  const showContextMenu = () => {
+    console.log("mostrando menu");
+    
+    setContextMenuVisible(true);
+  };
+
+  const hideContextMenu = () => {
+    setContextMenuVisible(false);
+  };
+
 
   return (
     <BaseHeaderComponent>
@@ -40,7 +53,7 @@ const HeaderShoppingDetailComponent = () => {
           }}
         >
           <TouchableOpacity
-            onPress={() => { console.log("Navega hacia atras") }}
+            onPress={showContextMenu}
           >
             <Icon name='dots-vertical' size={25} color='white' />
           </TouchableOpacity>
@@ -56,9 +69,84 @@ const HeaderShoppingDetailComponent = () => {
           </TouchableOpacity>
 
         </View>
+
+        <Modal
+          transparent={true}
+          visible={isContextMenuVisible}
+          onRequestClose={hideContextMenu}
+          
+        >
+          
+          <TouchableWithoutFeedback onPress={hideContextMenu}>
+            <View 
+              style={{ 
+                borderColor: 'red',
+                borderWidth: 0,
+                flex: 1, 
+                justifyContent: 'flex-start', 
+                alignItems: 'flex-end', 
+                backgroundColor: 'transparent' 
+                }}
+              >
+
+              <View 
+                style={{
+                  width: 150,
+                  backgroundColor: '#262626', 
+                  borderRadius: 8,
+                  marginEnd: 10,
+                  marginTop: 40,
+                  paddingVertical: 15,
+                  paddingLeft: 10,
+                  paddingTop: 10,
+                  gap: 10
+                }}
+              >
+                <TouchableOpacity 
+                  onPress={hideContextMenu}
+                  style={{
+                    flexDirection: 'row',
+                    borderColor: 'red',
+                    borderWidth: 0,
+                    gap: 5
+                  }}
+                
+                >
+                  <Icon name='content-copy' size={20} color={'white'}/>
+                  <Text style={styles.contextMenu}>FXAT57</Text>
+                </TouchableOpacity>
+
+
+                <TouchableOpacity 
+                  onPress={hideContextMenu}
+                  style={{
+                    flexDirection: 'row',
+                    borderColor: 'red',
+                    borderWidth: 0,
+                    gap: 5
+                  }}
+                
+                >
+                  <Icon name='account-group-outline' size={20} color={'white'}/>
+                  <Text style={styles.contextMenu}>Colaboradores</Text>
+                </TouchableOpacity>
+                
+              </View>
+
+            </View>
+          </TouchableWithoutFeedback>
+        </Modal>
       </>
     </BaseHeaderComponent>
   )
 }
 
+const styles = StyleSheet.create({
+  contextMenu: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '500'
+  }
+    
+});
 export default HeaderShoppingDetailComponent
