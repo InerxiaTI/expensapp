@@ -3,7 +3,7 @@ import { Text, TouchableOpacity, View } from 'react-native'
 import BaseScreenComponent from '../components/BaseScreenComponent'
 import { AuthContext } from '../context/AuthContext';
 
-const ProfileScreen = () => {
+const SettingsScreen = () => {
 
   const {logOut} = useContext(AuthContext);
 
@@ -52,4 +52,4 @@ const ProfileScreen = () => {
   )
 }
 
-export default ProfileScreen
+export default SettingsScreen

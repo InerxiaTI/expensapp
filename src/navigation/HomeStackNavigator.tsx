@@ -7,16 +7,99 @@ import { AuthContext } from '../context/AuthContext';
 import LoginScreen from '../screens/LoginScreen';
 import { TabsNavigator } from './TabsNavigator';
 import { ShoppingList } from '../interfaces/ShoppingInterface';
+import SettingsScreen from '../screens/SettingsScreen';
+import JoinShoppingListScreen from '../screens/JoinShoppingListScreen';
+import NewShoppingListScreen from '../screens/NewShoppingListScreen';
 
 export type RootStackParams = {
   HomeTab: undefined,
   ShoppingDetails: ShoppingList,
   AddExpense: undefined,
   Login: undefined,
+  NewShoppingList: undefined,
+  JoinShoppingList: undefined,
+  Settings: undefined
 
 }
 
 const Stack = createStackNavigator<RootStackParams>();
+
+export const HomeStack = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        headerStyle: {
+          elevation: 0,
+          shadowColor: 'transparent',
+        }
+      }}
+    >
+      <Stack.Screen name="HomeTab" component={HomeScreen} />
+      <Stack.Screen name="ShoppingDetails" component={ShoppingDetailsScreen} />
+      <Stack.Screen name="AddExpense" component={AddExpenseScreen} />
+    </Stack.Navigator>
+  )
+}
+export const NewShoppingListStack = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        headerStyle: {
+          elevation: 0,
+          shadowColor: 'transparent',
+        }
+      }}>
+      <Stack.Screen name="NewShoppingList" component={NewShoppingListScreen} />
+    </Stack.Navigator>
+  )
+}
+export const JoinShoppingListStack = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        headerStyle: {
+          elevation: 0,
+          shadowColor: 'transparent',
+        }
+      }}>
+      <Stack.Screen name="JoinShoppingList" component={JoinShoppingListScreen} />
+    </Stack.Navigator>
+  )
+}
+export const SettingsStack = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        headerStyle: {
+          elevation: 0,
+          shadowColor: 'transparent',
+        }
+      }}>
+      <Stack.Screen name="Settings" component={SettingsScreen} />
+    </Stack.Navigator>
+  )
+}
+
+export const AuthStack = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName='Login'
+      screenOptions={{
+        headerShown: false,
+        headerStyle: {
+          elevation: 0,
+          shadowColor: 'transparent',
+        }
+      }}
+    >
+      <Stack.Screen name="Login" component={LoginScreen} />
+    </Stack.Navigator>
+  );
+}
 
 export const HomeStackNavigator = () => {
 
@@ -35,23 +118,7 @@ export const HomeStackNavigator = () => {
         }}
       >
         <Stack.Screen name="HomeTab" component={TabsNavigator} />
-        <Stack.Screen name="ShoppingDetails" component={ShoppingDetailsScreen} />
-        <Stack.Screen name="AddExpense" component={AddExpenseScreen} />
-      </Stack.Navigator>
-    );
-  } else {
-    return (
-      <Stack.Navigator
-        initialRouteName='Login'
-        screenOptions={{
-          headerShown: false,
-          headerStyle: {
-            elevation: 0,
-            shadowColor: 'transparent',
-          }
-        }}
-      >
-        <Stack.Screen name="Login" component={LoginScreen} />
+
       </Stack.Navigator>
     );
   }

@@ -1,18 +1,16 @@
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import React from 'react'
-import HomeScreen from '../screens/HomeScreen';
+import React, { useContext } from 'react'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import ProfileScreen from '../screens/ProfileScreen';
+import ProfileScreen from '../screens/SettingsScreen';
 import { COLORS } from '../theme/Theme';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import NewShoppingListScreen from '../screens/NewShoppingListScreen';
-import { HomeStackNavigator } from './HomeStackNavigator';
+import { AuthStack, HomeStack, HomeStackNavigator, JoinShoppingListStack, NewShoppingListStack, ProfileStack, SettingsStack } from './HomeStackNavigator';
+import { AuthContext } from '../context/AuthContext';
 
 
 const Tab = createMaterialBottomTabNavigator();
 const Tab2 = createBottomTabNavigator();
-
-
 
 export const TabsNavigator = () => {
   return (
@@ -37,15 +35,15 @@ const TabMaterial = () => {
       //   borderWidth: 1
       // }}
 
-//       barStyle={{
-//         borderWidth: 0.5,
-//         borderBottomWidth: 1,
-//         backgroundColor:'white',
-//         borderTopLeftRadius: 30,
-//         borderTopRightRadius: 30,
-//         borderColor: 'transparent',
-//         overflow: 'hidden',
-// }}
+      //       barStyle={{
+      //         borderWidth: 0.5,
+      //         borderBottomWidth: 1,
+      //         backgroundColor:'white',
+      //         borderTopLeftRadius: 30,
+      //         borderTopRightRadius: 30,
+      //         borderColor: 'transparent',
+      //         overflow: 'hidden',
+      // }}
 
       screenOptions={({ route }) => ({
         headerShown: false,
@@ -84,65 +82,80 @@ const TabMaterial = () => {
 }
 
 const TabNoMaterial2 = () => {
-  return (
-    <Tab2.Navigator
-      initialRouteName='Home'
-      
-      screenOptions={({ route }) => ({
-        headerShown: false,
-        tabBarActiveTintColor: 'white',
-        // tabBarActiveBackgroundColor: COLORS.backgroudPrimary,
-        tabBarShowLabel: true,
-        tabBarStyle: {
-          borderTopWidth: 0,
-          backgroundColor: COLORS.tabNavigatorPrimaryColor,
-          paddingTop: 7,
-          // borderTopLeftRadius: 30,
-          // borderTopRightRadius: 30,
-          // borderLeftWidth: 0.2,
-          // borderRightWidth: 0.2,
-          // borderColor: 'white',
-          // position: 'absolute',
-          // overflow: 'hidden',
+  const { authState } = useContext(AuthContext);
+  console.log("logueado: " + authState.isLoggedIn);
 
-          shadowColor: "green",
-          shadowOffset: {
-            width: 0,
-            height: 6,
+  if (authState.isLoggedIn) {
+    return (
+      <Tab2.Navigator
+        initialRouteName='HomeStack'
+
+        screenOptions={({ route }) => ({
+          headerShown: false,
+          tabBarActiveTintColor: 'white',
+          // tabBarActiveBackgroundColor: COLORS.backgroudPrimary,
+          tabBarShowLabel: true,
+          tabBarStyle: {
+            borderTopWidth: 0,
+            backgroundColor: COLORS.tabNavigatorPrimaryColor,
+            paddingTop: 7,
+            // borderTopLeftRadius: 30,
+            // borderTopRightRadius: 30,
+            // borderLeftWidth: 0.2,
+            // borderRightWidth: 0.2,
+            // borderColor: 'white',
+            // position: 'absolute',
+            // overflow: 'hidden',
+
+            shadowColor: "green",
+            shadowOffset: {
+              width: 0,
+              height: 6,
+            },
+            shadowOpacity: 0.37,
+            shadowRadius: 7.49,
+
+            elevation: 12,
+
           },
-          shadowOpacity: 0.37,
-          shadowRadius: 7.49,
+          tabBarIcon: ({ color, focused }) => {
 
-          elevation: 12,      
+            let iconName: string = '';
+            switch (route.name) {
+              case 'HomeStack':
+                iconName = focused ? 'home' : 'home-outline'
+                break;
 
-        },
-        tabBarIcon: ({ color, focused }) => {
+              case 'NewShoppingListStack':
+                iconName = focused ? 'plus-circle' : 'plus-circle-outline'
+                break;
+              case 'JoinShoppingListStack':
+                iconName = focused ? 'account-multiple' : 'account-multiple-outline'
+                break;
 
-          let iconName: string = '';
-          switch (route.name) {
-            case 'Home':
-              iconName = focused ? 'home' : 'home-outline'
-              break;
+              case 'SettingsStack':
+                iconName = focused ? 'cog' : 'cog-outline'
+                break;
+            }
 
-            case 'NewShoppingList':
-              iconName = focused ? 'plus-circle' : 'plus-circle-outline'
-              break;
+            return <Icon name={iconName} size={24} color={color} />
+          },
+        })}
 
-            case 'Profile':
-              iconName = focused ? 'account' : 'account-outline'
-              break;
-          }
+      >
+        <Tab2.Screen name="HomeStack" options={{ title: 'Inicio' }} component={HomeStack} />
+        <Tab2.Screen name="NewShoppingListStack" options={{ title: 'Nuevo' }} component={NewShoppingListStack} />
+        <Tab2.Screen name="JoinShoppingListStack" options={{ title: 'Unirse' }} component={JoinShoppingListStack} />
+        <Tab2.Screen name="SettingsStack" options={{ tabBarLabel: 'Ajustes' }} component={SettingsStack} />
+      </Tab2.Navigator>
+    )
+  }else{
+    return (
+      <AuthStack />
+    )
+  }
 
-          return <Icon name={iconName} size={24} color={color} />
-        },
-      })}
 
-    >
-      <Tab2.Screen name="Home" options={{ title: 'Inicio' }} component={HomeScreen} />
-      <Tab2.Screen name="NewShoppingList" options={{ title: 'Nuevo' }} component={NewShoppingListScreen} />
-      <Tab2.Screen name="Profile" options={{ tabBarLabel: 'Perfil' }} component={ProfileScreen} />
-    </Tab2.Navigator>
-  )
 }
 
 const TabNoMaterial = () => {
