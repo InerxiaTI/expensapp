@@ -10,13 +10,16 @@ import ShoppingCardComponent from '../components/ShoppingCardComponent';
 import FloatingActionButton from '../components/FloatingActionButton';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../navigation/HomeStackNavigator';
+import { useShoppingDetail } from '../hooks/useShopping';
 
 interface ShoppingDetailsScreenProps extends StackScreenProps<RootStackParams, 'ShoppingDetails'> {}
 
 const ShoppingDetailsScreen = ({route, navigation}: ShoppingDetailsScreenProps) => {
 
-  console.log("route: ", JSON.stringify(route.params));
+  console.log("route --------------------------- : ", JSON.stringify(route.params));
   const shoppingList = route.params
+
+  const {getShoppingDetail, isLoading, shoppingDetailList} = useShoppingDetail(shoppingList.id);
   
 
   const [user, setUser] = useState(0);
@@ -110,7 +113,7 @@ const ShoppingDetailsScreen = ({route, navigation}: ShoppingDetailsScreenProps) 
         }}
       >
         <FlatList
-          data={listasComprasFiltred}
+          data={shoppingDetailList}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
             <ShoppingCardComponent shopping={item}/>

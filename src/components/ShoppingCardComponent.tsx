@@ -3,8 +3,8 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { Shopping } from '../testData/testData';
 import { sliceText } from '../utils/textUtil';
+import { Shopping } from '../interfaces/ShoppingInterface';
 
 interface ShoppingCardProps {
     shopping: Shopping
@@ -20,7 +20,7 @@ const ShoppingCardComponent = ({ shopping }: ShoppingCardProps) => {
 
     return (
 
-        <TouchableOpacity onLongPress={changeToolBar}>
+        <TouchableOpacity onLongPress={changeToolBar} >
             <View style={styles.card}>
                 <View style={styles.containerShoppingInfo}>
                     <View style={styles.containerPerColumn}>
@@ -28,15 +28,15 @@ const ShoppingCardComponent = ({ shopping }: ShoppingCardProps) => {
                         <Text style={{
                             ...styles.shoppingText,
                             color: 'white'
-                        }}>{sliceText(shopping.concepto, 23)}</Text>
+                        }}>{sliceText(shopping.nombreCategoria+". "+shopping.descripcion, 23)}</Text>
 
                     </View>
 
-                    <Text style={styles.textGrey}>{shopping.comprador}</Text>
+                    <Text style={styles.textGrey}>{shopping.nombresUsuarioCompra}</Text>
 
                     <View style={styles.containerPerColumn}>
                         <Icon name='calendar' size={12} color='white' />
-                        <Text style={styles.textGrey}>24 mayo 2023</Text>
+                        <Text style={styles.textGrey}>{shopping.fechaCompra}</Text>
 
                     </View>
 
@@ -47,18 +47,18 @@ const ShoppingCardComponent = ({ shopping }: ShoppingCardProps) => {
                     <View style={styles.containerAmoutIconText}>
 
                         <View style={styles.containerPerColumn}>
-                            <Icon name='trending-down' size={14} color='white' />
-                            <Text style={{...styles.shoppingText, color: '#FC2256'}}>
-                                $ {shopping.valorCompra}
+                            {/* <Icon name='trending-down' size={14} color='white' /> */}
+                            <Text style={{fontSize: 16, fontWeight: '700', color: '#fff'}}>
+                                $ {shopping.valor}
                             </Text>
                         </View>
 
-                        <View style={styles.containerPerColumn}>
+                        {/* <View style={styles.containerPerColumn}>
                             <Icon name='trending-up' size={14} color='white' />
                             <Text style={{...styles.shoppingText, color: '#00861D'}}>
                                 $ {shopping.cuantoDeben}
                             </Text>
-                        </View>
+                        </View> */}
 
                     </View>
                 </View>
@@ -113,10 +113,10 @@ const styles = StyleSheet.create({
     },
     shoppingText: {
         fontSize: 14,
-        fontWeight: 'bold',
+        fontWeight: '400',
     },
     textGrey: {
-        fontSize: 12,
+        fontSize: 14,
         color: '#6B7280'
     }
 

@@ -24,7 +24,7 @@ const HomeScreen = () => {
 
   const handleRefresh = () => {
     setRefreshing(true)
-    getShoppingLists()
+    getShoppingLists(user!)
     setRefreshing(false);
 
   };
@@ -32,7 +32,7 @@ const HomeScreen = () => {
   useEffect(() => {
 
     if (isFocused) {
-      getShoppingLists()
+      getShoppingLists(user!)
     }
     
   }, [isFocused]);
