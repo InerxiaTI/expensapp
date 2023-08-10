@@ -39,6 +39,8 @@ const NewShoppingListScreen = () => {
       await saveShoppingList(textValue);
       setCodigoGenerado(shoppingList?.codigoGenerado)
       setIsDisabled(false);
+      setIsLoading(false);
+
       getShoppingLists()
       // navigation.dispatch() se quiere llamar la función para actualizar las listas de compras
       navigation.goBack() // Volver a la pantalla anterior

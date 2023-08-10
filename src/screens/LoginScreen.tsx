@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Dimensions, KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Dimensions, KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableOpacity, View, ToastAndroid, ActivityIndicator } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -7,12 +7,18 @@ import { usersDatabase } from '../testData/testData'
 import { AuthContext } from '../context/AuthContext'
 import { User } from '../interfaces/UserInterface'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useLogin } from '../hooks/useLogin'
 
 const { height } = Dimensions.get('window');
 
 
 const LoginScreen = () => {
   const { signIn } = useContext(AuthContext);
+
+  const [isDisabled, setIsDisabled] = useState(false);
+
+  const { isLoading, setIsLoading, validateUser } = useLogin()
+
   const passwordInputRef = useRef<TextInput>(null);
 
 
@@ -22,28 +28,51 @@ const LoginScreen = () => {
   console.log("email: " + email);
 
 
-  const handleAuth = () => {
-    console.log("email: " + email);
-    console.log("password: " + password);
+  const handleAuth = async () => {
+    setIsDisabled(true)
+    setIsLoading(true)
 
-    let user = findUserByUsernameAndPassword(email, password)
-    console.log(JSON.stringify(user));
-    if (user && user.activo === true) {
-      console.log("usuario encontrado");
-      signIn(user)
+    setTimeout(async () => {
+      console.log("Esperando...");
+      if(email && password) {
+        try {
+          console.log("1.");
+          let myuser = await validateUser(email, password);
+          const userLogged = myuser?.data.body
+          console.log("6.", JSON.stringify(myuser?.data.body.correo));
+  
+    
+          if (userLogged) {
+            if (userLogged && userLogged.activo === true) {
+              console.log("usuario encontrado");
+              signIn(userLogged)
+        
+            } else {
+              console.log("usuario o contraseña incorrecta / o usuario inactivo");
+              ToastAndroid.show("Usuario o contraseña incorrecta", ToastAndroid.LONG)
+            }
+        
+          }
+    
+        } catch (error) {
+          console.log("ERROR: " + error);
+          ToastAndroid.show(error.response.data.message, ToastAndroid.LONG )
+        } finally {
+          setIsLoading(false)
+          setIsDisabled(false)
 
-    } else {
-      console.log("usuario o contraseña incorrecta / o usuario inactivo");
+        }
+      } else{
+        ToastAndroid.show("Usuario o contraseña incorrecta", ToastAndroid.LONG)
+        setIsLoading(false)
+        setIsDisabled(false)
 
-    }
+      }
+      
+    }, 2000)
+
 
   }
-
-  const findUserByUsernameAndPassword = (email: string, password: string) => {
-    return usersDatabase.find(
-      (user: User) => user.correo === email && user.contrasena === password
-    );
-  };
 
   useEffect(() => {
     const getUserFromStorage = async () => {
@@ -109,6 +138,7 @@ const LoginScreen = () => {
               <View style={styles.searchContainer}>
 
                 <TextInput
+                  editable={!isDisabled}
                   value={email}
                   keyboardType='email-address'
                   returnKeyType="next"
@@ -123,6 +153,7 @@ const LoginScreen = () => {
               <View style={styles.searchContainer}>
 
                 <TextInput
+                  editable={!isDisabled}
                   ref={passwordInputRef} // Referencia al input de contraseña
                   value={password}
                   secureTextEntry={true}
@@ -180,14 +211,23 @@ const LoginScreen = () => {
               }}
             >
 
-              <Text
-                style={{
-                  fontSize: 14,
-                  fontWeight: '700',
-                  color: 'white'
+              {
+                isLoading ? (
+                  <ActivityIndicator color={'white'} size={20} />
+                ) :
+                  (
+                    <Text
+                      style={{
+                        fontSize: 14,
+                        fontWeight: '700',
+                        color: 'white'
 
-                }}
-              >Login</Text>
+                      }}
+                    >Login</Text>
+                  )
+              }
+
+
             </TouchableOpacity>
           </View>
 
