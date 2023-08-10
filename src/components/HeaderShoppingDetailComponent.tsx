@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from 'react'
-import { View, TouchableOpacity, Modal, Text, TouchableWithoutFeedback, StyleSheet, SafeAreaView } from 'react-native'
+import { View, TouchableOpacity, Modal, Text, TouchableWithoutFeedback, StyleSheet, SafeAreaView, Platform, ToastAndroid } from 'react-native'
 import { COLORS } from '../theme/Theme'
 import { useNavigation } from '@react-navigation/native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import BaseHeaderComponent from './base/BaseHeaderComponent'
+import Clipboard from '@react-native-clipboard/clipboard';
+
 
 
 interface HeaderShoppingDetailProps {
-  title?: string
+  title?: string,
+  code: string, 
 }
 
 
-const HeaderShoppingDetailComponent = ({title}: HeaderShoppingDetailProps) => {
+const HeaderShoppingDetailComponent = ({title, code}: HeaderShoppingDetailProps) => {
   const navigator = useNavigation();
 
-  const [isContextMenuVisible, setContextMenuVisible] = useState(true);
+  const [isContextMenuVisible, setContextMenuVisible] = useState(false);
+  const [textToCopy, setTextToCopy] = useState(code);
+
 
   const showContextMenu = () => {
     console.log("mostrando menu");
@@ -24,6 +29,16 @@ const HeaderShoppingDetailComponent = ({title}: HeaderShoppingDetailProps) => {
 
   const hideContextMenu = () => {
     setContextMenuVisible(false);
+  };
+
+  const handleCopyToClipboard = () => {
+    Clipboard.setString("Hola! \nEste es el código para que te unas a mi lista de compras:\n"+textToCopy);
+
+    if (Platform.OS === 'android') {
+      ToastAndroid.show('Texto copiado al portapapeles', ToastAndroid.SHORT);
+    } else {
+      // Puedes implementar una notificación similar para otras plataformas
+    }
   };
 
 
@@ -120,7 +135,7 @@ const HeaderShoppingDetailComponent = ({title}: HeaderShoppingDetailProps) => {
               }}
             >
               <TouchableOpacity
-                onPress={hideContextMenu}
+                onPress={handleCopyToClipboard}
                 style={{
                   flexDirection: 'row',
                   borderColor: 'red',
@@ -130,7 +145,7 @@ const HeaderShoppingDetailComponent = ({title}: HeaderShoppingDetailProps) => {
 
               >
                 <Icon name='content-copy' size={20} color={'white'} />
-                <Text style={styles.contextMenu}>FXAT57</Text>
+                <Text style={styles.contextMenu}>{code}</Text>
               </TouchableOpacity>
 
 

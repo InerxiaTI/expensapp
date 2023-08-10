@@ -49,7 +49,7 @@ const ShoppingDetailsScreen = ({route, navigation}: ShoppingDetailsScreenProps) 
   return (
     <BaseScreenComponent>
       {/* Header */}
-      <HeaderShoppingDetailComponent title={shoppingList.nombre}/>
+      <HeaderShoppingDetailComponent title={shoppingList.nombre} code={shoppingList.codigoGenerado}/>
 
       {/* Shoppers */}
       <View

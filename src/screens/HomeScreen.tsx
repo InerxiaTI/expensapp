@@ -16,27 +16,29 @@ const HomeScreen = () => {
   const user = authState.user
   
 
+  
+
+
+
+  const { isLoading, shoppingLists, getShoppingLists } = useShoppingLists();
+
   const [refreshing, setRefreshing] = useState(false);
 
-  const [data, setData] = useState(listasCompras.slice(0, 2)); // Mostrar los primeros 2
+  const [data, setData] = useState(shoppingLists.slice(0, 2)); // Mostrar los primeros 2
 
   const handleRefresh = () => {
     setRefreshing(true)
-    setData(listasCompras.slice(0, data.length+2)); // Mostrar los siguientes 2
+    setData(shoppingLists.slice(0, data.length+2)); // Mostrar los siguientes 2
     setRefreshing(false);
 
   };
 
+  const actualizarLista = () => {
+    getShoppingLists(); // Actualizar datos
+  };
 
-
-  // const { isLoading, shoppingLists, getShoppingLists } = useShoppingLists();
-
-  // const actualizarLista = () => {
-  //   getShoppingLists(); // Actualizar datos
-  // };
-
-  // if (!isLoading) {
-    if (false) {
+  if (isLoading) {
+    // if (false) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <ActivityIndicator color={'white'} size={20} />
