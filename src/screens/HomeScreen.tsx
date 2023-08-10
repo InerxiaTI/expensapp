@@ -8,34 +8,36 @@ import BaseScreenComponent from '../components/BaseScreenComponent'
 import { listasCompras } from '../testData/testData'
 import { useShoppingLists } from '../hooks/useShopping'
 import { AuthContext } from '../context/AuthContext'
-
+import { useIsFocused } from '@react-navigation/native'
 
 const HomeScreen = () => {
+  const isFocused = useIsFocused();
+
   const {authState} = useContext(AuthContext);
   console.log("auth: ", authState);
   const user = authState.user
   
-
-  
-
-
-
   const { isLoading, shoppingLists, getShoppingLists } = useShoppingLists();
 
   const [refreshing, setRefreshing] = useState(false);
 
-  const [data, setData] = useState(shoppingLists.slice(0, 2)); // Mostrar los primeros 2
 
   const handleRefresh = () => {
     setRefreshing(true)
-    setData(shoppingLists.slice(0, data.length+2)); // Mostrar los siguientes 2
+    getShoppingLists()
     setRefreshing(false);
 
   };
 
-  const actualizarLista = () => {
-    getShoppingLists(); // Actualizar datos
-  };
+  useEffect(() => {
+
+    if (isFocused) {
+      getShoppingLists()
+    }
+    
+  }, [isFocused]);
+
+
 
   if (isLoading) {
     // if (false) {
@@ -87,7 +89,7 @@ const HomeScreen = () => {
       >
         <FlatList
           showsVerticalScrollIndicator={false}
-          data={data}
+          data={shoppingLists}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => (
             <ShoppingListCardComponent buysList={item} />

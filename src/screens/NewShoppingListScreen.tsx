@@ -3,7 +3,7 @@ import { ActivityIndicator, Image, Keyboard, StyleSheet, Text, TextInput, Toucha
 import expenseBanner from '../../assets/expenseBanner.png';
 import BaseScreenComponent from '../components/BaseScreenComponent';
 import HeaderNewShoppingListComponent from '../components/HeaderNewShoppingListComponent';
-import { useNewShoppingLists } from '../hooks/useShopping';
+import { useNewShoppingLists, useShoppingLists } from '../hooks/useShopping';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 
 const NewShoppingListScreen = () => {
@@ -19,6 +19,8 @@ const NewShoppingListScreen = () => {
   const [habilitarBoton, setHabilitarBoton] = useState(false)
 
   const inputRef = useRef<TextInput>(null);
+  const { getShoppingLists } = useShoppingLists();
+
 
   const handleOnTextChange = (textValue: string) => {
     setTextValue(textValue)
@@ -37,8 +39,9 @@ const NewShoppingListScreen = () => {
       await saveShoppingList(textValue);
       setCodigoGenerado(shoppingList?.codigoGenerado)
       setIsDisabled(false);
+      getShoppingLists()
       // navigation.dispatch() se quiere llamar la función para actualizar las listas de compras
-      navigation.goBack(); // Volver a la pantalla anterior
+      navigation.goBack() // Volver a la pantalla anterior
 
     } catch (error) {
       console.error("Falla al guardar: " + error);
