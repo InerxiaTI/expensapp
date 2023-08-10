@@ -3,6 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { ShoppingList } from '../interfaces/ShoppingInterface'
 import currencyFormatter from 'currency-formatter'
+import { sliceText } from '../utils/textUtil'
 
 interface ShoppingListCardProps {
     buysList: ShoppingList
@@ -29,7 +30,7 @@ const ShoppingListCardComponent = ({ buysList }: ShoppingListCardProps) => {
                             borderColor: 'blue'
                         }}
                     >
-                        <Text style={styles.mainText}>{buysList.nombre}</Text>
+                        <Text style={styles.mainText}>{sliceText(buysList.nombre, 25)}</Text>
                     </View>
                     <View
                         style={{

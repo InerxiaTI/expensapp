@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
     color: 'grey',
     fontSize: 35,
     position: 'absolute',
-    left: 85,
+    left: 60,
     top: 35
   }
 

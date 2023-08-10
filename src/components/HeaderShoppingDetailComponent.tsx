@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import BaseHeaderComponent from './base/BaseHeaderComponent'
 import Clipboard from '@react-native-clipboard/clipboard';
+import { sliceText } from '../utils/textUtil'
 
 
 
@@ -72,7 +73,7 @@ const HeaderShoppingDetailComponent = ({title, code}: HeaderShoppingDetailProps)
               fontSize: 18,
               fontWeight: '700',
               color: '#6B7280'
-            }}>{title}</Text>
+            }}>{sliceText(title!, 25)}</Text>
           </View>
         </View>
 
