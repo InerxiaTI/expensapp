@@ -5,14 +5,20 @@ import { useNavigation } from '@react-navigation/native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import BaseHeaderComponent from './base/BaseHeaderComponent'
 
-const HeaderShoppingDetailComponent = () => {
+
+interface HeaderShoppingDetailProps {
+  title?: string
+}
+
+
+const HeaderShoppingDetailComponent = ({title}: HeaderShoppingDetailProps) => {
   const navigator = useNavigation();
 
   const [isContextMenuVisible, setContextMenuVisible] = useState(true);
 
   const showContextMenu = () => {
     console.log("mostrando menu");
-    
+
     setContextMenuVisible(true);
   };
 
@@ -26,118 +32,129 @@ const HeaderShoppingDetailComponent = () => {
       <>
         <View
           style={{
-            width: 80,
             flexDirection: 'row',
             alignItems: 'center',
-          }}
+            borderWidth: 0,
+            borderColor: 'white',
+            paddingHorizontal: 15,
+            gap: 15
+        }}
         >
           <TouchableOpacity
             onPress={() => { navigator.goBack() }}
-            style={{
-              width: '100%',
-              paddingHorizontal: 15
-
-            }}
           >
             <Icon name='arrow-left' size={25} color='white' />
 
           </TouchableOpacity>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              borderWidth: 0,
+              borderColor: 'green'
+            }}>
+            <Text style={{
+              fontSize: 18,
+              fontWeight: '700',
+              color: '#6B7280'
+            }}>{title}</Text>
+          </View>
         </View>
 
-        <View
+      <View
+        style={{
+          flexDirection: 'row-reverse',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+          paddingHorizontal: 15
+        }}
+      >
+        <TouchableOpacity
+          onPress={showContextMenu}
+        >
+          <Icon name='dots-vertical' size={25} color='white' />
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => { console.log("B") }}
           style={{
-            flexDirection: 'row-reverse',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-            paddingHorizontal: 15
+            marginRight: 10
+
           }}
         >
-          <TouchableOpacity
-            onPress={showContextMenu}
-          >
-            <Icon name='dots-vertical' size={25} color='white' />
-          </TouchableOpacity>
+          <Icon name='cart-check' size={25} color='white' />
+        </TouchableOpacity>
 
-          <TouchableOpacity
-            onPress={() => { console.log("B") }}
+      </View>
+
+      <Modal
+        transparent={true}
+        visible={isContextMenuVisible}
+        onRequestClose={hideContextMenu}
+
+      >
+
+        <TouchableWithoutFeedback onPress={hideContextMenu}>
+          <View
             style={{
-              marginRight: 10
-
+              borderColor: 'red',
+              borderWidth: 0,
+              flex: 1,
+              justifyContent: 'flex-start',
+              alignItems: 'flex-end',
+              backgroundColor: 'transparent'
             }}
           >
-            <Icon name='cart-check' size={25} color='white' />
-          </TouchableOpacity>
 
-        </View>
-
-        <Modal
-          transparent={true}
-          visible={isContextMenuVisible}
-          onRequestClose={hideContextMenu}
-          
-        >
-          
-          <TouchableWithoutFeedback onPress={hideContextMenu}>
-            <View 
-              style={{ 
-                borderColor: 'red',
-                borderWidth: 0,
-                flex: 1, 
-                justifyContent: 'flex-start', 
-                alignItems: 'flex-end', 
-                backgroundColor: 'transparent' 
-                }}
-              >
-
-              <View 
+            <View
+              style={{
+                width: 150,
+                backgroundColor: '#262626',
+                borderRadius: 8,
+                marginEnd: 10,
+                marginTop: 10,
+                paddingVertical: 15,
+                paddingLeft: 10,
+                paddingTop: 10,
+                gap: 10
+              }}
+            >
+              <TouchableOpacity
+                onPress={hideContextMenu}
                 style={{
-                  width: 150,
-                  backgroundColor: '#262626', 
-                  borderRadius: 8,
-                  marginEnd: 10,
-                  marginTop: 40,
-                  paddingVertical: 15,
-                  paddingLeft: 10,
-                  paddingTop: 10,
-                  gap: 10
+                  flexDirection: 'row',
+                  borderColor: 'red',
+                  borderWidth: 0,
+                  gap: 5
                 }}
+
               >
-                <TouchableOpacity 
-                  onPress={hideContextMenu}
-                  style={{
-                    flexDirection: 'row',
-                    borderColor: 'red',
-                    borderWidth: 0,
-                    gap: 5
-                  }}
-                
-                >
-                  <Icon name='content-copy' size={20} color={'white'}/>
-                  <Text style={styles.contextMenu}>FXAT57</Text>
-                </TouchableOpacity>
+                <Icon name='content-copy' size={20} color={'white'} />
+                <Text style={styles.contextMenu}>FXAT57</Text>
+              </TouchableOpacity>
 
 
-                <TouchableOpacity 
-                  onPress={hideContextMenu}
-                  style={{
-                    flexDirection: 'row',
-                    borderColor: 'red',
-                    borderWidth: 0,
-                    gap: 5
-                  }}
-                
-                >
-                  <Icon name='account-group-outline' size={20} color={'white'}/>
-                  <Text style={styles.contextMenu}>Colaboradores</Text>
-                </TouchableOpacity>
-                
-              </View>
+              <TouchableOpacity
+                onPress={hideContextMenu}
+                style={{
+                  flexDirection: 'row',
+                  borderColor: 'red',
+                  borderWidth: 0,
+                  gap: 5
+                }}
+
+              >
+                <Icon name='account-group-outline' size={20} color={'white'} />
+                <Text style={styles.contextMenu}>Colaboradores</Text>
+              </TouchableOpacity>
 
             </View>
-          </TouchableWithoutFeedback>
-        </Modal>
-      </>
-    </BaseHeaderComponent>
+
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
+    </>
+    </BaseHeaderComponent >
   )
 }
 
@@ -147,6 +164,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500'
   }
-    
+
 });
 export default HeaderShoppingDetailComponent

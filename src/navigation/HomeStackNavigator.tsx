@@ -6,12 +6,21 @@ import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import LoginScreen from '../screens/LoginScreen';
 import { TabsNavigator } from './TabsNavigator';
+import { ShoppingList } from '../interfaces/ShoppingInterface';
 
-const Stack = createStackNavigator();
+export type RootStackParams = {
+  HomeTab: undefined,
+  ShoppingDetails: ShoppingList,
+  AddExpense: undefined,
+  Login: undefined,
+
+}
+
+const Stack = createStackNavigator<RootStackParams>();
 
 export const HomeStackNavigator = () => {
 
-  const { signIn, authState } = useContext(AuthContext);
+  const { authState } = useContext(AuthContext);
   console.log("logueado: " + authState.isLoggedIn);
 
   if (authState.isLoggedIn) {

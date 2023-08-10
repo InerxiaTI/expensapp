@@ -13,7 +13,7 @@ const ShoppingListCardComponent = ({ buysList }: ShoppingListCardProps) => {
 
     return (
         <TouchableOpacity
-            onPress={() => navigator.navigate('ShoppingDetails')}
+            onPress={() => navigator.navigate('ShoppingDetails', buysList)}
         >
             <View style={styles.card}>
 

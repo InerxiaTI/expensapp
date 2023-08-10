@@ -8,12 +8,16 @@ import HeaderShoppingDetailComponent from '../components/HeaderShoppingDetailCom
 import { detalleListaCompras1, detalleListaCompras2, detalleListaCompras3, shoppers, } from '../testData/testData';
 import ShoppingCardComponent from '../components/ShoppingCardComponent';
 import FloatingActionButton from '../components/FloatingActionButton';
+import { StackScreenProps } from '@react-navigation/stack';
+import { RootStackParams } from '../navigation/HomeStackNavigator';
 
+interface ShoppingDetailsScreenProps extends StackScreenProps<RootStackParams, 'ShoppingDetails'> {}
 
+const ShoppingDetailsScreen = ({route, navigation}: ShoppingDetailsScreenProps) => {
 
-const ShoppingDetailsScreen = () => {
-
-  const navigator = useNavigation();
+  console.log("route: ", JSON.stringify(route.params));
+  const shoppingList = route.params
+  
 
   const [user, setUser] = useState(0);
   const [listasComprasFiltred, setListasComprasFiltred] = useState(detalleListaCompras1);
@@ -45,7 +49,7 @@ const ShoppingDetailsScreen = () => {
   return (
     <BaseScreenComponent>
       {/* Header */}
-      <HeaderShoppingDetailComponent />
+      <HeaderShoppingDetailComponent title={shoppingList.nombre}/>
 
       {/* Shoppers */}
       <View
@@ -120,7 +124,7 @@ const ShoppingDetailsScreen = () => {
 
       <FloatingActionButton 
             title={'cart-plus'}
-            onPress={()=> navigator.navigate('AddExpense')}
+            onPress={()=> navigation.navigate('AddExpense')}
         />
 
 
