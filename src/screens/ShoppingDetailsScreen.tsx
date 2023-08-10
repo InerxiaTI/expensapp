@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import BaseScreenComponent from '../components/BaseScreenComponent'
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { COLORS } from '../theme/Theme'
@@ -10,41 +10,40 @@ import ShoppingCardComponent from '../components/ShoppingCardComponent';
 import FloatingActionButton from '../components/FloatingActionButton';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../navigation/HomeStackNavigator';
-import { useShoppingDetail } from '../hooks/useShopping';
+import { useCollaborators, useShoppingDetail } from '../hooks/useShopping';
+import { AuthContext } from '../context/AuthContext';
+import { Collaborator, User } from '../interfaces/UserInterface';
 
 interface ShoppingDetailsScreenProps extends StackScreenProps<RootStackParams, 'ShoppingDetails'> {}
 
 const ShoppingDetailsScreen = ({route, navigation}: ShoppingDetailsScreenProps) => {
 
+  const {authState} = useContext(AuthContext);
+  console.log("$$$$$$$$$$$$$ auth useShoppingDetail: ", authState.user);
+  const userLogged = authState.user
+
   console.log("route --------------------------- : ", JSON.stringify(route.params));
   const shoppingList = route.params
 
-  const {getShoppingDetail, isLoading, shoppingDetailList} = useShoppingDetail(shoppingList.id);
+  const {getShoppingDetail, isLoading, shoppingDetailList} = useShoppingDetail(shoppingList.id, userLogged!.id);
+  const {getCollaborators, collaborators} = useCollaborators(shoppingList.id)
   
+  const [user, setUser] = useState(userLogged?.id);
 
-  const [user, setUser] = useState(0);
+  console.log("USER DE STATE: ", user);
+  
   const [listasComprasFiltred, setListasComprasFiltred] = useState(detalleListaCompras1);
 
-  const changeList = (index: number) => {
-    console.log("user: "+index);
-    setUser(index)
+  const changeList = (userId: number, userName: string) => {
+    console.log("%%%%%%%%% user: "+userName);
+    setUser(userId)
     
   }
 
   useEffect(() => {
+    console.log("ejecuta el use ");
+    getShoppingDetail(shoppingList.id, user!)
 
-    switch (user) {
-      case 1: {
-        setListasComprasFiltred(detalleListaCompras2);
-        break
-      }
-      case 2: {
-        setListasComprasFiltred(detalleListaCompras3);
-        break
-      }
-      default: setListasComprasFiltred(detalleListaCompras1);
-
-    }
 
   }, [user])
 
@@ -64,33 +63,33 @@ const ShoppingDetailsScreen = ({route, navigation}: ShoppingDetailsScreenProps) 
       >
 
         <FlatList
-          data={shoppers}
+          data={collaborators}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item, index }) => (
 
             <TouchableOpacity
-            onPress={() => {changeList(index)}}
+            onPress={() => {changeList(item.idUsuario, item.nombresUsuario)}}
             >
               <View style={{
                 ...styles.shopperCardContainer, 
-                backgroundColor: user === index? '#18032E' : COLORS.tabNavigatorPrimaryColor,
+                backgroundColor: user === item.idUsuario? '#18032E' : COLORS.tabNavigatorPrimaryColor,
               
               }}>
 
                 <View style={styles.shopperCardTextContainer}>
                   <Icon name='account-cash-outline' size={14} color='white' />
-                  <Text style={{ color: 'white', fontSize: 14, fontWeight: 'bold' }}>{item.nombre}</Text>
+                  <Text style={{ color: 'white', fontSize: 14, fontWeight: 'bold' }}>{item.nombresUsuario}</Text>
                 </View>
 
-                <View style={styles.shopperCardTextContainer}>
+                {/* <View style={styles.shopperCardTextContainer}>
                   <Icon name='currency-usd' size={12} color='white' />
-                  <Text style={styles.montoText}>{item.dineroQueLeDeben}</Text>
+                  <Text style={styles.montoText}>{item.}</Text>
                 </View>
 
                 <View style={styles.shopperCardTextContainer}>
                   <Icon name='currency-usd-off' size={12} color='white' />
-                  <Text style={styles.montoText}>{item.dineroGastado}</Text>
-                </View>
+                  <Text style={styles.montoText}>{item.}</Text>
+                </View> */}
 
                 <Text style={styles.porcentaje}>{item.porcentaje}%</Text>
 
