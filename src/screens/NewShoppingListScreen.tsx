@@ -1,13 +1,18 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect, useContext } from 'react'
 import { ActivityIndicator, Image, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import expenseBanner from '../../assets/expenseBanner.png';
 import BaseScreenComponent from '../components/BaseScreenComponent';
 import HeaderNewShoppingListComponent from '../components/HeaderNewShoppingListComponent';
 import { useNewShoppingLists, useShoppingLists } from '../hooks/useShopping';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
+import { AuthContext } from '../context/AuthContext';
 
 const NewShoppingListScreen = () => {
   const navigation = useNavigation();
+
+  const {authState} = useContext(AuthContext);
+  console.log("auth: ", authState);
+  const user = authState.user
 
   const isFocused = useIsFocused();
   const { isLoading, setIsLoading, shoppingList, saveShoppingList} = useNewShoppingLists()
@@ -36,12 +41,12 @@ const NewShoppingListScreen = () => {
     setIsLoading(true);
 
     try {
-      await saveShoppingList(textValue);
+      await saveShoppingList(textValue, user!.id);
       setCodigoGenerado(shoppingList?.codigoGenerado)
       setIsDisabled(false);
       setIsLoading(false);
 
-      getShoppingLists()
+      getShoppingLists(user!)
       // navigation.dispatch() se quiere llamar la función para actualizar las listas de compras
       navigation.goBack() // Volver a la pantalla anterior
 

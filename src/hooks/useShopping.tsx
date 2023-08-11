@@ -50,10 +50,10 @@ export const useNewShoppingLists = () => {
     const [shoppingList, setShoppingList] = useState<ShoppingList>()
 
 
-    const saveShoppingList = async (shoppingListName: string) => {
+    const saveShoppingList = async (shoppingListName: string, idUser: number) => {
 
         const request: CreateShoppingListRequest = {
-            usuarioCreador: 1,
+            usuarioCreador: idUser ,
             nombre: shoppingListName,
         }
 
