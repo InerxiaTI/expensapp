@@ -56,9 +56,10 @@ const ShoppingDetailsScreen = ({route, navigation}: ShoppingDetailsScreenProps) 
       {/* Shoppers */}
       <View
         style={{
-          borderWidth: 0,
-          borderColor: 'red',
+          borderWidth: 1,
+          borderColor: 'blue',
           paddingVertical: 0,
+          marginTop: 50,
         }}
       >
 

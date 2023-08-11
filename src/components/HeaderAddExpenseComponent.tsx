@@ -21,7 +21,7 @@ const HeaderAddExpenseComponent = ({title = ''}: HeaderAddExpenseProps) => {
                         borderWidth: 0,
                         borderColor: 'white',
                         paddingHorizontal: 15,
-                        gap: 15
+                        gap: 15,
 
                     }}
                 >

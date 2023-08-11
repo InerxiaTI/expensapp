@@ -50,171 +50,183 @@ const AddExpenseScreen = () => {
     return (
         <BaseScreenComponent>
             {/* Header */}
-            <HeaderAddExpenseComponent title='Agregar gasto'/>
+            <HeaderAddExpenseComponent title='Agregar gasto' />
 
-            {/* Imagen */}
-
-            <View style={{
-                width: '100%',
-                alignItems: 'center',
-                borderWidth: 0,
-                borderColor: 'red'
-            }}>
-                <Image
-                    source={expenseBanner}
-                    style={{ width: 100, height: 100 }}
-                />
-            </View>
-
-            {/* inputs */}
-            <View
+            <KeyboardAvoidingView
                 style={{
-                    borderWidth: 0,
-                    borderColor: 'white',
-                    paddingHorizontal: 28
+                    flex: 1,
+                    borderWidth: 1,
+                    borderColor: 'red',
+                    marginTop: 50,
                 }}
+                enabled behavior={'padding'}
             >
 
-                <View
-                    style={{
-                        borderWidth: 0,
-                        borderColor: 'blue'
-                    }}
+                <ScrollView
+
                 >
-
-                    <Text style={styles.textInfoInput}>Fecha de compra</Text>
-                    <View style={styles.searchContainer}>
-                        <TouchableOpacity
-                            style={{
-                                flex: 1,
-                                paddingLeft: 15,
-                                height: 50,
-                                justifyContent: 'center',
-                                borderWidth: 0,
-                                borderColor: 'red',
-                            }}
-                            onPress={handleOnPressStartDate}
-                        >
-                            <Text style={{
-                                fontSize: 14,
-                                lineHeight: 20,
-                                letterSpacing: 1,
-                                fontWeight: '500',
-                                color: 'lightgrey',
-                            }}>{selectedStartDate}</Text>
-                        </TouchableOpacity>
-
+                    {/* Imagen */}
+                    <View style={{
+                        width: '100%',
+                        alignItems: 'center',
+                        borderWidth: 0,
+                        borderColor: 'red'
+                    }}>
+                        <Image
+                            source={expenseBanner}
+                            style={{ width: 100, height: 100 }}
+                        />
                     </View>
 
-                    <Modal
-                        animationType="slide"
-                        transparent={true}
-                        visible={openStartDatePicker}
+                    {/* inputs */}
+                    <View
+                        style={{
+                            borderWidth: 0,
+                            borderColor: 'white',
+                            paddingHorizontal: 28
+                        }}
                     >
 
-                        <View style={styles.centeredView}>
-                            <View style={styles.modalView}>
-                                <DatePicker
-                                    style={{
-                                        borderColor: 'red',
-                                        borderWidth: 0
-                                    }}
-                                    mode="calendar"
-                                    maximumDate={startDate}
-                                    current={selectedStartDate}
-                                    selected={selectedStartDate}
-                                    onDateChange={handleChangeStartDate}
-                                    onSelectedChange={(date) => setSelectedStartDate(date)}
-                                    options={{
-                                        backgroundColor: "#201F21",
-                                        textHeaderColor: "#59D8E0",
-                                        textDefaultColor: "#FFFFFF",
-                                        selectedTextColor: "#000",
-                                        mainColor: "#59D8E0",
-                                        textSecondaryColor: "#FFFFFF",
-                                        borderColor: "rgba(32, 31, 33, 0.1)",
-                                    }}
-                                />
+                        <View
+                            style={{
+                                borderWidth: 0,
+                                borderColor: 'blue'
+                            }}
+                        >
 
+                            <Text style={styles.textInfoInput}>Fecha de compra</Text>
+                            <View style={styles.searchContainer}>
                                 <TouchableOpacity
                                     style={{
-                                        padding: 0,
-                                        borderColor: "red",
-                                        borderWidth: 0,
-                                        width: 100,
-                                        height: 20,
+                                        flex: 1,
+                                        paddingLeft: 15,
+                                        height: 50,
                                         justifyContent: 'center',
-                                        alignItems: 'center'
+                                        borderWidth: 0,
+                                        borderColor: 'red',
                                     }}
-                                    onPress={handleOnPressStartDate}>
-                                    <Text style={{ color: "white" }}>Close</Text>
+                                    onPress={handleOnPressStartDate}
+                                >
+                                    <Text style={{
+                                        fontSize: 14,
+                                        lineHeight: 20,
+                                        letterSpacing: 1,
+                                        fontWeight: '500',
+                                        color: 'lightgrey',
+                                    }}>{selectedStartDate}</Text>
                                 </TouchableOpacity>
+
                             </View>
+
+                            <Modal
+                                animationType="slide"
+                                transparent={true}
+                                visible={openStartDatePicker}
+                            >
+
+                                <View style={styles.centeredView}>
+                                    <View style={styles.modalView}>
+                                        <DatePicker
+                                            style={{
+                                                borderColor: 'red',
+                                                borderWidth: 0
+                                            }}
+                                            mode="calendar"
+                                            maximumDate={startDate}
+                                            current={selectedStartDate}
+                                            selected={selectedStartDate}
+                                            onDateChange={handleChangeStartDate}
+                                            onSelectedChange={(date) => setSelectedStartDate(date)}
+                                            options={{
+                                                backgroundColor: "#201F21",
+                                                textHeaderColor: "#59D8E0",
+                                                textDefaultColor: "#FFFFFF",
+                                                selectedTextColor: "#000",
+                                                mainColor: "#59D8E0",
+                                                textSecondaryColor: "#FFFFFF",
+                                                borderColor: "rgba(32, 31, 33, 0.1)",
+                                            }}
+                                        />
+
+                                        <TouchableOpacity
+                                            style={{
+                                                padding: 0,
+                                                borderColor: "red",
+                                                borderWidth: 0,
+                                                width: 100,
+                                                height: 20,
+                                                justifyContent: 'center',
+                                                alignItems: 'center'
+                                            }}
+                                            onPress={handleOnPressStartDate}>
+                                            <Text style={{ color: "white" }}>Close</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+
+                            </Modal>
+
+
                         </View>
 
-                    </Modal>
+
+                        <View
+                            style={{
+                                borderWidth: 0,
+                                borderColor: 'red'
+                            }}
+                        >
+                            <Text style={styles.textInfoInput}>Comprador</Text>
+                            <SelectList
+                                setSelected={(val: string) => setSelected(val)}
+                                searchPlaceholder={'Comprador'}
+                                placeholder={'Comprador'}
+                                data={data}
+                                search={false}
+                                arrowicon={<MaterialCommunityIcons name='chevron-down' size={20} color='white' />}
+                                dropdownStyles={{
+                                    backgroundColor: 'transparent',
+                                    borderColor: '#6B7280'
+                                }}
+                                boxStyles={{
+                                    marginTop: 5,
+                                    marginBottom: 16,
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    height: 50,
+                                    borderRadius: 20,
+                                    borderWidth: 1,
+                                    borderColor: '#6B7280',
+                                    backgroundColor: '#201F21',
+                                }}
+                                dropdownTextStyles={{
+                                    fontSize: 14,
+                                    lineHeight: 20,
+                                    letterSpacing: 1,
+                                    fontWeight: '500',
+                                    color: 'white',
+                                }}
+                                inputStyles={{
+                                    fontSize: 14,
+                                    lineHeight: 20,
+                                    letterSpacing: 1,
+                                    fontWeight: '500',
+                                    color: 'white',
+                                }}
+                                save="value"
+                            />
 
 
-                </View>
-
-
-                <View
-                    style={{
-                        borderWidth: 0,
-                        borderColor: 'red'
-                    }}
-                >
-                    <Text style={styles.textInfoInput}>Comprador</Text>
-                    <SelectList
-                        setSelected={(val: string) => setSelected(val)}
-                        searchPlaceholder={'Comprador'}
-                        placeholder={'Comprador'}
-                        data={data}
-                        search={false}
-                        arrowicon={<MaterialCommunityIcons name='chevron-down' size={20} color='white' />}
-                        dropdownStyles={{
-                            backgroundColor: 'transparent',
-                            borderColor: '#6B7280'
-                        }}
-                        boxStyles={{
-                            marginTop: 5,
-                            marginBottom: 16,
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            height: 50,
-                            borderRadius: 20,
-                            borderWidth: 1,
-                            borderColor: '#6B7280',
-                            backgroundColor: '#201F21',
-                        }}
-                        dropdownTextStyles={{
-                            fontSize: 14,
-                            lineHeight: 20,
-                            letterSpacing: 1,
-                            fontWeight: '500',
-                            color: 'white',
-                        }}
-                        inputStyles={{
-                            fontSize: 14,
-                            lineHeight: 20,
-                            letterSpacing: 1,
-                            fontWeight: '500',
-                            color: 'white',
-                        }}
-                        save="value"
-                    />
-
-
-                </View>
-                <View
-                    style={{
-                        borderWidth: 0,
-                        borderColor: 'red'
-                    }}
-                >
-                    <Text style={styles.textInfoInput}>Compra</Text>
-                    <View style={styles.searchContainer}>
-                        {/* <TouchableOpacity
+                        </View>
+                        <View
+                            style={{
+                                borderWidth: 0,
+                                borderColor: 'red'
+                            }}
+                        >
+                            <Text style={styles.textInfoInput}>Compra</Text>
+                            <View style={styles.searchContainer}>
+                                {/* <TouchableOpacity
                             onPress={() => console.log("d")}
                             style={styles.searchOpacity}
                         >
@@ -225,32 +237,32 @@ const AddExpenseScreen = () => {
                             />
                         </TouchableOpacity> */}
 
-                        <TextInput
-                            // ref={inputRef}
-                            // value={textValue}
-                            // onChangeText={setTextValue}
-                            keyboardType='default'
-                            placeholder='Compra'
-                            placeholderTextColor={'lightgrey'}
-                            style={styles.searchTextInput}
-                        // autoFocus={isFocused}
-                        />
+                                <TextInput
+                                    // ref={inputRef}
+                                    // value={textValue}
+                                    // onChangeText={setTextValue}
+                                    keyboardType='default'
+                                    placeholder='Compra'
+                                    placeholderTextColor={'lightgrey'}
+                                    style={styles.searchTextInput}
+                                // autoFocus={isFocused}
+                                />
 
 
-                    </View>
+                            </View>
 
 
-                </View>
+                        </View>
 
-                <View
-                    style={{
-                        borderWidth: 0,
-                        borderColor: 'red'
-                    }}
-                >
-                    <Text style={styles.textInfoInput}>Valor</Text>
-                    <View style={styles.searchContainer}>
-                        {/* <TouchableOpacity
+                        <View
+                            style={{
+                                borderWidth: 0,
+                                borderColor: 'red'
+                            }}
+                        >
+                            <Text style={styles.textInfoInput}>Valor</Text>
+                            <View style={styles.searchContainer}>
+                                {/* <TouchableOpacity
                             onPress={() => console.log("d")}
                             style={styles.searchOpacity}
                         >
@@ -261,107 +273,113 @@ const AddExpenseScreen = () => {
                             />
                         </TouchableOpacity> */}
 
-                        <TextInput
-                            // ref={inputRef}
-                            // value={textValue}
-                            // onChangeText={setTextValue}
-                            placeholder='Valor compra'
-                            keyboardType='phone-pad'
-                            placeholderTextColor={'lightgrey'}
-                            style={styles.searchTextInput}
-                            keyboardAppearance='light'
-                            autoCorrect={false}
-                            importantForAutofill='no'
-                        // autoFocus={isFocused}
-                        />
+                                <TextInput
+                                    // ref={inputRef}
+                                    // value={textValue}
+                                    // onChangeText={setTextValue}
+                                    placeholder='Valor compra'
+                                    keyboardType='phone-pad'
+                                    placeholderTextColor={'lightgrey'}
+                                    style={styles.searchTextInput}
+                                    keyboardAppearance='light'
+                                    autoCorrect={false}
+                                    importantForAutofill='no'
+                                // autoFocus={isFocused}
+                                />
+
+
+                            </View>
+
+
+                        </View>
+                        <View
+                            style={{
+                                borderWidth: 0,
+                                borderColor: 'red'
+                            }}
+                        >
+                            <Text style={styles.textInfoInput}>Tipo de compra</Text>
+                            <SelectList
+                                setSelected={(val: string) => setSelected(val)}
+                                searchPlaceholder={'Tipo de compra'}
+                                placeholder={'Tipo de compra'}
+                                data={data}
+                                search={false}
+                                arrowicon={<MaterialCommunityIcons name='chevron-down' size={20} color='white' />}
+                                dropdownStyles={{
+                                    backgroundColor: 'transparent',
+                                    borderColor: '#6B7280'
+                                }}
+                                boxStyles={{
+                                    marginTop: 5,
+                                    marginBottom: 16,
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    height: 50,
+                                    borderRadius: 20,
+                                    borderWidth: 1,
+                                    borderColor: '#6B7280',
+                                    backgroundColor: '#201F21',
+                                }}
+                                dropdownTextStyles={{
+                                    fontSize: 14,
+                                    lineHeight: 20,
+                                    letterSpacing: 1,
+                                    fontWeight: '500',
+                                    color: 'white',
+                                }}
+                                inputStyles={{
+                                    fontSize: 14,
+                                    lineHeight: 20,
+                                    letterSpacing: 1,
+                                    fontWeight: '500',
+                                    color: 'white',
+                                }}
+                                save="value"
+                            />
+
+
+                        </View>
 
 
                     </View>
 
-
-                </View>
-                <View
-                    style={{
-                        borderWidth: 0,
-                        borderColor: 'red'
-                    }}
-                >
-                    <Text style={styles.textInfoInput}>Tipo de compra</Text>
-                    <SelectList
-                        setSelected={(val: string) => setSelected(val)}
-                        searchPlaceholder={'Tipo de compra'}
-                        placeholder={'Tipo de compra'}
-                        data={data}
-                        search={false}
-                        arrowicon={<MaterialCommunityIcons name='chevron-down' size={20} color='white' />}
-                        dropdownStyles={{
-                            backgroundColor: 'transparent',
-                            borderColor: '#6B7280'
-                        }}
-                        boxStyles={{
-                            marginTop: 5,
-                            marginBottom: 16,
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            height: 50,
-                            borderRadius: 20,
-                            borderWidth: 1,
-                            borderColor: '#6B7280',
-                            backgroundColor: '#201F21',
-                        }}
-                        dropdownTextStyles={{
-                            fontSize: 14,
-                            lineHeight: 20,
-                            letterSpacing: 1,
-                            fontWeight: '500',
-                            color: 'white',
-                        }}
-                        inputStyles={{
-                            fontSize: 14,
-                            lineHeight: 20,
-                            letterSpacing: 1,
-                            fontWeight: '500',
-                            color: 'white',
-                        }}
-                        save="value"
-                    />
-
-
-                </View>
-
-
-            </View>
-
-            {/* Boton */}
-            <View
-                style={{
-                    borderWidth: 0,
-                    borderColor: 'white',
-                    paddingHorizontal: 28
-                }}
-            >
-                <TouchableOpacity
-                    activeOpacity={0.3}
-                    onPress={() => console.log("add")}
-                    style={{
-                        backgroundColor: '#18032E',
-                        borderRadius: 20,
-                        height: 50,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        elevation: 3
-                    }}
-                >
-                    <Text
+                    {/* Boton */}
+                    <View
                         style={{
-                            fontSize: 14,
-                            fontWeight: '700',
-                            color: 'white'
-
+                            borderWidth: 0,
+                            borderColor: 'white',
+                            paddingHorizontal: 28
                         }}
-                    >Agregar Gasto</Text>
-                </TouchableOpacity>
-            </View>
+                    >
+                        <TouchableOpacity
+                            activeOpacity={0.3}
+                            onPress={() => console.log("add")}
+                            style={{
+                                backgroundColor: '#18032E',
+                                borderRadius: 20,
+                                height: 50,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                elevation: 3
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    fontSize: 14,
+                                    fontWeight: '700',
+                                    color: 'white'
+
+                                }}
+                            >Agregar Gasto</Text>
+                        </TouchableOpacity>
+                    </View>
+                </ScrollView>
+
+
+            </KeyboardAvoidingView>
+
+
         </BaseScreenComponent>
     )
 }
