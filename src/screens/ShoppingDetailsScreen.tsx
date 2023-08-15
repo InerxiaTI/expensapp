@@ -3,7 +3,6 @@ import BaseScreenComponent from '../components/BaseScreenComponent'
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { COLORS } from '../theme/Theme'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useNavigation } from '@react-navigation/native';
 import HeaderShoppingDetailComponent from '../components/HeaderShoppingDetailComponent';
 import { detalleListaCompras1, detalleListaCompras2, detalleListaCompras3, shoppers, } from '../testData/testData';
 import ShoppingCardComponent from '../components/ShoppingCardComponent';
@@ -12,46 +11,38 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../navigation/HomeStackNavigator';
 import { useCollaborators, useShoppingDetail } from '../hooks/useShopping';
 import { AuthContext } from '../context/AuthContext';
-import { Collaborator, User } from '../interfaces/UserInterface';
 
-interface ShoppingDetailsScreenProps extends StackScreenProps<RootStackParams, 'ShoppingDetails'> {}
+interface ShoppingDetailsScreenProps extends StackScreenProps<RootStackParams, 'ShoppingDetails'> { }
 
-const ShoppingDetailsScreen = ({route, navigation}: ShoppingDetailsScreenProps) => {
+const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps) => {
 
-  const {authState} = useContext(AuthContext);
-  console.log("$$$$$$$$$$$$$ auth useShoppingDetail: ", authState.user);
+  const { authState } = useContext(AuthContext);
   const userLogged = authState.user
 
-  console.log("route --------------------------- : ", JSON.stringify(route.params));
   const shoppingList = route.params
 
-  const {getShoppingDetail, isLoading, shoppingDetailList} = useShoppingDetail(shoppingList.id, userLogged!.id);
-  const {getCollaborators, collaborators} = useCollaborators(shoppingList.id)
-  
-  const [user, setUser] = useState(userLogged?.id);
+  const { getShoppingDetail, isLoading, shoppingDetailList } = useShoppingDetail(shoppingList.id, userLogged!.id);
+  const { getCollaborators, collaborators } = useCollaborators(shoppingList.id)
 
-  console.log("USER DE STATE: ", user);
-  
+  const [user, setUser] = useState(userLogged?.id);
   const [listasComprasFiltred, setListasComprasFiltred] = useState(detalleListaCompras1);
 
   const changeList = (userId: number, userName: string) => {
-    console.log("%%%%%%%%% user: "+userName);
     setUser(userId)
-    
+
   }
 
   useEffect(() => {
-    console.log("ejecuta el use ");
     getShoppingDetail(shoppingList.id, user!)
-
-
   }, [user])
+
+
 
 
   return (
     <BaseScreenComponent>
       {/* Header */}
-      <HeaderShoppingDetailComponent title={shoppingList.nombre} code={shoppingList.codigoGenerado}/>
+      <HeaderShoppingDetailComponent title={shoppingList.nombre} code={shoppingList.codigoGenerado} />
 
       {/* Shoppers */}
       <View
@@ -69,12 +60,12 @@ const ShoppingDetailsScreen = ({route, navigation}: ShoppingDetailsScreenProps) 
           renderItem={({ item, index }) => (
 
             <TouchableOpacity
-            onPress={() => {changeList(item.idUsuario, item.nombresUsuario)}}
+              onPress={() => { changeList(item.idUsuario, item.nombresUsuario) }}
             >
               <View style={{
-                ...styles.shopperCardContainer, 
-                backgroundColor: user === item.idUsuario? '#18032E' : COLORS.tabNavigatorPrimaryColor,
-              
+                ...styles.shopperCardContainer,
+                backgroundColor: user === item.idUsuario ? '#18032E' : COLORS.tabNavigatorPrimaryColor,
+
               }}>
 
                 <View style={styles.shopperCardTextContainer}>
@@ -116,7 +107,7 @@ const ShoppingDetailsScreen = ({route, navigation}: ShoppingDetailsScreenProps) 
           data={shoppingDetailList}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <ShoppingCardComponent shopping={item}/>
+            <ShoppingCardComponent shopping={item} />
           )}
           showsVerticalScrollIndicator={false}
 
@@ -125,10 +116,10 @@ const ShoppingDetailsScreen = ({route, navigation}: ShoppingDetailsScreenProps) 
 
       </View>
 
-      <FloatingActionButton 
-            title={'cart-plus'}
-            onPress={()=> navigation.navigate('AddExpense')}
-        />
+      <FloatingActionButton
+        title={'cart-plus'}
+        onPress={() => navigation.navigate('AddExpense')}
+      />
 
 
 

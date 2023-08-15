@@ -12,6 +12,7 @@ import JoinShoppingListScreen from '../screens/JoinShoppingListScreen';
 import NewShoppingListScreen from '../screens/NewShoppingListScreen';
 
 export type RootStackParams = {
+  Tabs: undefined,
   HomeTab: undefined,
   ShoppingDetails: ShoppingList,
   AddExpense: undefined,
@@ -27,6 +28,7 @@ const Stack = createStackNavigator<RootStackParams>();
 export const HomeStack = () => {
   return (
     <Stack.Navigator
+      initialRouteName='HomeTab'
       screenOptions={{
         headerShown: false,
         headerStyle: {
@@ -37,10 +39,11 @@ export const HomeStack = () => {
     >
       <Stack.Screen name="HomeTab" component={HomeScreen} />
       <Stack.Screen name="ShoppingDetails" component={ShoppingDetailsScreen} />
-      <Stack.Screen name="AddExpense" component={AddExpenseScreen} />
+      <Stack.Screen name="AddExpense" component={AddExpenseScreen} options={{animationTypeForReplace: 'push'}}/>
     </Stack.Navigator>
   )
 }
+
 export const NewShoppingListStack = () => {
   return (
     <Stack.Navigator
@@ -118,9 +121,15 @@ export const HomeStackNavigator = () => {
         }}
       >
         <Stack.Screen name="HomeTab" component={TabsNavigator} />
+        <Stack.Screen name="ShoppingDetails" component={ShoppingDetailsScreen} />
+        <Stack.Screen name="AddExpense" component={AddExpenseScreen}/>
 
       </Stack.Navigator>
     );
+  } else {
+    return (
+      <AuthStack />
+    )
   }
 
 

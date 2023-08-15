@@ -1,15 +1,12 @@
 import 'react-native-gesture-handler';
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native'
-import React, { useContext, useEffect } from 'react'// App.jsx
-import { View, Text, StatusBar } from 'react-native'
-import { TabsNavigator } from './src/navigation/TabsNavigator'
+import React from 'react'// App.jsx
+import { StatusBar } from 'react-native'
 import { COLORS } from './src/theme/Theme';
-import changeNavigationBarColor, {
-  hideNavigationBar,
-  showNavigationBar,
-} from 'react-native-navigation-bar-color';
-import { AuthContext, AuthProvider } from './src/context/AuthContext';
-import { AuthStack, HomeStackNavigator } from './src/navigation/HomeStackNavigator';
+import changeNavigationBarColor from 'react-native-navigation-bar-color';
+import { AuthProvider } from './src/context/AuthContext';
+import { TabBarProvider } from './src/context/TabBarContext';
+import { HomeStackNavigator } from './src/navigation/HomeStackNavigator';
 
 // Define tu propio theme personalizado
 const MyTheme = {
@@ -25,8 +22,6 @@ const MyTheme = {
 };
 
 const App = () => {
-  const { authState } = useContext(AuthContext);
-
 
   const setNavigationColor = (color: any) => {
     changeNavigationBarColor(color);
@@ -36,9 +31,13 @@ const App = () => {
 
   return (
     <NavigationContainer theme={MyTheme}>
+
       <AppState>
-        <StatusBar animated={true} translucent backgroundColor="transparent" barStyle="dark-content" />
-        <TabsNavigator />
+        <TabBarProvider>
+          <StatusBar animated={true} translucent backgroundColor="transparent" barStyle="dark-content" />
+          <HomeStackNavigator />
+        </TabBarProvider>
+
       </AppState>
     </NavigationContainer>
   )

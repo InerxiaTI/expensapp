@@ -1,20 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { ActivityIndicator, FlatList, RefreshControl, ScrollView, Text, View } from 'react-native'
-import { COLORS } from '../theme/Theme'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import HeaderHomeComponent from '../components/HeaderHomeComponent'
+import { ActivityIndicator, FlatList, RefreshControl, Text, View } from 'react-native'
 import ShoppingListCardComponent from '../components/ShoppingListCardComponent'
 import BaseScreenComponent from '../components/BaseScreenComponent'
-import { listasCompras } from '../testData/testData'
 import { useShoppingLists } from '../hooks/useShopping'
 import { AuthContext } from '../context/AuthContext'
-import { useIsFocused } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 
 const HomeScreen = () => {
   const isFocused = useIsFocused();
 
   const {authState} = useContext(AuthContext);
-  console.log("auth: ", authState);
   const user = authState.user
   
   const { isLoading, shoppingLists, getShoppingLists } = useShoppingLists();
@@ -37,7 +32,7 @@ const HomeScreen = () => {
     
   }, [isFocused]);
 
-
+  
 
   if (isLoading) {
     // if (false) {
