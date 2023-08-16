@@ -37,7 +37,7 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
     idListaCompras: shoppingList.id,
     idCategoria: 1,
     idUsuarioCompra: user!,
-    idUsuarioRegistro: user!,    
+    idUsuarioRegistro: user!,
   })
 
   useEffect(() => {
@@ -123,16 +123,15 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
 
 
       </View>
-
-      <FloatingActionButton
-        title={'cart-plus'}
-        onPress={() => navigation.navigate('AddExpense', createShopping)}
-      />
-
-
-
-
-
+      {
+        shoppingList.estado !== 'CONFIGURANDO'
+          ?
+            <FloatingActionButton
+              title={'cart-plus'}
+              onPress={() => navigation.navigate('AddExpense', createShopping)}
+            />
+          : <></>
+      }
 
     </BaseScreenComponent>
   )
