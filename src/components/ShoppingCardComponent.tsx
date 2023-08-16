@@ -36,7 +36,7 @@ const ShoppingCardComponent = ({ shopping }: ShoppingCardProps) => {
 
                     <View style={styles.containerPerColumn}>
                         <Icon name='calendar' size={12} color='white' />
-                        <Text style={styles.textGrey}>{shopping.fechaCompra}</Text>
+                        <Text style={styles.textGrey}>{shopping.fechaCreacion}</Text>
 
                     </View>
 

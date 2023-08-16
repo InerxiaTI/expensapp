@@ -4,10 +4,10 @@ import { View, TouchableOpacity, Text } from 'react-native'
 
 interface ButtonV1Props {
     title?: string,
-
+    onPress?: () => void, // Prop para recibir la función onPress
 }
 
-const ButtonV1Component = ({title = 'Button name'}: ButtonV1Props) => {
+const ButtonV1Component = ({title = 'Button name', onPress }: ButtonV1Props) => {
     return (
         <View
             style={{
@@ -15,14 +15,13 @@ const ButtonV1Component = ({title = 'Button name'}: ButtonV1Props) => {
                 borderColor: 'white',
                 paddingHorizontal: 28,
                 justifyContent: 'flex-end', // Alinea el botón al final
-                paddingBottom: 20, // Espacio inferior para el botón
-
-
+                paddingBottom: 5, // Espacio inferior para el botón
+                backgroundColor: 'transparent',
             }}
         >
             <TouchableOpacity
                 activeOpacity={0.3}
-                onPress={() => console.log("add")}
+                onPress={onPress}
                 style={{
                     backgroundColor: '#18032E',
                     borderRadius: 20,

@@ -11,6 +11,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../navigation/HomeStackNavigator';
 import { useCollaborators, useShoppingDetail } from '../hooks/useShopping';
 import { AuthContext } from '../context/AuthContext';
+import { CreateShoppingRequest } from '../interfaces/ShoppingInterface';
 
 interface ShoppingDetailsScreenProps extends StackScreenProps<RootStackParams, 'ShoppingDetails'> { }
 
@@ -31,6 +32,13 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
     setUser(userId)
 
   }
+
+  const [createShopping, setCreateShopping] = useState<CreateShoppingRequest>({
+    idListaCompras: shoppingList.id,
+    idCategoria: 1,
+    idUsuarioCompra: user!,
+    idUsuarioRegistro: user!,    
+  })
 
   useEffect(() => {
     getShoppingDetail(shoppingList.id, user!)
@@ -118,7 +126,7 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
 
       <FloatingActionButton
         title={'cart-plus'}
-        onPress={() => navigation.navigate('AddExpense')}
+        onPress={() => navigation.navigate('AddExpense', createShopping)}
       />
 
 

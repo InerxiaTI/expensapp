@@ -3,11 +3,13 @@ import { View, Text, TextInput, StyleSheet } from 'react-native'
 
 interface InputV1Props {
     title?: string,
-    placeholder?: string
+    placeholder?: string,
+    onChangeText?: (text: string) => void, // Función que maneja el cambio de texto
+    value?: string, // Valor del input
 
 }
 
-const InputV1Component = ({title = '', placeholder = ''}: InputV1Props) => {
+const InputV1Component = ({title = '', placeholder = '', onChangeText, value }: InputV1Props) => {
     return (
         <View
             style={{
@@ -18,9 +20,8 @@ const InputV1Component = ({title = '', placeholder = ''}: InputV1Props) => {
             <Text style={styles.textInfoInput}>{title}</Text>
             <View style={styles.searchContainer}>
                 <TextInput
-                    // ref={inputRef}
-                    // value={textValue}
-                    // onChangeText={setTextValue}
+                    value={value}
+                    onChangeText={onChangeText}
                     keyboardType='default'
                     placeholder={placeholder}
                     placeholderTextColor={'lightgrey'}

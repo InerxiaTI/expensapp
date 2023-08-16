@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react"
-import { CreateShoppingListRequest, CreateShoppingListResponse, Shopping, ShoppingList, ShoppingListsResponse, ShoppingRequest, ShoppingResponse } from "../interfaces/ShoppingInterface"
+import { CreateShopping, CreateShoppingListRequest, CreateShoppingListResponse, CreateShoppingRequest, CreateShoppingResponse, Shopping, ShoppingList, ShoppingListsResponse, ShoppingRequest, ShoppingResponse } from "../interfaces/ShoppingInterface"
 import expenseMateApi from "../api/expenseMateApi"
 import { AuthContext } from "../context/AuthContext";
 import { Collaborator, CollaboratorsFilterRequest, CollaboratorsFilterResponse, User } from "../interfaces/UserInterface";
@@ -185,4 +185,38 @@ export const useCollaborators = (idShoppingList: number) => {
         collaborators
     }
 }
+
+//crear compra
+export const useNewShopping = () => {
+    const [isLoading, setIsLoading] = useState(false)
+    const [shopping, setShopping] = useState<CreateShopping>()
+
+
+    const saveShopping = async (shopping: CreateShoppingRequest) => {
+
+        try {
+            const response = await expenseMateApi.post<CreateShoppingResponse>(
+                '/api/compra/crear-compra', 
+                shopping
+            )
+            console.log("response: "+JSON.stringify(response.data.body));
+            
+            setShopping(response.data.body)
+        } catch (error) {
+            console.error("ERROR °°°°°°°°°°°° ", error.response.data);
+            throw error;
+        }
+
+        setIsLoading(false)
+    }
+
+
+    return {
+        isLoading,
+        setIsLoading,
+        shopping,
+        saveShopping
+    }
+}
+
 

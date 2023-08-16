@@ -6,7 +6,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import LoginScreen from '../screens/LoginScreen';
 import { TabsNavigator } from './TabsNavigator';
-import { ShoppingList } from '../interfaces/ShoppingInterface';
+import { CreateShoppingRequest, ShoppingList } from '../interfaces/ShoppingInterface';
 import SettingsScreen from '../screens/SettingsScreen';
 import JoinShoppingListScreen from '../screens/JoinShoppingListScreen';
 import NewShoppingListScreen from '../screens/NewShoppingListScreen';
@@ -15,7 +15,7 @@ export type RootStackParams = {
   Tabs: undefined,
   HomeTab: undefined,
   ShoppingDetails: ShoppingList,
-  AddExpense: undefined,
+  AddExpense: CreateShoppingRequest,
   Login: undefined,
   NewShoppingList: undefined,
   JoinShoppingList: undefined,
