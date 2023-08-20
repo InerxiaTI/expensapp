@@ -1,7 +1,8 @@
 import { useContext, useState, useEffect } from "react";
 import expenseMateApi from "../api/expenseMateApi";
 import { AuthContext } from "../context/AuthContext";
-import { Collaborator, CollaboratorsFilterRequest, CollaboratorsFilterResponse } from "../interfaces/UserInterface";
+import { Collaborator, CollaboratorsFilterRequest, CollaboratorsFilterResponse, ApproveRejectCollaboratorRequest } from '../interfaces/UserInterface';
+import { JoinsShoppingListResponse, JoinShoppingList } from '../interfaces/ShoppingInterface';
 
 
 
@@ -50,13 +51,53 @@ export const useCollaboratorsV2 = (idShoppingList: number) => {
 
     }
 
+    const reloadCollaborators = async () => {
+        setIsLoading(true);
+        await getCollaborators(idShoppingList);
+        setIsLoading(false);
+      };
+
     useEffect(() => {
 		getCollaborators(idShoppingList)
 	}, [])
 
     return {
+        setCollaborators,
         getCollaborators,
+        reloadCollaborators,
         isLoading,
         collaborators
+    }
+}
+
+export const useApproveRejectCollaborators = () => {
+    const [isLoading, setIsLoading] = useState(false)
+    const [joinShoppingList, setJoinShoppingList] = useState<JoinShoppingList>()
+
+
+    const saveApproveRejectCollaborator = async (approveRejectRequest: ApproveRejectCollaboratorRequest) => {
+
+        try {
+            const response = await expenseMateApi.post<JoinsShoppingListResponse>(
+                '/api/lista-compra/aprobar-rechazar-colaborador', 
+                approveRejectRequest
+            )
+            console.log("response: "+JSON.stringify(response.data.body));
+            
+            setJoinShoppingList(response.data.body)
+        } catch (error) {
+            console.error("ERROR °°°°°°°°°°°° ", error.response.data);
+            throw error;
+        }
+
+        setIsLoading(false)
+    }
+
+
+    return {
+        isLoading,
+        setIsLoading,
+        joinShoppingList,
+        saveApproveRejectCollaborator
     }
 }

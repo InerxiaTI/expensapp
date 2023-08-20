@@ -131,7 +131,7 @@ export interface JoinShoppingList {
     usuarioFk:     number;
     estado:        string;
     esCreador:     boolean;
-    porcentaje:    null;
+    porcentaje?:    number;
     id:            number;
 }
 

@@ -1,43 +1,96 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { Collaborator } from "../interfaces/UserInterface";
+import { ApproveRejectCollaboratorRequest, Collaborator } from "../interfaces/UserInterface";
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { useApproveRejectCollaborators, useCollaboratorsV2 } from '../hooks/useCollaborators';
 
 
 interface CollaboratorCardProps {
     collaborator: Collaborator;
-    idUsuarioCreador: number;  
-
+    idUsuarioCreador: number;
+    updateCollaboratorsList: () => void;
 }
 
-const CollaboratorCardComponent = ({ collaborator, idUsuarioCreador }: CollaboratorCardProps) => {
+const CollaboratorCardComponent = ({ collaborator, idUsuarioCreador, updateCollaboratorsList }: CollaboratorCardProps) => {
 
     const { authState } = useContext(AuthContext);
     const userLogged = authState.user
-    console.log("idUsuarioCreador: "+ idUsuarioCreador);
-    console.log("userLogged: "+ userLogged?.id);
+    console.log("idUsuarioCreador: " + idUsuarioCreador);
+    console.log("userLogged: " + userLogged?.id);
+
+    const { isLoading,
+        setIsLoading,
+        joinShoppingList,
+        saveApproveRejectCollaborator } = useApproveRejectCollaborators();
+
 
     const [disableButton, setDisableButton] = useState(true);
     const [colorIcon, setColorIcon] = useState('grey');
 
 
-    const rejectCollaborator = () => {
+    const rejectCollaborator = async () => {
         console.log("rechazar");
-        
+
+        const rejectRequest: ApproveRejectCollaboratorRequest = {
+            aprobar: false,
+            idUsuarioCreador,
+            idUsuarioColaborador: collaborator.idUsuario,
+            idListaCompras: collaborator.idListaCompra
+        }
+
+        // setIsDisabled(true);
+        setIsLoading(true);
+
+        try {
+            await saveApproveRejectCollaborator(rejectRequest);
+            setIsLoading(false);
+            updateCollaboratorsList()
+            // getShoppingLists(user!)
+            // // navigation.dispatch() se quiere llamar la función para actualizar las listas de compras
+            // navigation.goBack() // Volver a la pantalla anterior
+
+        } catch (error) {
+            console.error("Falla al guardar: " + error);
+        }
+
 
     }
 
-    const approveCollaborator = () => {
+    const approveCollaborator = async () => {
         console.log("aprobar");
-        
+
+        const approvetRequest: ApproveRejectCollaboratorRequest = {
+            aprobar: true,
+            idUsuarioCreador,
+            idUsuarioColaborador: collaborator.idUsuario,
+            idListaCompras: collaborator.idListaCompra
+
+        }
+
+        // setIsDisabled(true);
+        setIsLoading(true);
+
+        try {
+            await saveApproveRejectCollaborator(approvetRequest);
+            setIsLoading(false);
+            updateCollaboratorsList()
+
+            // getShoppingLists(user!)
+            // // navigation.dispatch() se quiere llamar la función para actualizar las listas de compras
+            // navigation.goBack() // Volver a la pantalla anterior
+
+        } catch (error) {
+            console.error("Falla al guardar: " + error);
+        }
+
 
     }
 
     useEffect(() => {
 
-        if(idUsuarioCreador === userLogged?.id){
+        if (idUsuarioCreador === userLogged?.id) {
             setColorIcon('white');
             setDisableButton(false)
         }
@@ -46,8 +99,8 @@ const CollaboratorCardComponent = ({ collaborator, idUsuarioCreador }: Collabora
 
 
 
-    
-    
+
+
 
     return (
 
@@ -75,14 +128,14 @@ const CollaboratorCardComponent = ({ collaborator, idUsuarioCreador }: Collabora
                         }}
                     >
                         <TouchableOpacity
-                            onPress={()=> rejectCollaborator()}
+                            onPress={() => rejectCollaborator()}
                             disabled={disableButton}
                         >
                             <MaterialCommunityIcons name='cancel' size={30} color={colorIcon} />
                         </TouchableOpacity>
 
                         <TouchableOpacity
-                            onPress={()=> approveCollaborator()}
+                            onPress={() => approveCollaborator()}
                             disabled={disableButton}
                         >
                             <MaterialCommunityIcons name='check-circle' size={30} color={colorIcon} />

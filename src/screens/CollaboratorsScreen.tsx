@@ -17,10 +17,14 @@ const CollaboratorsScreen = ({ route, navigation }: CollaboratorsScreenProps) =>
 
   const collaboratorParams: CollaboratorsParams = route.params
 
-  const { getCollaborators, isLoading, collaborators } = useCollaboratorsV2(collaboratorParams.idListaCompras)
+  const { getCollaborators, reloadCollaborators, isLoading, collaborators } = useCollaboratorsV2(collaboratorParams.idListaCompras)
 
   const approvedCollaborators = collaborators.filter(collaborator => collaborator.estado === 'APROBADO');
   const pendingCollaborators = collaborators.filter(collaborator => collaborator.estado === 'PENDIENTE');
+
+  const updateCollaboratorsList = async () => {
+    reloadCollaborators()
+  };
 
 
   return (
@@ -51,6 +55,8 @@ const CollaboratorsScreen = ({ route, navigation }: CollaboratorsScreenProps) =>
                 key={collaborator.id}
                 collaborator={collaborator}
                 idUsuarioCreador={collaboratorParams.idUsuarioCreador}
+                updateCollaboratorsList={updateCollaboratorsList}
+
 
               />
             ))}
@@ -80,6 +86,7 @@ const CollaboratorsScreen = ({ route, navigation }: CollaboratorsScreenProps) =>
                     key={collaborator.id}
                     collaborator={collaborator}
                     idUsuarioCreador={collaboratorParams.idUsuarioCreador}
+                    updateCollaboratorsList={updateCollaboratorsList}
                   />
                 ))}
               </ScrollView>
