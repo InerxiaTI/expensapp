@@ -6,20 +6,22 @@ import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import LoginScreen from '../screens/LoginScreen';
 import { TabsNavigator } from './TabsNavigator';
-import { CreateShoppingRequest, ShoppingList } from '../interfaces/ShoppingInterface';
+import { AddExpenseParams, CreateShoppingRequest, ShoppingList } from '../interfaces/ShoppingInterface';
 import SettingsScreen from '../screens/SettingsScreen';
 import JoinShoppingListScreen from '../screens/JoinShoppingListScreen';
 import NewShoppingListScreen from '../screens/NewShoppingListScreen';
+import AddCollaboratorAsShopperScreen from '../screens/AddCollaboratorAsShopperScreen';
 
 export type RootStackParams = {
   Tabs: undefined,
   HomeTab: undefined,
   ShoppingDetails: ShoppingList,
-  AddExpense: CreateShoppingRequest,
+  AddExpense: AddExpenseParams,
   Login: undefined,
   NewShoppingList: undefined,
   JoinShoppingList: undefined,
-  Settings: undefined
+  Settings: undefined,
+  AddCollaboratorAsShopper: CreateShoppingRequest,
 
 }
 
@@ -123,6 +125,7 @@ export const HomeStackNavigator = () => {
         <Stack.Screen name="HomeTab" component={TabsNavigator} />
         <Stack.Screen name="ShoppingDetails" component={ShoppingDetailsScreen} />
         <Stack.Screen name="AddExpense" component={AddExpenseScreen}/>
+        <Stack.Screen name="AddCollaboratorAsShopper" component={AddCollaboratorAsShopperScreen}/>
 
       </Stack.Navigator>
     );

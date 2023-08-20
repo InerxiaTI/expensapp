@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Image, Keyboard, KeyboardAvoidingView, Modal, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import BaseScreenComponent from '../components/BaseScreenComponent'
 import expenseBanner from '../../assets/expenseBanner.png';
@@ -17,8 +17,9 @@ import InputV1Component from '../components/inputs/InputV1Component';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../navigation/HomeStackNavigator';
-import { CreateShoppingRequest, CreateShopping } from '../interfaces/ShoppingInterface';
+import { CreateShoppingRequest, CreateShopping, AddExpenseParams } from '../interfaces/ShoppingInterface';
 import { useNewShopping } from '../hooks/useShopping';
+import { Collaborator } from '../interfaces/UserInterface';
 
 
 interface AddExpenseScreenProps extends StackScreenProps<RootStackParams, 'AddExpense'> { }
@@ -27,28 +28,34 @@ interface AddExpenseScreenProps extends StackScreenProps<RootStackParams, 'AddEx
 const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 	const navigator = useNavigation();
 
-	const { isLoading, setIsLoading, shopping, saveShopping} = useNewShopping()
+	const { isLoading, setIsLoading, shopping, saveShopping } = useNewShopping()
+
+	const [selectedCollaborator, setSelectedCollaborator] = useState<Collaborator>({});
+
+	const handleCollaboratorInputChange = (collaborator) => {
+		setSelectedCollaborator(collaborator);
+	};
 
 
 	const [compra, setCompra] = useState("");
 	const [valorCompra, setValorCompra] = useState("");
 
-	const createShopping: CreateShoppingRequest = route.params
+	const addExpenseParams: AddExpenseParams = route.params
 
-	console.log("createShopping: " + JSON.stringify(createShopping));
-	
+	console.log("createShopping: " + JSON.stringify(addExpenseParams));
+
 	const handleInputChange = (text: string) => {
-    setCompra(text);
-  };
+		setCompra(text);
+	};
 	const handleValorCompraChange = (text: string) => {
-    setValorCompra(text);
-  };
+		setValorCompra(text);
+	};
 
-	
+
 
 
 	const today = new Date();
-	
+
 	const [date, setDate] = useState(today);
 	const [show, setShow] = useState(false);
 
@@ -64,31 +71,43 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 		setShow(true);
 	};
 
-	const handleOnPress = async() => {
+	const handleOnPress = async () => {
+
+		const createShoppig = addExpenseParams.createShoppingRequest
+
+		const idUsuarioCompra = selectedCollaborator.idUsuario? selectedCollaborator.idUsuario: createShoppig?.idUsuarioCompra
 
 		const createShoppingRequest: CreateShoppingRequest = {
-			...createShopping,
+			...createShoppig,
+			idUsuarioCompra,
 			fechaCompra: getFormatedDate(date, "YYYY-MM-DD"),
 			valor: Number(valorCompra),
 			descripcion: compra
 		}
 
+
 		console.log("createShoppingRequest: " + JSON.stringify(createShoppingRequest));
 
-    setIsLoading(true);
+		setIsLoading(true);
 
-    try {
-      await saveShopping(createShoppingRequest);
-      setIsLoading(false);
+		try {
+			await saveShopping(createShoppingRequest);
+			setIsLoading(false);
 
-      // navigation.dispatch() se quiere llamar la función para actualizar las listas de compras
-      navigation.goBack() // Volver a la pantalla anterior
+			// navigation.dispatch() se quiere llamar la función para actualizar las listas de compras
+			navigation.goBack() // Volver a la pantalla anterior
 
-    } catch (error) {
-      console.error("Falla al guardar: " + error);
-    }
-		
+		} catch (error) {
+			console.error("Falla al guardar: " + error);
+		}
+
 	}
+
+	useEffect(() => {
+		if (route.params && route.params.collaborator) {
+		  setSelectedCollaborator(route.params.collaborator);
+		}
+	  }, [route.params]);
 
 	return (
 
@@ -97,7 +116,7 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 				containerStyle={styles.container}
 				contentContainerStyle={styles.content}
 				stickyFooter={
-					<ButtonV1Component title='Agregar gasto' onPress={handleOnPress}/>
+					<ButtonV1Component title='Agregar gasto' onPress={handleOnPress} />
 				}>
 
 				{/* Imagen */}
@@ -129,7 +148,7 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 							borderColor: 'blue'
 						}}
 					>
-						<Text style={{...styles.textInfoInput, fontSize: 20}}>Fecha de compra</Text>
+						<Text style={{ ...styles.textInfoInput, fontSize: 20 }}>Fecha de compra</Text>
 						<View style={styles.searchContainer}>
 							<TouchableOpacity
 								style={{
@@ -161,10 +180,10 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 							borderColor: 'white'
 						}}
 					>
-						<Text style={{...styles.textInfoInput, fontSize: 20}}>Comprador</Text>
+						<Text style={{ ...styles.textInfoInput, fontSize: 20 }}>Comprador</Text>
 						<View style={styles.searchContainer}>
 							<TouchableWithoutFeedback
-								onPress={() => { console.log("click") }}
+								onPress={() => { navigation.navigate('AddCollaboratorAsShopper', addExpenseParams!.createShoppingRequest!) }}
 							>
 								<View
 									style={{
@@ -184,7 +203,7 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 										letterSpacing: 1,
 										fontWeight: '500',
 										color: 'lightgrey',
-									}}>Comprador</Text>
+									}}>{selectedCollaborator.nombresUsuario!==undefined? selectedCollaborator.nombresUsuario: 'Yo'}</Text>
 									<MaterialCommunityIcons name="chevron-down" size={20} color='white' />
 								</View>
 							</TouchableWithoutFeedback>
@@ -208,15 +227,15 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 
 
 
-				<InputV1Component 
-					title='Compra' 
-					placeholder='Compra' 
-					onChangeText={handleInputChange} 
+				<InputV1Component
+					title='Compra'
+					placeholder='Compra'
+					onChangeText={handleInputChange}
 					value={compra}
 				/>
-				<InputV1Component 
-					title='valor' 
-					placeholder='valor' 
+				<InputV1Component
+					title='valor'
+					placeholder='valor'
 					onChangeText={handleValorCompraChange}
 					value={valorCompra}
 				/>
