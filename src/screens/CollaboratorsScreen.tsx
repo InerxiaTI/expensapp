@@ -17,7 +17,7 @@ const CollaboratorsScreen = ({ route, navigation }: CollaboratorsScreenProps) =>
 
   const collaboratorParams: CollaboratorsParams = route.params
 
-  const { getCollaborators, reloadCollaborators, isLoading, collaborators } = useCollaboratorsV2(collaboratorParams.idListaCompras)
+  const { reloadCollaborators, isLoading, collaborators } = useCollaboratorsV2(collaboratorParams.idListaCompras)
 
   const approvedCollaborators = collaborators.filter(collaborator => collaborator.estado === 'APROBADO');
   const pendingCollaborators = collaborators.filter(collaborator => collaborator.estado === 'PENDIENTE');
