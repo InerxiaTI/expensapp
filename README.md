@@ -5,10 +5,12 @@ Aplicación mobile para la gestión de gastos colaborativos e individuales. Espe
 ## ¿Cómo se ve la app?
 
 Nuestro login en su primera versión luce así: 
-![Login](docs/img/login.png){width=200px height=460px}
+
+![Login](docs/img/login.png)
 
 
 Algunas de las pantallas principales: 
+
 ![figma](docs/img/figma.png)
 
 
