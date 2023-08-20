@@ -54,7 +54,12 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
   return (
     <BaseScreenComponent>
       {/* Header */}
-      <HeaderShoppingDetailComponent title={shoppingList.nombre} code={shoppingList.codigoGenerado} />
+      <HeaderShoppingDetailComponent
+        title={shoppingList.nombre}
+        code={shoppingList.codigoGenerado}
+        idListaCompras={shoppingList.id}
+        idUsuarioCreador={shoppingList.usuarioCreador}
+      />
 
       {/* Shoppers */}
       <View
@@ -82,17 +87,24 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
 
                 <View style={styles.shopperCardTextContainer}>
                   <Icon name='account-cash-outline' size={14} color='white' />
-                  <Text style={{ color: 'white', fontSize: 14, fontWeight: 'bold' }}>{item.nombresUsuario}</Text>
+                  <Text style={{ color: 'white', fontSize: 14, fontWeight: 'bold' }}>{item.nombresUsuario} id: {item.idUsuario}</Text>
                 </View>
+
+                {
+                  item.esCreador ?
+                    <View style={styles.shopperCardTextContainer}>
+                      <Icon name='wrench' size={12} color='white' />
+                      <Text style={styles.montoText}>Creador</Text>
+                    </View>
+                    :<></>
+
+                }
+
+                
 
                 {/* <View style={styles.shopperCardTextContainer}>
-                  <Icon name='currency-usd' size={12} color='white' />
-                  <Text style={styles.montoText}>{item.}</Text>
-                </View>
-
-                <View style={styles.shopperCardTextContainer}>
                   <Icon name='currency-usd-off' size={12} color='white' />
-                  <Text style={styles.montoText}>{item.}</Text>
+                  <Text style={styles.montoText}>{item.porcentaje}</Text>
                 </View> */}
 
                 <Text style={styles.porcentaje}>{item.porcentaje}%</Text>
@@ -130,10 +142,10 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
       {
         shoppingList.estado !== 'CONFIGURANDO'
           ?
-            <FloatingActionButton
-              title={'cart-plus'}
-              onPress={() => navigation.navigate('AddExpense', addExpenseParams)}
-            />
+          <FloatingActionButton
+            title={'cart-plus'}
+            onPress={() => navigation.navigate('AddExpense', addExpenseParams)}
+          />
           : <></>
       }
 

@@ -6,17 +6,25 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import BaseHeaderComponent from './base/BaseHeaderComponent'
 import Clipboard from '@react-native-clipboard/clipboard';
 import { sliceText } from '../utils/textUtil'
+import { CollaboratorsParams } from '../interfaces/UserInterface'
 
 
 
 interface HeaderShoppingDetailProps {
+  idListaCompras: number;
   title?: string,
   code: string, 
+  idUsuarioCreador: number
 }
 
 
-const HeaderShoppingDetailComponent = ({title, code}: HeaderShoppingDetailProps) => {
+const HeaderShoppingDetailComponent = ({title, code, idListaCompras, idUsuarioCreador}: HeaderShoppingDetailProps) => {
   const navigator = useNavigation();
+
+  const collaboratorsParams: CollaboratorsParams = {
+    idListaCompras: idListaCompras,
+    idUsuarioCreador
+  }
 
   const [isContextMenuVisible, setContextMenuVisible] = useState(false);
   const [textToCopy, setTextToCopy] = useState(code);
@@ -31,6 +39,11 @@ const HeaderShoppingDetailComponent = ({title, code}: HeaderShoppingDetailProps)
   const hideContextMenu = () => {
     setContextMenuVisible(false);
   };
+
+  const goCollaboratorsScreen = () => {
+    hideContextMenu();
+    navigator.navigate('Collaborators', collaboratorsParams)
+  }
 
   const handleCopyToClipboard = () => {
     Clipboard.setString("Hola! \nEste es el código para que te unas a mi lista de compras:\n"+textToCopy);
@@ -151,7 +164,7 @@ const HeaderShoppingDetailComponent = ({title, code}: HeaderShoppingDetailProps)
 
 
               <TouchableOpacity
-                onPress={hideContextMenu}
+                onPress={()=> goCollaboratorsScreen()}
                 style={{
                   flexDirection: 'row',
                   borderColor: 'red',

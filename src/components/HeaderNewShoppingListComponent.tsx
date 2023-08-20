@@ -30,7 +30,7 @@ const HeaderNewShoppingListComponent = ({ title = '', showArrowBack = false }: H
                             <TouchableOpacity
                                 onPress={() => { navigator.goBack() }}
                                 style={{
-                                    paddingHorizontal: 0,
+                                    paddingRight: 10,
                                     borderWidth: 0,
                                     borderColor: 'blue'
 

@@ -26,7 +26,7 @@ export interface User {
 
 export interface CollaboratorsFilterRequest {
     idListaCompras: number;
-    estados:        string[];
+    estados?:        string[];
     nombres?:        string;
 }
 
@@ -47,5 +47,12 @@ export interface Collaborator {
     idListaCompra:    number;
     idUsuario:        number;
     esCreador:        boolean;
+}
+
+
+export interface CollaboratorsParams {
+    idListaCompras: number;
+    idUsuarioCreador: number;
+    
 }
 

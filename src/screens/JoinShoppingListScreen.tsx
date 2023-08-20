@@ -43,7 +43,7 @@ const JoinShoppingListScreen = () => {
 
   return (
     <BaseScreenComponent>
-      <HeaderNewShoppingListComponent title='Crear lista' />
+      <HeaderNewShoppingListComponent title='Unirse' />
 
       {/* Imagen */}
 
