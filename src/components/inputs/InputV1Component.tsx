@@ -1,15 +1,17 @@
 import React from 'react'
-import { View, Text, TextInput, StyleSheet } from 'react-native'
+import { View, Text, TextInput, StyleSheet, KeyboardTypeOptions, KeyboardType } from 'react-native'
 
 interface InputV1Props {
     title?: string,
     placeholder?: string,
     onChangeText?: (text: string) => void, // Función que maneja el cambio de texto
     value?: string, // Valor del input
+    editable?: boolean,
+    keyboardType?: KeyboardType
 
 }
 
-const InputV1Component = ({title = '', placeholder = '', onChangeText, value }: InputV1Props) => {
+const InputV1Component = ({title = '', placeholder = '', onChangeText, value, editable= true, keyboardType = 'default'}: InputV1Props) => {
     return (
         <View
             style={{
@@ -20,9 +22,10 @@ const InputV1Component = ({title = '', placeholder = '', onChangeText, value }: 
             <Text style={styles.textInfoInput}>{title}</Text>
             <View style={styles.searchContainer}>
                 <TextInput
+                    editable={editable}
                     value={value}
                     onChangeText={onChangeText}
-                    keyboardType='default'
+                    keyboardType={keyboardType} 
                     placeholder={placeholder}
                     placeholderTextColor={'lightgrey'}
                     style={styles.searchTextInput}

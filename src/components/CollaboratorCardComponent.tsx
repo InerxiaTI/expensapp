@@ -1,10 +1,11 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { ApproveRejectCollaboratorRequest, Collaborator } from "../interfaces/UserInterface";
+import { ApproveRejectCollaboratorRequest, AssignPercentageParams, Collaborator } from "../interfaces/UserInterface";
 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useApproveRejectCollaborators, useCollaboratorsV2 } from '../hooks/useCollaborators';
+import { useNavigation } from '@react-navigation/native';
 
 
 interface CollaboratorCardProps {
@@ -14,6 +15,8 @@ interface CollaboratorCardProps {
 }
 
 const CollaboratorCardComponent = ({ collaborator, idUsuarioCreador, updateCollaboratorsList }: CollaboratorCardProps) => {
+
+    const navigator = useNavigation();
 
     const { authState } = useContext(AuthContext);
     const userLogged = authState.user
@@ -27,6 +30,7 @@ const CollaboratorCardComponent = ({ collaborator, idUsuarioCreador, updateColla
 
 
     const [disableButton, setDisableButton] = useState(true);
+    const [disableButtonCard, setDisableButtonCard] = useState(true);
     const [colorIcon, setColorIcon] = useState('grey');
 
 
@@ -88,6 +92,21 @@ const CollaboratorCardComponent = ({ collaborator, idUsuarioCreador, updateColla
 
     }
 
+    const goToAssignPercentageScreen = () => {
+
+        const assignPercentage: AssignPercentageParams = {
+            collaborator,
+            idUsuarioCreador,  
+        }
+
+        navigator.setOptions({
+            updateCollaboratorsList: updateCollaboratorsList
+        });
+        navigator.navigate('AssignPercentageCollaborator', assignPercentage)
+    }
+
+
+
     useEffect(() => {
 
         if (idUsuarioCreador === userLogged?.id) {
@@ -95,16 +114,17 @@ const CollaboratorCardComponent = ({ collaborator, idUsuarioCreador, updateColla
             setDisableButton(false)
         }
 
+        if (collaborator.estado === 'APROBADO'){
+            setDisableButtonCard(false)
+        }
+
     })
-
-
-
-
-
 
     return (
 
-        <View
+        <TouchableOpacity
+            disabled={disableButtonCard}
+            onPress={() => goToAssignPercentageScreen()}
             style={{
                 backgroundColor: '#262626',
                 height: 50,
@@ -146,7 +166,7 @@ const CollaboratorCardComponent = ({ collaborator, idUsuarioCreador, updateColla
 
 
 
-        </View>
+        </TouchableOpacity>
 
 
     );

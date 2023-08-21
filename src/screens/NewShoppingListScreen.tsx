@@ -46,7 +46,7 @@ const NewShoppingListScreen = () => {
       setIsDisabled(false);
       setIsLoading(false);
 
-      getShoppingLists(user!)
+      // getShoppingLists(user!)
       // navigation.dispatch() se quiere llamar la función para actualizar las listas de compras
       navigation.goBack() // Volver a la pantalla anterior
 

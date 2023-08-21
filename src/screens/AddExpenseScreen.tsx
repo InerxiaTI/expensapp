@@ -26,7 +26,6 @@ interface AddExpenseScreenProps extends StackScreenProps<RootStackParams, 'AddEx
 
 
 const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
-	const navigator = useNavigation();
 
 	const { isLoading, setIsLoading, shopping, saveShopping } = useNewShopping()
 

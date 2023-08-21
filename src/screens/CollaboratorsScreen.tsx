@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import BaseScreenComponent from '../components/BaseScreenComponent'
 import { ScrollView, Text, View } from 'react-native'
 import { StackScreenProps } from '@react-navigation/stack'
@@ -25,6 +25,13 @@ const CollaboratorsScreen = ({ route, navigation }: CollaboratorsScreenProps) =>
   const updateCollaboratorsList = async () => {
     reloadCollaborators()
   };
+
+  useEffect(() => {
+    console.log("++++++++++++++++++++++++++++++RECARGANDOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO {} ", JSON.stringify(collaboratorParams));
+    
+    updateCollaboratorsList()
+
+  }, [route.params.porcentaje])
 
 
   return (

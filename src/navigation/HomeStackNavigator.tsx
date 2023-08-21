@@ -12,7 +12,8 @@ import JoinShoppingListScreen from '../screens/JoinShoppingListScreen';
 import NewShoppingListScreen from '../screens/NewShoppingListScreen';
 import AddCollaboratorAsShopperScreen from '../screens/AddCollaboratorAsShopperScreen';
 import CollaboratorsScreen from '../screens/CollaboratorsScreen';
-import { CollaboratorsParams } from '../interfaces/UserInterface';
+import { AssignPercentageParams, CollaboratorsParams } from '../interfaces/UserInterface';
+import AssignPercentageCollaboratorScreen from '../screens/AssignPercentageCollaboratorScreen';
 
 export type RootStackParams = {
   Tabs: undefined,
@@ -25,6 +26,7 @@ export type RootStackParams = {
   Settings: undefined,
   AddCollaboratorAsShopper: CreateShoppingRequest,
   Collaborators: CollaboratorsParams,
+  AssignPercentageCollaborator: any
 
 }
 
@@ -130,6 +132,7 @@ export const HomeStackNavigator = () => {
         <Stack.Screen name="AddExpense" component={AddExpenseScreen}/>
         <Stack.Screen name="AddCollaboratorAsShopper" component={AddCollaboratorAsShopperScreen}/>
         <Stack.Screen name="Collaborators" component={CollaboratorsScreen}/>
+        <Stack.Screen name="AssignPercentageCollaborator" component={AssignPercentageCollaboratorScreen}/>
 
       </Stack.Navigator>
     );
