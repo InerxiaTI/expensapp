@@ -2,6 +2,10 @@
 
 Aplicación mobile para la gestión de gastos colaborativos e individuales. Especialmente util cuando compartimos cuentas o gastos con otras personas por motivos de: viajes grupales, encuentros de familia, gastos del hogar divididos, entre otros. 
 
+## Sistema de versionado
+
+En el siguiente link puedes encontrar más sobre el [sistema de versionado](https://github.com/InerxiaTI/expensapp/tree/master/docs/versionado)
+
 ## ¿Cómo se ve la app?
 
 Nuestro login en su primera versión luce así: 
