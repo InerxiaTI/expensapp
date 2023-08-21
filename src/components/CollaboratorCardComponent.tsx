@@ -114,7 +114,7 @@ const CollaboratorCardComponent = ({ collaborator, idUsuarioCreador, updateColla
             setDisableButton(false)
         }
 
-        if (collaborator.estado === 'APROBADO'){
+        if (collaborator.estado === 'APROBADO' && idUsuarioCreador === userLogged?.id){
             setDisableButtonCard(false)
         }
 
