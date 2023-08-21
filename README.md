@@ -4,7 +4,7 @@ Aplicación mobile para la gestión de gastos colaborativos e individuales. Espe
 
 ## Sistema de versionado
 
-En el siguiente link puedes encontrar más sobre el [sistema de versionado](https://github.com/InerxiaTI/expensapp/tree/master/docs/versionado)
+En el siguiente link puedes encontrar más sobre el [sistema de versionado](https://github.com/InerxiaTI/expensapp/tree/master/docs/versionado) que estaremos usando. 
 
 ## ¿Cómo se ve la app?
 
