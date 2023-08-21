@@ -11,10 +11,11 @@ import { useNavigation } from '@react-navigation/native';
 interface CollaboratorCardProps {
     collaborator: Collaborator;
     idUsuarioCreador: number;
+    estadoLista: string;
     updateCollaboratorsList: () => void;
 }
 
-const CollaboratorCardComponent = ({ collaborator, idUsuarioCreador, updateCollaboratorsList }: CollaboratorCardProps) => {
+const CollaboratorCardComponent = ({ collaborator, idUsuarioCreador, updateCollaboratorsList, estadoLista }: CollaboratorCardProps) => {
 
     const navigator = useNavigation();
 
@@ -114,7 +115,8 @@ const CollaboratorCardComponent = ({ collaborator, idUsuarioCreador, updateColla
             setDisableButton(false)
         }
 
-        if (collaborator.estado === 'APROBADO' && idUsuarioCreador === userLogged?.id){
+        if (collaborator.estado === 'APROBADO' && idUsuarioCreador === userLogged?.id 
+        && estadoLista === 'CONFIGURANDO'){
             setDisableButtonCard(false)
         }
 

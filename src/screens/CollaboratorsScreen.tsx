@@ -61,8 +61,9 @@ const CollaboratorsScreen = ({ route, navigation }: CollaboratorsScreenProps) =>
               <CollaboratorCardComponent
                 key={collaborator.id}
                 collaborator={collaborator}
-                idUsuarioCreador={collaboratorParams.idUsuarioCreador}
+                idUsuarioCreador={collaboratorParams.idUsuarioCreador!}
                 updateCollaboratorsList={updateCollaboratorsList}
+                estadoLista={collaboratorParams.estadoLista!}
 
 
               />
@@ -92,8 +93,10 @@ const CollaboratorsScreen = ({ route, navigation }: CollaboratorsScreenProps) =>
                   <CollaboratorCardComponent
                     key={collaborator.id}
                     collaborator={collaborator}
-                    idUsuarioCreador={collaboratorParams.idUsuarioCreador}
+                    idUsuarioCreador={collaboratorParams.idUsuarioCreador!}
                     updateCollaboratorsList={updateCollaboratorsList}
+                    estadoLista={collaboratorParams.estadoLista!}
+
                   />
                 ))}
               </ScrollView>

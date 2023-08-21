@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { View, TouchableOpacity, Modal, Text, TouchableWithoutFeedback, StyleSheet, SafeAreaView, Platform, ToastAndroid } from 'react-native'
 import { COLORS } from '../theme/Theme'
 import { useNavigation } from '@react-navigation/native'
@@ -7,23 +7,30 @@ import BaseHeaderComponent from './base/BaseHeaderComponent'
 import Clipboard from '@react-native-clipboard/clipboard';
 import { sliceText } from '../utils/textUtil'
 import { CollaboratorsParams } from '../interfaces/UserInterface'
+import { AuthContext } from '../context/AuthContext'
+import { useStartShoppingList } from '../hooks/useShopping'
 
 
 
 interface HeaderShoppingDetailProps {
   idListaCompras: number;
   title?: string,
-  code: string, 
-  idUsuarioCreador: number
+  code: string,
+  idUsuarioCreador: number,
+  estado: string
 }
 
 
-const HeaderShoppingDetailComponent = ({title, code, idListaCompras, idUsuarioCreador}: HeaderShoppingDetailProps) => {
+const HeaderShoppingDetailComponent = ({ title, code, idListaCompras, idUsuarioCreador, estado }: HeaderShoppingDetailProps) => {
   const navigator = useNavigation();
+  const { authState } = useContext(AuthContext);
+  const user = authState.user
+
 
   const collaboratorsParams: CollaboratorsParams = {
     idListaCompras: idListaCompras,
-    idUsuarioCreador
+    idUsuarioCreador,
+    estadoLista: estado
   }
 
   const [isContextMenuVisible, setContextMenuVisible] = useState(false);
@@ -46,7 +53,7 @@ const HeaderShoppingDetailComponent = ({title, code, idListaCompras, idUsuarioCr
   }
 
   const handleCopyToClipboard = () => {
-    Clipboard.setString("Hola! \nEste es el código para que te unas a mi lista de compras:\n"+textToCopy);
+    Clipboard.setString("Hola! \nEste es el código para que te unas a mi lista de compras:\n" + textToCopy);
 
     if (Platform.OS === 'android') {
       ToastAndroid.show('Texto copiado al portapapeles', ToastAndroid.SHORT);
@@ -54,6 +61,68 @@ const HeaderShoppingDetailComponent = ({title, code, idListaCompras, idUsuarioCr
       // Puedes implementar una notificación similar para otras plataformas
     }
   };
+
+  const { isLoading,
+    setIsLoading,
+    shoppingList,
+    saveStartShoppingList} = useStartShoppingList()
+
+  const [iconActionButton, setIconActionButton] = useState('cart-arrow-right')
+
+  const handleActionShoppingList = async() => {
+
+    switch(estado){
+      case 'CONFIGURANDO': {
+        // Al darle click entonces se llama al servicio para inicializar y pasar al estado PENDIENTE
+        console.log("cambiando a estado PENDIENTE");
+        setIsLoading(true);
+
+        try {
+            await saveStartShoppingList(idListaCompras);
+            setIsLoading(false);
+            // TODO aqui debemos hacer algo para que se actualice el estado de la lista de compras
+            // y evitar ir hasta el home, y que el icono cambié
+            // getShoppingLists(user!)
+            // // navigation.dispatch() se quiere llamar la función para actualizar las listas de compras
+            navigator.goBack() // Volver a la pantalla anterior
+
+        } catch (error) {
+            console.error("Falla al guardar: " + error);
+        }
+
+
+        break
+        
+      }
+      case 'PENDIENTE': {
+        // Se cambia a cerrado - icono de bolsa de compra check
+        // se muestra boton para volver a estado PENDIENTE O reabrir la lista 
+        // para corregir algun valor de una compra o alguna otra cosa
+        console.log("cambiando a estado CERRADO");
+        break
+
+      }
+      case 'CERRADO': {
+        //No iconos, no botones.
+        // en este esatdo ya la lista queda archivada, finalizada
+        console.log("cambiadno a estado FINALIZADO");
+        break
+        
+      }
+      
+    }
+
+     
+
+  }
+
+  useEffect(()=>{
+
+    if (estado === 'PENDIENTE'){
+      setIconActionButton('cart-check')
+    }
+
+  })
 
 
   return (
@@ -67,7 +136,7 @@ const HeaderShoppingDetailComponent = ({title, code, idListaCompras, idUsuarioCr
             borderColor: 'white',
             paddingHorizontal: 15,
             gap: 15
-        }}
+          }}
         >
           <TouchableOpacity
             onPress={() => { navigator.goBack() }}
@@ -90,99 +159,109 @@ const HeaderShoppingDetailComponent = ({title, code, idListaCompras, idUsuarioCr
           </View>
         </View>
 
-      <View
-        style={{
-          flexDirection: 'row-reverse',
-          justifyContent: 'flex-start',
-          alignItems: 'center',
-          paddingHorizontal: 15
-        }}
-      >
-        <TouchableOpacity
-          onPress={showContextMenu}
-        >
-          <Icon name='dots-vertical' size={25} color='white' />
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => { console.log("B") }}
+        <View
           style={{
-            marginRight: 10
-
+            flexDirection: 'row-reverse',
+            justifyContent: 'flex-start',
+            alignItems: 'center',
+            paddingHorizontal: 15
           }}
         >
-          <Icon name='cart-check' size={25} color='white' />
-        </TouchableOpacity>
-
-      </View>
-
-      <Modal
-        transparent={true}
-        visible={isContextMenuVisible}
-        onRequestClose={hideContextMenu}
-
-      >
-
-        <TouchableWithoutFeedback onPress={hideContextMenu}>
-          <View
-            style={{
-              borderColor: 'red',
-              borderWidth: 0,
-              flex: 1,
-              justifyContent: 'flex-start',
-              alignItems: 'flex-end',
-              backgroundColor: 'transparent'
-            }}
+          <TouchableOpacity
+            onPress={showContextMenu}
           >
+            <Icon name='dots-vertical' size={25} color='white' />
+          </TouchableOpacity>
 
+          {
+            user?.id === idUsuarioCreador ?
+              
+                <TouchableOpacity
+                  onPress={() => { handleActionShoppingList()}}
+                  style={{
+                    marginRight: 10
+
+                  }}
+                >
+                  <Icon name={iconActionButton} size={25} color='white' />
+                </TouchableOpacity>
+
+              :
+              <></>
+
+          }
+
+
+
+        </View>
+
+        <Modal
+          transparent={true}
+          visible={isContextMenuVisible}
+          onRequestClose={hideContextMenu}
+
+        >
+
+          <TouchableWithoutFeedback onPress={hideContextMenu}>
             <View
               style={{
-                width: 150,
-                backgroundColor: '#262626',
-                borderRadius: 8,
-                marginEnd: 10,
-                marginTop: 10,
-                paddingVertical: 15,
-                paddingLeft: 10,
-                paddingTop: 10,
-                gap: 10
+                borderColor: 'red',
+                borderWidth: 0,
+                flex: 1,
+                justifyContent: 'flex-start',
+                alignItems: 'flex-end',
+                backgroundColor: 'transparent'
               }}
             >
-              <TouchableOpacity
-                onPress={handleCopyToClipboard}
+
+              <View
                 style={{
-                  flexDirection: 'row',
-                  borderColor: 'red',
-                  borderWidth: 0,
-                  gap: 5
+                  width: 150,
+                  backgroundColor: '#262626',
+                  borderRadius: 8,
+                  marginEnd: 10,
+                  marginTop: 10,
+                  paddingVertical: 15,
+                  paddingLeft: 10,
+                  paddingTop: 10,
+                  gap: 10
                 }}
-
               >
-                <Icon name='content-copy' size={20} color={'white'} />
-                <Text style={styles.contextMenu}>{code}</Text>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={handleCopyToClipboard}
+                  style={{
+                    flexDirection: 'row',
+                    borderColor: 'red',
+                    borderWidth: 0,
+                    gap: 5
+                  }}
+
+                >
+                  <Icon name='content-copy' size={20} color={'white'} />
+                  <Text style={styles.contextMenu}>{code}</Text>
+                </TouchableOpacity>
 
 
-              <TouchableOpacity
-                onPress={()=> goCollaboratorsScreen()}
-                style={{
-                  flexDirection: 'row',
-                  borderColor: 'red',
-                  borderWidth: 0,
-                  gap: 5
-                }}
+                <TouchableOpacity
+                  onPress={() => goCollaboratorsScreen()}
+                  style={{
+                    flexDirection: 'row',
+                    borderColor: 'red',
+                    borderWidth: 0,
+                    gap: 5
+                  }}
 
-              >
-                <Icon name='account-group-outline' size={20} color={'white'} />
-                <Text style={styles.contextMenu}>Colaboradores</Text>
-              </TouchableOpacity>
+                >
+                  <Icon name='account-group-outline' size={20} color={'white'} />
+                  <Text style={styles.contextMenu}>Colaboradores</Text>
+                </TouchableOpacity>
+
+              </View>
 
             </View>
-
-          </View>
-        </TouchableWithoutFeedback>
-      </Modal>
-    </>
+          </TouchableWithoutFeedback>
+        </Modal>
+      </>
     </BaseHeaderComponent >
   )
 }

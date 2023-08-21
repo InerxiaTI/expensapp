@@ -53,6 +53,7 @@ export interface Collaborator {
 export interface CollaboratorsParams {
     idListaCompras?: number;
     idUsuarioCreador?: number;
+    estadoLista?: string;
     porcentaje?: number;
     
 }

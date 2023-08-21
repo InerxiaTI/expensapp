@@ -26,7 +26,6 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
   const { getCollaborators, collaborators } = useCollaborators(shoppingList.id)
 
   const [user, setUser] = useState(userLogged?.id);
-  const [listasComprasFiltred, setListasComprasFiltred] = useState(detalleListaCompras1);
 
   const changeList = (userId: number, userName: string) => {
     setUser(userId)
@@ -59,6 +58,7 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
         code={shoppingList.codigoGenerado}
         idListaCompras={shoppingList.id}
         idUsuarioCreador={shoppingList.usuarioCreador}
+        estado={shoppingList.estado}
       />
 
       {/* Shoppers */}

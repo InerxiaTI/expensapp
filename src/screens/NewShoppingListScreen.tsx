@@ -16,6 +16,8 @@ const NewShoppingListScreen = () => {
 
   const isFocused = useIsFocused();
   const { isLoading, setIsLoading, shoppingList, saveShoppingList} = useNewShoppingLists()
+  console.log("888888888888888888888888888888888\n \t "+JSON.stringify(shoppingList));
+  
 
 
   const [textValue, setTextValue] = useState('');
