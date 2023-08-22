@@ -97,6 +97,7 @@ const TabNoMaterial2 = () => {
   return (
     <Tab2.Navigator
       screenOptions={({ route }) => ({
+        tabBarHideOnKeyboard: true,
         headerShown: false,
         tabBarActiveTintColor: 'white',
         // tabBarActiveBackgroundColor: COLORS.backgroudPrimary,
