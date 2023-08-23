@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import BaseScreenComponent from '../components/BaseScreenComponent'
 import { Image, Text, View } from 'react-native'
-import HeaderNewShoppingListComponent from '../components/HeaderNewShoppingListComponent'
+import {GenericHeaderComponent} from '../components/GenericHeaderComponent'
 import expenseBanner from '../../assets/expenseBanner.png';
 import InputV1Component from '../components/inputs/InputV1Component';
 import ButtonV1Component from '../components/buttons/ButtonV1Component';
@@ -43,7 +43,7 @@ const JoinShoppingListScreen = () => {
 
   return (
     <BaseScreenComponent>
-      <HeaderNewShoppingListComponent title='Unirse' />
+      <GenericHeaderComponent title='Unirse'/>
 
       {/* Imagen */}
 

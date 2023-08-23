@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import BaseHeaderComponent from './BaseHeaderComponent'
 import { Text, TouchableOpacity, View } from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -12,6 +12,15 @@ interface HeaderContainerProps {
 
 const HeaderContainerComponent = ({ title = '', showArrowBack = false, children }: HeaderContainerProps) => {
 	const navigator = useNavigation();
+	const [paddingOnlyText, setPaddingOnlyText] = useState(0)
+
+	useEffect(() => {
+
+		if (!showArrowBack) {
+			setPaddingOnlyText(15)
+		}
+
+	})
 
 
 	return (
@@ -52,7 +61,8 @@ const HeaderContainerComponent = ({ title = '', showArrowBack = false, children 
 							flexDirection: 'row',
 							alignItems: 'center',
 							borderWidth: 0,
-							borderColor: 'white'
+							borderColor: 'white',
+							paddingLeft: paddingOnlyText,
 						}}>
 						<Text style={{
 							fontSize: 18,

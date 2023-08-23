@@ -6,8 +6,7 @@ import { RootStackParams } from '../navigation/HomeStackNavigator'
 import { CollaboratorsParams } from '../interfaces/UserInterface'
 import { useCollaboratorsV2 } from '../hooks/useCollaborators'
 import CollaboratorCardComponent from '../components/CollaboratorCardComponent'
-import BaseHeaderComponent from '../components/base/BaseHeaderComponent'
-import HeaderNewShoppingListComponent from '../components/HeaderNewShoppingListComponent'
+import {GenericHeaderComponent} from '../components/GenericHeaderComponent'
 
 
 interface CollaboratorsScreenProps extends StackScreenProps<RootStackParams, 'Collaborators'> { }
@@ -37,7 +36,7 @@ const CollaboratorsScreen = ({ route, navigation }: CollaboratorsScreenProps) =>
   return (
     <BaseScreenComponent>
 
-      <HeaderNewShoppingListComponent title='Colaboradores' showArrowBack />
+      <GenericHeaderComponent title='Colaboradores' showArrowBack />
 
       <View
         style={{

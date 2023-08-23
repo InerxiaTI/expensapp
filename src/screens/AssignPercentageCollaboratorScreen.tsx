@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import BaseScreenComponent from '../components/BaseScreenComponent'
-import { Image, Text, View } from 'react-native'
+import { Image,  View } from 'react-native'
 import { RootStackParams } from '../navigation/HomeStackNavigator'
 import { StackScreenProps } from '@react-navigation/stack'
 import { AssignPercentageCollaboratorRequest, AssignPercentageParams, CollaboratorsParams } from '../interfaces/UserInterface';
 import expenseBanner from '../../assets/expenseBanner.png';
-import HeaderNewShoppingListComponent from '../components/HeaderNewShoppingListComponent'
+import {GenericHeaderComponent} from '../components/GenericHeaderComponent'
 import InputV1Component from '../components/inputs/InputV1Component'
 import ButtonV1Component from '../components/buttons/ButtonV1Component'
 import { useAssignPercentage } from '../hooks/useCollaborators'
@@ -92,7 +92,7 @@ const AssignPercentageCollaboratorScreen = ({ route, navigation }: AssignPercent
 	return (
 		<BaseScreenComponent>
 
-			<HeaderNewShoppingListComponent showArrowBack title='Asignar porcentaje' />
+			<GenericHeaderComponent showArrowBack title='Asignar porcentaje' />
 			<View
 				style={{
 					marginTop: 50,

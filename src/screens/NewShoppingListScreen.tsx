@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect, useContext } from 'react'
 import { ActivityIndicator, Image, Keyboard, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import expenseBanner from '../../assets/expenseBanner.png';
 import BaseScreenComponent from '../components/BaseScreenComponent';
-import HeaderNewShoppingListComponent from '../components/HeaderNewShoppingListComponent';
+import {GenericHeaderComponent} from '../components/GenericHeaderComponent';
 import { useNewShoppingLists, useShoppingLists } from '../hooks/useShopping';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { AuthContext } from '../context/AuthContext';
@@ -78,7 +78,7 @@ const NewShoppingListScreen = () => {
 
   return (
     <BaseScreenComponent>
-      <HeaderNewShoppingListComponent title='Crear lista' />
+      <GenericHeaderComponent title='Crear lista' showArrowBack />
 
       {/* Imagen */}
 
