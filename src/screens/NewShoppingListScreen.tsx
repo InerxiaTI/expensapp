@@ -1,13 +1,14 @@
 import React, { useRef, useState, useEffect, useContext } from 'react'
-import { Image, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import expenseBanner from '../../assets/expenseBanner.png';
 import BaseScreenComponent from '../components/BaseScreenComponent';
 import { GenericHeaderComponent } from '../components/GenericHeaderComponent';
-import { useNewShoppingLists, useShoppingLists } from '../hooks/useShopping';
+import { useNewShoppingLists } from '../hooks/useShopping';
 import { useIsFocused } from '@react-navigation/native';
 import { AuthContext } from '../context/AuthContext';
 import InputV1Component from '../components/inputs/InputV1Component';
 import { ButtonV2Component } from '../components/buttons/ButtonV2Component';
+import Icon  from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const NewShoppingListScreen = () => {
 
@@ -16,7 +17,7 @@ const NewShoppingListScreen = () => {
   const user = authState.user
 
   const isFocused = useIsFocused();
-  const { isLoading, setIsLoading, shoppingList,codigo, setCodigo, saveShoppingList } = useNewShoppingLists()
+  const { isLoading, setIsLoading, shoppingList, codigo, setCodigo, saveShoppingList } = useNewShoppingLists()
   console.log("888888888888888888888888888888888\n \t " + JSON.stringify(shoppingList));
 
 
@@ -47,22 +48,17 @@ const NewShoppingListScreen = () => {
       setIsLoading(false);
       setHabilitarBoton(false)
 
-      // getShoppingLists(user!)
-      // navigation.dispatch() se quiere llamar la función para actualizar las listas de compras
-      //navigation.goBack() // Volver a la pantalla anterior
-
     } catch (error) {
       console.error("Falla al guardar: " + error);
     }
   }
 
-  // const clearComponents = ()=>{
-  //   setTextValue('')
-  //     setCodigoGenerado('')
-  //     setHabilitarBoton(false)
-  //     setIsDisabled(false)
-  // }
-
+  const resetFields = () => {
+    setTextValue('')
+    setCodigo('')
+    setHabilitarBoton(false)
+    setIsDisabled(false)
+  }
 
   useEffect(() => {
 
@@ -83,7 +79,17 @@ const NewShoppingListScreen = () => {
 
   return (
     <BaseScreenComponent>
-      <GenericHeaderComponent title='Crear lista' showArrowBack />
+
+      <GenericHeaderComponent title='Crear lista' showArrowBack>
+        <>
+          <TouchableOpacity
+            onPress={resetFields}
+          >
+            <Icon name='reload' size={25} color='white' />
+          </TouchableOpacity>
+
+        </>
+      </GenericHeaderComponent>
 
       {/* Imagen */}
 
@@ -113,7 +119,6 @@ const NewShoppingListScreen = () => {
           placeholder='Nombre de la lista'
           onChangeText={handleOnTextChange}
           value={textValue}
-          keyboardType='email-address'
           editable={!isDisabled}
           autoFocus={isFocused}
           refOwn={inputRef}
