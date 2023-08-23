@@ -10,13 +10,15 @@ interface InputV1Props {
     keyboardType?: KeyboardType,
     refOwn?:React.Ref<TextInput>,
     autoFocus?: boolean
+    autoCorrect?: boolean
 
 }
 
 const InputV1Component = ({
     title = '', 
     placeholder = '', onChangeText, value, editable= true, 
-    keyboardType = 'default', autoFocus = false, refOwn,}: InputV1Props) => {
+    keyboardType = 'default', autoFocus = false, refOwn,
+    autoCorrect = true}: InputV1Props) => {
 
     const textInputRef = useRef(null);
     React.useImperativeHandle(refOwn, () => textInputRef.current!);
@@ -40,6 +42,7 @@ const InputV1Component = ({
                     style={styles.searchTextInput}
                     autoFocus={autoFocus}
                     ref={textInputRef}
+                    // autoCorrect={autoCorrect}
                 />
 
             </View>

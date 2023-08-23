@@ -4,7 +4,6 @@ import { Image, TextInput, ToastAndroid, View } from 'react-native'
 import { GenericHeaderComponent } from '../components/GenericHeaderComponent'
 import expenseBanner from '../../assets/expenseBanner.png';
 import InputV1Component from '../components/inputs/InputV1Component';
-import ButtonV1Component from '../components/buttons/ButtonV1Component';
 import { useJoinShoppingList } from '../hooks/useJoin';
 import { AuthContext } from '../context/AuthContext';
 import { ButtonV2Component } from '../components/buttons/ButtonV2Component';

@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Image, Keyboard, KeyboardAvoidingView, Modal, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
-import BaseScreenComponent from '../components/BaseScreenComponent'
+import { Image, StyleSheet, Text,  TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import expenseBanner from '../../assets/expenseBanner.png';
-import { COLORS } from '../theme/Theme';
-import Icon from 'react-native-vector-icons/Ionicons';
-import DatePicker, { getFormatedDate } from 'react-native-modern-datepicker';
+import { getFormatedDate } from 'react-native-modern-datepicker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import { useNavigation } from '@react-navigation/native';
-import { SelectList } from 'react-native-dropdown-select-list';
-import HeaderAddExpenseComponent from '../components/HeaderAddExpenseComponent';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { KeyboardAvoidingScrollView } from '@cassianosch/react-native-keyboard-sticky-footer-avoiding-scroll-view';
 
@@ -17,9 +11,10 @@ import InputV1Component from '../components/inputs/InputV1Component';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../navigation/HomeStackNavigator';
-import { CreateShoppingRequest, CreateShopping, AddExpenseParams } from '../interfaces/ShoppingInterface';
+import { CreateShoppingRequest, AddExpenseParams } from '../interfaces/ShoppingInterface';
 import { useNewShopping } from '../hooks/useShopping';
 import { Collaborator } from '../interfaces/UserInterface';
+import { ButtonV2Component } from '../components/buttons/ButtonV2Component';
 
 
 interface AddExpenseScreenProps extends StackScreenProps<RootStackParams, 'AddExpense'> { }
@@ -38,22 +33,29 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 
 	const [compra, setCompra] = useState("");
 	const [valorCompra, setValorCompra] = useState("");
+	const [habilitarBoton, setHabilitarBoton] = useState(false)
+
 
 	const addExpenseParams: AddExpenseParams = route.params
 
 	console.log("createShopping: " + JSON.stringify(addExpenseParams));
 
-	const handleInputChange = (text: string) => {
+	const handleCompraChange = (text: string) => {
 		setCompra(text);
+		validateForm(valorCompra, text);
 	};
 	const handleValorCompraChange = (text: string) => {
 		setValorCompra(text);
+		validateForm(compra, text);
 	};
 
-
-
+	const validateForm = (compra, valor) => {
+    const formIsValid = compra.trim() !== '' && valor.trim() !== '';
+    setHabilitarBoton(formIsValid);
+  };
 
 	const today = new Date();
+
 
 	const [date, setDate] = useState(today);
 	const [show, setShow] = useState(false);
@@ -64,8 +66,6 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 		setDate(currentDate);
 	};
 
-
-
 	const showDatepicker = () => {
 		setShow(true);
 	};
@@ -73,8 +73,7 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 	const handleOnPress = async () => {
 
 		const createShoppig = addExpenseParams.createShoppingRequest
-
-		const idUsuarioCompra = selectedCollaborator.idUsuario? selectedCollaborator.idUsuario: createShoppig?.idUsuarioCompra
+		const idUsuarioCompra = selectedCollaborator.idUsuario ? selectedCollaborator.idUsuario : createShoppig?.idUsuarioCompra
 
 		const createShoppingRequest: CreateShoppingRequest = {
 			...createShoppig,
@@ -104,9 +103,9 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 
 	useEffect(() => {
 		if (route.params && route.params.collaborator) {
-		  setSelectedCollaborator(route.params.collaborator);
+			setSelectedCollaborator(route.params.collaborator);
 		}
-	  }, [route.params]);
+	}, [route.params]);
 
 	return (
 
@@ -115,7 +114,13 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 				containerStyle={styles.container}
 				contentContainerStyle={styles.content}
 				stickyFooter={
-					<ButtonV1Component title='Agregar gasto' onPress={handleOnPress} />
+					<ButtonV2Component 
+						title='Agregar gasto' 
+						onPress={handleOnPress} 
+						isLoading={isLoading}
+						habilitarBoton={habilitarBoton}
+
+					/>
 				}>
 
 				{/* Imagen */}
@@ -134,7 +139,7 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 
 				<View
 					style={{
-						borderWidth: 0,
+						borderWidth: 1,
 						borderColor: 'red',
 						flexDirection: 'row',
 						gap: 10
@@ -202,7 +207,7 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 										letterSpacing: 1,
 										fontWeight: '500',
 										color: 'lightgrey',
-									}}>{selectedCollaborator.nombresUsuario!==undefined? selectedCollaborator.nombresUsuario: 'Yo'}</Text>
+									}}>{selectedCollaborator.nombresUsuario !== undefined ? selectedCollaborator.nombresUsuario : 'Yo'}</Text>
 									<MaterialCommunityIcons name="chevron-down" size={20} color='white' />
 								</View>
 							</TouchableWithoutFeedback>
@@ -229,14 +234,17 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 				<InputV1Component
 					title='Compra'
 					placeholder='Compra'
-					onChangeText={handleInputChange}
+					onChangeText={handleCompraChange}
 					value={compra}
 				/>
+
 				<InputV1Component
-					title='valor'
-					placeholder='valor'
+					title='Valor'
+					placeholder='Valor'
 					onChangeText={handleValorCompraChange}
 					value={valorCompra}
+					keyboardType='numeric'
+					autoCorrect={false}
 				/>
 
 			</KeyboardAvoidingScrollView>
