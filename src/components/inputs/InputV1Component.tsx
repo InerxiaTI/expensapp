@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { View, Text, TextInput, StyleSheet, KeyboardType } from 'react-native'
 
 interface InputV1Props {
@@ -7,11 +7,20 @@ interface InputV1Props {
     onChangeText?: (text: string) => void, // Función que maneja el cambio de texto
     value?: string, // Valor del input
     editable?: boolean,
-    keyboardType?: KeyboardType
+    keyboardType?: KeyboardType,
+    refOwn?:React.Ref<TextInput>,
+    autoFocus?: boolean
 
 }
 
-const InputV1Component = ({title = '', placeholder = '', onChangeText, value, editable= true, keyboardType = 'default'}: InputV1Props) => {
+const InputV1Component = ({
+    title = '', 
+    placeholder = '', onChangeText, value, editable= true, 
+    keyboardType = 'default', autoFocus = false, refOwn,}: InputV1Props) => {
+
+    const textInputRef = useRef(null);
+    React.useImperativeHandle(refOwn, () => textInputRef.current!);
+
     return (
         <View
             style={{
@@ -29,6 +38,8 @@ const InputV1Component = ({title = '', placeholder = '', onChangeText, value, ed
                     placeholder={placeholder}
                     placeholderTextColor={'#6B7280'}
                     style={styles.searchTextInput}
+                    autoFocus={autoFocus}
+                    ref={textInputRef}
                 />
 
             </View>

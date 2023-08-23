@@ -47,6 +47,7 @@ export const useShoppingLists = () => {
 
 export const useNewShoppingLists = () => {
     const [isLoading, setIsLoading] = useState(false)
+    const [codigo, setCodigo] = useState('')
     const [shoppingList, setShoppingList] = useState<ShoppingList>()
 
 
@@ -63,7 +64,7 @@ export const useNewShoppingLists = () => {
                 request
             )
             console.log("response NEW SHOPPING LIST: "+JSON.stringify(response.data.body));
-            
+            setCodigo(response.data.body.codigoGenerado)
             setShoppingList(response.data.body)
         } catch (error) {
             console.error(error);
@@ -77,6 +78,8 @@ export const useNewShoppingLists = () => {
     return {
         isLoading,
         setIsLoading,
+        codigo,
+        setCodigo,
         shoppingList,
         saveShoppingList
     }
