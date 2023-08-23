@@ -10,14 +10,14 @@ import { AuthContext } from '../context/AuthContext';
 const NewShoppingListScreen = () => {
   const navigation = useNavigation();
 
-  const {authState} = useContext(AuthContext);
+  const { authState } = useContext(AuthContext);
   console.log("auth: ", authState);
   const user = authState.user
 
   const isFocused = useIsFocused();
-  const { isLoading, setIsLoading, shoppingList, saveShoppingList} = useNewShoppingLists()
-  console.log("888888888888888888888888888888888\n \t "+JSON.stringify(shoppingList));
-  
+  const { isLoading, setIsLoading, shoppingList, saveShoppingList } = useNewShoppingLists()
+  console.log("888888888888888888888888888888888\n \t " + JSON.stringify(shoppingList));
+
 
 
   const [textValue, setTextValue] = useState('');
@@ -70,9 +70,9 @@ const NewShoppingListScreen = () => {
       setCodigoGenerado('')
       setHabilitarBoton(false)
       setIsDisabled(false)
-      
+
     }
-    
+
   }, [isFocused]);
 
 
@@ -167,21 +167,21 @@ const NewShoppingListScreen = () => {
           }}
         >
 
-         {
-           isLoading  ? (
-            <ActivityIndicator color={'white'} size={20} />
+          {
+            isLoading ? (
+              <ActivityIndicator color={'white'} size={20} />
             ) :
-            (
-            <Text
-              style={{
-                fontSize: 14,
-                fontWeight: '700',
-                color: 'white'
-  
-              }}
-            >Guardar</Text>
-            )
-         }
+              (
+                <Text
+                  style={{
+                    fontSize: 14,
+                    fontWeight: '700',
+                    color: 'white'
+
+                  }}
+                >Guardar</Text>
+              )
+          }
         </TouchableOpacity>
       </View>
 

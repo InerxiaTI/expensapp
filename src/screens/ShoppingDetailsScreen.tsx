@@ -4,7 +4,6 @@ import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native
 import { COLORS } from '../theme/Theme'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import HeaderShoppingDetailComponent from '../components/HeaderShoppingDetailComponent';
-import { detalleListaCompras1, detalleListaCompras2, detalleListaCompras3, shoppers, } from '../testData/testData';
 import ShoppingCardComponent from '../components/ShoppingCardComponent';
 import FloatingActionButton from '../components/FloatingActionButton';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -61,13 +60,15 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
         estado={shoppingList.estado}
       />
 
+
+
+
       {/* Shoppers */}
       <View
         style={{
-          borderWidth: 1,
+          borderWidth: 0,
           borderColor: 'blue',
           paddingVertical: 0,
-          marginTop: 50,
         }}
       >
 

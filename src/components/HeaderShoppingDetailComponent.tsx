@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { View, TouchableOpacity, Modal, Text, TouchableWithoutFeedback, StyleSheet, SafeAreaView, Platform, ToastAndroid } from 'react-native'
-import { COLORS } from '../theme/Theme'
+import { View, TouchableOpacity, Modal, Text, TouchableWithoutFeedback, StyleSheet, Platform, ToastAndroid } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import BaseHeaderComponent from './base/BaseHeaderComponent'
@@ -9,8 +8,7 @@ import { sliceText } from '../utils/textUtil'
 import { CollaboratorsParams } from '../interfaces/UserInterface'
 import { AuthContext } from '../context/AuthContext'
 import { useStartShoppingList } from '../hooks/useShopping'
-
-
+import HeaderContainerComponent from './base/HeaderContainerComponent'
 
 interface HeaderShoppingDetailProps {
   idListaCompras: number;
@@ -65,34 +63,34 @@ const HeaderShoppingDetailComponent = ({ title, code, idListaCompras, idUsuarioC
   const { isLoading,
     setIsLoading,
     shoppingList,
-    saveStartShoppingList} = useStartShoppingList()
+    saveStartShoppingList } = useStartShoppingList()
 
   const [iconActionButton, setIconActionButton] = useState('cart-arrow-right')
 
-  const handleActionShoppingList = async() => {
+  const handleActionShoppingList = async () => {
 
-    switch(estado){
+    switch (estado) {
       case 'CONFIGURANDO': {
         // Al darle click entonces se llama al servicio para inicializar y pasar al estado PENDIENTE
         console.log("cambiando a estado PENDIENTE");
         setIsLoading(true);
 
         try {
-            await saveStartShoppingList(idListaCompras);
-            setIsLoading(false);
-            // TODO aqui debemos hacer algo para que se actualice el estado de la lista de compras
-            // y evitar ir hasta el home, y que el icono cambié
-            // getShoppingLists(user!)
-            // // navigation.dispatch() se quiere llamar la función para actualizar las listas de compras
-            navigator.goBack() // Volver a la pantalla anterior
+          await saveStartShoppingList(idListaCompras);
+          setIsLoading(false);
+          // TODO aqui debemos hacer algo para que se actualice el estado de la lista de compras
+          // y evitar ir hasta el home, y que el icono cambié
+          // getShoppingLists(user!)
+          // // navigation.dispatch() se quiere llamar la función para actualizar las listas de compras
+          navigator.goBack() // Volver a la pantalla anterior
 
         } catch (error) {
-            console.error("Falla al guardar: " + error);
+          console.error("Falla al guardar: " + error);
         }
 
 
         break
-        
+
       }
       case 'PENDIENTE': {
         // Se cambia a cerrado - icono de bolsa de compra check
@@ -107,18 +105,18 @@ const HeaderShoppingDetailComponent = ({ title, code, idListaCompras, idUsuarioC
         // en este esatdo ya la lista queda archivada, finalizada
         console.log("cambiadno a estado FINALIZADO");
         break
-        
+
       }
-      
+
     }
 
-     
+
 
   }
 
-  useEffect(()=>{
+  useEffect(() => {
 
-    if (estado === 'PENDIENTE'){
+    if (estado === 'PENDIENTE') {
       setIconActionButton('cart-check')
     }
 
@@ -128,78 +126,39 @@ const HeaderShoppingDetailComponent = ({ title, code, idListaCompras, idUsuarioC
   return (
     <BaseHeaderComponent>
       <>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            borderWidth: 0,
-            borderColor: 'white',
-            paddingHorizontal: 15,
-            gap: 15
-          }}
+        <HeaderContainerComponent 
+          title={sliceText(title!, 25)} 
+          showArrowBack 
         >
-          <TouchableOpacity
-            onPress={() => { navigator.goBack() }}
-          >
-            <Icon name='arrow-left' size={25} color='white' />
+          <>
+            <TouchableOpacity
+              onPress={showContextMenu}
+            >
+              <Icon name='dots-vertical' size={25} color='white' />
+            </TouchableOpacity>
 
-          </TouchableOpacity>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              borderWidth: 0,
-              borderColor: 'green'
-            }}>
-            <Text style={{
-              fontSize: 18,
-              fontWeight: '700',
-              color: '#6B7280'
-            }}>{sliceText(title!, 25)}</Text>
-          </View>
-        </View>
+            {
+              user?.id === idUsuarioCreador ?
 
-        <View
-          style={{
-            flexDirection: 'row-reverse',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-            paddingHorizontal: 15
-          }}
-        >
-          <TouchableOpacity
-            onPress={showContextMenu}
-          >
-            <Icon name='dots-vertical' size={25} color='white' />
-          </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => { handleActionShoppingList() }}
+                style={{
+                  marginRight: 10
 
-          {
-            user?.id === idUsuarioCreador ?
-              
-                <TouchableOpacity
-                  onPress={() => { handleActionShoppingList()}}
-                  style={{
-                    marginRight: 10
-
-                  }}
-                >
-                  <Icon name={iconActionButton} size={25} color='white' />
-                </TouchableOpacity>
-
+                }}
+              >
+                <Icon name={iconActionButton} size={25} color='white' />
+              </TouchableOpacity>
               :
               <></>
-
-          }
-
-
-
-        </View>
+            }
+          </>
+        </HeaderContainerComponent>
 
         <Modal
           transparent={true}
           visible={isContextMenuVisible}
           onRequestClose={hideContextMenu}
-
         >
 
           <TouchableWithoutFeedback onPress={hideContextMenu}>
