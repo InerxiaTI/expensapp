@@ -25,7 +25,7 @@ export const useJoinShoppingList = () => {
             
             setJoinShoppingList(response.data.body)
         } catch (error) {
-            console.error(error);
+            console.log(error);
             throw error;
         }
 

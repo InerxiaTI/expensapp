@@ -13,19 +13,15 @@ import Icon  from 'react-native-vector-icons/MaterialCommunityIcons';
 const NewShoppingListScreen = () => {
 
   const { authState } = useContext(AuthContext);
-  console.log("auth: ", authState);
   const user = authState.user
 
   const isFocused = useIsFocused();
-  const { isLoading, setIsLoading, shoppingList, codigo, setCodigo, saveShoppingList } = useNewShoppingLists()
-  console.log("888888888888888888888888888888888\n \t " + JSON.stringify(shoppingList));
-
+  const { isLoading, setIsLoading, codigo, setCodigo, saveShoppingList } = useNewShoppingLists()
 
 
   const [textValue, setTextValue] = useState('');
   const [isDisabled, setIsDisabled] = useState(false);
   const [habilitarBoton, setHabilitarBoton] = useState(false)
-
   const inputRef = useRef<TextInput>(null);
 
 
@@ -50,6 +46,10 @@ const NewShoppingListScreen = () => {
 
     } catch (error) {
       console.error("Falla al guardar: " + error);
+    } finally {
+      setIsLoading(false)
+      setIsDisabled(false)
+
     }
   }
 
@@ -162,30 +162,6 @@ const NewShoppingListScreen = () => {
 }
 
 const styles = StyleSheet.create({
-  searchContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 5,
-    marginBottom: 16,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: '#6B7280',
-    backgroundColor: '#201F21'
-
-  },
-  searchTextInput: {
-    flex: 1,
-    paddingLeft: 15,
-    fontSize: 14,
-    lineHeight: 20,
-    letterSpacing: 1,
-    fontWeight: '500',
-    color: 'white',
-    height: 50,
-    borderWidth: 0,
-    borderColor: 'red',
-  },
   searchTextInputDisabled: {
     letterSpacing: 1,
     fontSize: 24,
