@@ -19,7 +19,7 @@ export const ButtonV2Component = ({
             style={{
                 borderWidth: 0,
                 borderColor: 'white',
-                paddingHorizontal: 28,
+                // paddingHorizontal: 28,
                 justifyContent: 'flex-end', // Alinea el botón al final
                 paddingBottom: 5, // Espacio inferior para el botón
                 backgroundColor: 'transparent',

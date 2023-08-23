@@ -8,7 +8,7 @@ import { useIsFocused } from '@react-navigation/native';
 import { AuthContext } from '../context/AuthContext';
 import InputV1Component from '../components/inputs/InputV1Component';
 import { ButtonV2Component } from '../components/buttons/ButtonV2Component';
-import Icon  from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const NewShoppingListScreen = () => {
 
@@ -145,17 +145,19 @@ const NewShoppingListScreen = () => {
           </View>
         </View>
 
+
+        {/* Boton */}
+
+        <ButtonV2Component
+          title='Guardar'
+          onPress={() => newShoppingList()}
+          habilitarBoton={habilitarBoton}
+          isLoading={isLoading}
+        />
+
       </View>
 
 
-      {/* Boton */}
-
-      <ButtonV2Component
-        title='Guardar'
-        onPress={() => newShoppingList()}
-        habilitarBoton={habilitarBoton}
-        isLoading={isLoading}
-      />
 
     </BaseScreenComponent>
   )

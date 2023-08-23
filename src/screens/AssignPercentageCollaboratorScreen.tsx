@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import BaseScreenComponent from '../components/BaseScreenComponent'
-import { Image,  View } from 'react-native'
+import { Image, View } from 'react-native'
 import { RootStackParams } from '../navigation/HomeStackNavigator'
 import { StackScreenProps } from '@react-navigation/stack'
 import { AssignPercentageCollaboratorRequest, AssignPercentageParams, CollaboratorsParams } from '../interfaces/UserInterface';
 import expenseBanner from '../../assets/expenseBanner.png';
-import {GenericHeaderComponent} from '../components/GenericHeaderComponent'
+import { GenericHeaderComponent } from '../components/GenericHeaderComponent'
 import InputV1Component from '../components/inputs/InputV1Component'
-import ButtonV1Component from '../components/buttons/ButtonV1Component'
 import { useAssignPercentage } from '../hooks/useCollaborators'
+import { ButtonV2Component } from '../components/buttons/ButtonV2Component'
 
 
 interface AssignPercentageCollaboratorScreenProps extends StackScreenProps<RootStackParams, 'AssignPercentageCollaborator'> { }
@@ -16,8 +16,8 @@ interface AssignPercentageCollaboratorScreenProps extends StackScreenProps<RootS
 
 const AssignPercentageCollaboratorScreen = ({ route, navigation }: AssignPercentageCollaboratorScreenProps) => {
 
-	console.log("route.params: "+JSON.stringify(route.params));
-	
+	console.log("route.params: " + JSON.stringify(route.params));
+
 
 
 	const assignPercentage: AssignPercentageParams = route.params as AssignPercentageParams
@@ -25,13 +25,13 @@ const AssignPercentageCollaboratorScreen = ({ route, navigation }: AssignPercent
 
 	console.log("########## porcentaje: " + JSON.stringify(assignPercentage));
 
-	const {  isLoading,
+	const { isLoading,
 		setIsLoading,
 		assignPercentageCollaborator,
-		saveAssignPercentageCollaborator} = useAssignPercentage();
+		saveAssignPercentageCollaborator } = useAssignPercentage();
 
 
-	const [percentage, setPercentage] = useState<string>(assignPercentage.collaborator.porcentaje.toString());
+	const [percentage, setPercentage] = useState<string>(assignPercentage.collaborator.porcentaje?.toString());
 
 	const handleOnChangeText = (value: string) => {
 
@@ -65,24 +65,24 @@ const AssignPercentageCollaboratorScreen = ({ route, navigation }: AssignPercent
 		setIsLoading(true);
 
 		try {
-				await saveAssignPercentageCollaborator(assignRequest);
-				setIsLoading(false);
+			await saveAssignPercentageCollaborator(assignRequest);
+			setIsLoading(false);
 
-				const collaboratorsParams: CollaboratorsParams = {
-					
-					porcentaje: Number(percentage)
-					
-				  }
+			const collaboratorsParams: CollaboratorsParams = {
 
-				navigation.navigate({
-					name: 'Collaborators',
-					params: collaboratorsParams,
-					merge: true,
-				  });
+				porcentaje: Number(percentage)
+
+			}
+
+			navigation.navigate({
+				name: 'Collaborators',
+				params: collaboratorsParams,
+				merge: true,
+			});
 
 
 		} catch (error) {
-				console.error("Falla al guardar: " + error);
+			console.error("Falla al guardar: " + error);
 		}
 
 
@@ -95,9 +95,10 @@ const AssignPercentageCollaboratorScreen = ({ route, navigation }: AssignPercent
 			<GenericHeaderComponent showArrowBack title='Asignar porcentaje' />
 			<View
 				style={{
-					marginTop: 50,
-					borderWidth: 1,
-					borderColor: 'red'
+					borderWidth: 0,
+					borderColor: 'red',
+					paddingHorizontal: 28
+
 				}}
 			>
 
@@ -128,8 +129,9 @@ const AssignPercentageCollaboratorScreen = ({ route, navigation }: AssignPercent
 					value={percentage}
 				/>
 
-				<ButtonV1Component 
-					onPress={()=> saveNewPercentage()}
+
+				<ButtonV2Component
+					onPress={() => saveNewPercentage()}
 					title='Guardar'
 				/>
 
