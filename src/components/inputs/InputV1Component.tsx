@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, TextInput, StyleSheet, KeyboardTypeOptions, KeyboardType } from 'react-native'
+import { View, Text, TextInput, StyleSheet, KeyboardType } from 'react-native'
 
 interface InputV1Props {
     title?: string,
@@ -27,7 +27,7 @@ const InputV1Component = ({title = '', placeholder = '', onChangeText, value, ed
                     onChangeText={onChangeText}
                     keyboardType={keyboardType} 
                     placeholder={placeholder}
-                    placeholderTextColor={'lightgrey'}
+                    placeholderTextColor={'#6B7280'}
                     style={styles.searchTextInput}
                 />
 

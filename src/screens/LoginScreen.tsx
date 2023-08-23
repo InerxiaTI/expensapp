@@ -3,9 +3,7 @@ import { Dimensions, KeyboardAvoidingView, Platform, StyleSheet, Text, Touchable
 import { TextInput } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import { usersDatabase } from '../testData/testData'
 import { AuthContext } from '../context/AuthContext'
-import { User } from '../interfaces/UserInterface'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useLogin } from '../hooks/useLogin'
 
