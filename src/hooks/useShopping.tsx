@@ -1,89 +1,10 @@
-import { useContext, useEffect, useState } from "react"
+import { useCallback, useContext, useEffect, useState } from "react"
 import { CreateShopping, CreateShoppingListRequest, CreateShoppingListResponse, CreateShoppingRequest, CreateShoppingResponse, Shopping, ShoppingList, ShoppingListsResponse, ShoppingRequest, ShoppingResponse } from "../interfaces/ShoppingInterface"
 import expenseMateApi from "../api/expenseMateApi"
 import { AuthContext } from "../context/AuthContext";
 import { Collaborator, CollaboratorsFilterRequest, CollaboratorsFilterResponse, User } from "../interfaces/UserInterface";
 
 
-export const useShoppingLists = () => {
-    const {authState} = useContext(AuthContext);
-    console.log("auth: ", authState);
-    const user = authState.user
-
-    const [isLoading, setIsLoading] = useState(true)
-    const [shoppingLists, setShoppingLists] = useState<ShoppingList[]>([])
-
-    const getShoppingLists = async (user: User) => {
-        console.log("LLamando a la API para traer listas de compras");
-        try {
-            const response = await expenseMateApi.get<ShoppingListsResponse>(
-                '/api/lista-compra/filter', 
-                {
-                    params: {
-                        usuario: user.id,
-                    }
-                }
-            )
-            setShoppingLists(response.data.body)
-        } catch (error) {
-            console.error(error);
-            throw error;
-        }
-
-        setIsLoading(false)
-
-    }
-
-    useEffect(() => {
-		getShoppingLists(user!)
-	}, [])
-
-    return {
-        getShoppingLists,
-        isLoading,
-        shoppingLists
-    }
-}
-
-export const useNewShoppingLists = () => {
-    const [isLoading, setIsLoading] = useState(false)
-    const [codigo, setCodigo] = useState('')
-    const [shoppingList, setShoppingList] = useState<ShoppingList>()
-
-
-    const saveShoppingList = async (shoppingListName: string, idUser: number) => {
-
-        const request: CreateShoppingListRequest = {
-            usuarioCreador: idUser ,
-            nombre: shoppingListName,
-        }
-
-        try {
-            const response = await expenseMateApi.post<CreateShoppingListResponse>(
-                '/api/lista-compra/crear-lista-compra', 
-                request
-            )
-            console.log("response NEW SHOPPING LIST: "+JSON.stringify(response.data.body));
-            setCodigo(response.data.body.codigoGenerado)
-            setShoppingList(response.data.body)
-        } catch (error) {
-            console.error(error);
-            throw error;
-        }
-
-        setIsLoading(false)
-    }
-
-
-    return {
-        isLoading,
-        setIsLoading,
-        codigo,
-        setCodigo,
-        shoppingList,
-        saveShoppingList
-    }
-}
 
 
 

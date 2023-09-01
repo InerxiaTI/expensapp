@@ -3,12 +3,12 @@ import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'reac
 import expenseBanner from '../../assets/expenseBanner.png';
 import BaseScreenComponent from '../components/BaseScreenComponent';
 import { GenericHeaderComponent } from '../components/GenericHeaderComponent';
-import { useNewShoppingLists } from '../hooks/useShopping';
 import { useIsFocused } from '@react-navigation/native';
 import { AuthContext } from '../context/AuthContext';
 import InputV1Component from '../components/inputs/InputV1Component';
 import { ButtonV2Component } from '../components/buttons/ButtonV2Component';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useNewShoppingLists } from '../hooks/shoppingList/useNewShoppingList';
 
 const NewShoppingListScreen = () => {
 
@@ -16,7 +16,7 @@ const NewShoppingListScreen = () => {
   const user = authState.user
 
   const isFocused = useIsFocused();
-  const { isLoading, setIsLoading, codigo, setCodigo, saveShoppingList } = useNewShoppingLists()
+  const { isLoading, setIsLoading, codigo, setCodigo, createShoppingList } = useNewShoppingLists()
 
 
   const [textValue, setTextValue] = useState('');
@@ -37,12 +37,12 @@ const NewShoppingListScreen = () => {
   const newShoppingList = async () => {
     setIsDisabled(true);
     setIsLoading(true);
+    setHabilitarBoton(false)
 
     try {
-      await saveShoppingList(textValue, user!.id);
+      await createShoppingList(textValue, user!.id);
       setIsDisabled(false);
       setIsLoading(false);
-      setHabilitarBoton(false)
 
     } catch (error) {
       console.error("Falla al guardar: " + error);

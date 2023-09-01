@@ -7,6 +7,7 @@ import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import { AuthProvider } from './src/context/AuthContext';
 import { TabBarProvider } from './src/context/TabBarContext';
 import { HomeStackNavigator } from './src/navigation/HomeStackNavigator';
+import { ShoppingProvider } from './src/context/ShoppingContext';
 
 // Define tu propio theme personalizado
 const MyTheme = {
@@ -34,10 +35,11 @@ const App = () => {
 
       <AppState>
         <TabBarProvider>
-          <StatusBar animated={true} translucent backgroundColor="transparent" barStyle="dark-content" />
-          <HomeStackNavigator />
+          <ShoppingProvider>
+            <StatusBar animated={true} translucent backgroundColor="transparent" barStyle="dark-content" />
+            <HomeStackNavigator />
+          </ShoppingProvider>
         </TabBarProvider>
-
       </AppState>
     </NavigationContainer>
   )
