@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import BaseScreenComponent from '../components/BaseScreenComponent'
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { COLORS } from '../theme/Theme'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import HeaderShoppingDetailComponent from '../components/HeaderShoppingDetailComponent';
@@ -8,9 +8,11 @@ import ShoppingCardComponent from '../components/ShoppingCardComponent';
 import FloatingActionButton from '../components/FloatingActionButton';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../navigation/HomeStackNavigator';
-import { useCollaborators, useShoppingDetail } from '../hooks/useShopping';
+import { useCollaborators } from '../hooks/useShopping';
 import { AuthContext } from '../context/AuthContext';
 import { AddExpenseParams, CreateShoppingRequest } from '../interfaces/ShoppingInterface';
+import { useFetchShoppingListDetail } from '../hooks/shoppingList/useFetchShoppingListDetail';
+import { useSafeAreaFrame } from 'react-native-safe-area-context';
 
 interface ShoppingDetailsScreenProps extends StackScreenProps<RootStackParams, 'ShoppingDetails'> { }
 
@@ -20,15 +22,17 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
   const userLogged = authState.user
 
   const shoppingList = route.params
+  const [user, setUser] = useState(userLogged!.id);
 
-  const { getShoppingDetail, isLoading, shoppingDetailList } = useShoppingDetail(shoppingList.id, userLogged!.id);
-  const { getCollaborators, collaborators } = useCollaborators(shoppingList.id)
 
-  const [user, setUser] = useState(userLogged?.id);
+  const {isLoading, shoppingDetailList, getShoppingDetail} = useFetchShoppingListDetail();
+  const { collaborators } = useCollaborators(shoppingList.id)
 
-  const changeList = (userId: number, userName: string) => {
+
+  const changeList = (userId: number) => {
+    console.log("#############3 user: " + user);
     setUser(userId)
-
+       
   }
 
   const [createShopping, setCreateShopping] = useState<CreateShoppingRequest>({
@@ -47,7 +51,13 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
   }, [user])
 
 
-
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator color={'white'} size={20} />
+      </View>
+    )
+  }
 
   return (
     <BaseScreenComponent>
@@ -78,7 +88,7 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
           renderItem={({ item, index }) => (
 
             <TouchableOpacity
-              onPress={() => { changeList(item.idUsuario, item.nombresUsuario) }}
+              onPress={() => { changeList(item.idUsuario) }}
             >
               <View style={{
                 ...styles.shopperCardContainer,

@@ -6,52 +6,6 @@ import { Collaborator, CollaboratorsFilterRequest, CollaboratorsFilterResponse, 
 
 
 
-
-
-export const useShoppingDetail = (idShoppingList: number, idUserCompra: number) => {
-
-    const [isLoading, setIsLoading] = useState(true)
-    const [shoppingDetailList, setShoppingDetailList] = useState<Shopping[]>([])
-
-    const getShoppingDetail = async (idShoppingList: number, idUserCompra: number) => {
-
-        console.log("################### isl: ", idShoppingList);
-        
-
-        const request: ShoppingRequest = {
-            idListaCompras: idShoppingList,
-            idUsuarioCompra: idUserCompra
-            // categoria: "ER",
-            // descripcion: "ab"
-        }
-
-        console.log("RR LLamando a la API para traer listas de compras: ", JSON.stringify(request));
-        try {
-            const response = await expenseMateApi.post<ShoppingResponse>(
-                '/api/compra/filter', 
-                request
-            )
-            setShoppingDetailList(response.data.body)
-        } catch (error) {
-            console.error("ERROR °°°°°°°°°°°° ", error.response.data);
-            throw error;
-        }
-
-        setIsLoading(false)
-
-    }
-
-    useEffect(() => {
-		getShoppingDetail(idShoppingList, idUserCompra)
-	}, [])
-
-    return {
-        getShoppingDetail,
-        isLoading,
-        shoppingDetailList
-    }
-}
-
 export const useCollaborators = (idShoppingList: number) => {
     const {authState} = useContext(AuthContext);
     console.log("$$$$$$$$$$$$$ auth useShoppingDetail: ", authState.user);
