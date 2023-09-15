@@ -7,8 +7,8 @@ import { AssignPercentageCollaboratorRequest, AssignPercentageParams, Collaborat
 import expenseBanner from '../../assets/expenseBanner.png';
 import { GenericHeaderComponent } from '../components/GenericHeaderComponent'
 import InputV1Component from '../components/inputs/InputV1Component'
-import { useAssignPercentage } from '../hooks/useCollaborators'
 import { ButtonV2Component } from '../components/buttons/ButtonV2Component'
+import { useAssignPercentage } from '../hooks/collaborators/useAssignPercentage'
 
 
 interface AssignPercentageCollaboratorScreenProps extends StackScreenProps<RootStackParams, 'AssignPercentageCollaborator'> { }

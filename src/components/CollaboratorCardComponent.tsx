@@ -4,8 +4,8 @@ import { ApproveRejectCollaboratorRequest, AssignPercentageParams, Collaborator 
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { useApproveRejectCollaborators, useCollaboratorsV2 } from '../hooks/useCollaborators';
 import { useNavigation } from '@react-navigation/native';
+import { useApproveRejectCollaborators } from '../hooks/collaborators/useApproveRejectCollaborators';
 
 
 interface CollaboratorCardProps {
@@ -24,10 +24,7 @@ const CollaboratorCardComponent = ({ collaborator, idUsuarioCreador, updateColla
     console.log("idUsuarioCreador: " + idUsuarioCreador);
     console.log("userLogged: " + userLogged?.id);
 
-    const { isLoading,
-        setIsLoading,
-        joinShoppingList,
-        saveApproveRejectCollaborator } = useApproveRejectCollaborators();
+    const { setIsLoading, saveApproveRejectCollaborator } = useApproveRejectCollaborators();
 
 
     const [disableButton, setDisableButton] = useState(true);

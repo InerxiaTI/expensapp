@@ -1,5 +1,6 @@
 import expenseMateApi from "../api/expenseMateApi";
-import { CollaboratorsFilterRequest, CollaboratorsFilterResponse } from "../interfaces/UserInterface";
+import { JoinsShoppingListResponse } from "../interfaces/ShoppingInterface";
+import { CollaboratorsFilterRequest, CollaboratorsFilterResponse, ApproveRejectCollaboratorRequest, AssignPercentageCollaboratorRequest } from '../interfaces/UserInterface';
 
 
 const getCollaborators = async (request: CollaboratorsFilterRequest) => {
@@ -16,7 +17,40 @@ const getCollaborators = async (request: CollaboratorsFilterRequest) => {
     }
 }
 
+const approveRejectCollaboratorRequest = async (approveRejectRequest: ApproveRejectCollaboratorRequest) => {
+    try {
+        const response = await expenseMateApi.post<JoinsShoppingListResponse>(
+            '/api/lista-compra/aprobar-rechazar-colaborador', 
+            approveRejectRequest
+        )
+        console.log("response: "+JSON.stringify(response.data.body));
+        return response.data.body
+        
+    } catch (error) {
+        console.error("ERROR °°°°°°°°°°°° ", error.response.data);
+        throw error;
+    }
+}
+
+const updatePercentage = async (assignRequest: AssignPercentageCollaboratorRequest) => {
+    try {
+        const response = await expenseMateApi.post<JoinsShoppingListResponse>(
+            '/api/lista-compra/asignar-porcentaje-colaborador', 
+            assignRequest
+        )
+        console.log("response: "+JSON.stringify(response.data.body));
+
+        return response.data.body
+        
+    } catch (error) {
+        console.error("ERROR °°°°°°°°°°°° ", error.response.data);
+        throw error;
+    }
+}
+
 
 export {
-    getCollaborators
+    getCollaborators,
+    approveRejectCollaboratorRequest,
+    updatePercentage
 }
