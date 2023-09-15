@@ -23,12 +23,13 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
   const shoppingList = route.params
   const [user, setUser] = useState(userLogged!.id);
 
+  const { 
+    isLoading, 
+    shoppingDetailList, 
+    getShoppingDetail } = useFetchShoppingListDetail(shoppingList.id, user!);
 
-  const { isLoading, shoppingDetailList, getShoppingDetail } = useFetchShoppingListDetail();
-  
   const { 
     collaborators, 
-    fetchCollaborators, 
     isLoading: isLoadingCollaborators } = useFetchCollaborators(shoppingList.id)
 
 

@@ -1,12 +1,24 @@
-import { useState, } from 'react';
+import { useCallback, useContext, useState, } from 'react';
 import { Shopping, ShoppingRequest } from "../../interfaces/ShoppingInterface";
 import { getShoppingListDetail } from "../../services/shoppingListsService";
+import { useFocusEffect } from '@react-navigation/native';
+import { ShoppingContext } from '../../context/ShoppingContext';
 
-export const useFetchShoppingListDetail = () => {
+export const useFetchShoppingListDetail = (idShoppingList: number, idUserCompra: number) => {
+    const { shoppingState, setIsFocusFetchShoppingLists } = useContext(ShoppingContext);
 
     const [isLoading, setIsLoading] = useState(true)
     const [shoppingDetailList, setShoppingDetailList] = useState<Shopping[]>([])
 
+    useFocusEffect(
+        useCallback(() => {
+          if (!shoppingState.isFocusFetchShoppingLists) {
+            getShoppingDetail(idShoppingList, idUserCompra)
+          }
+          setIsFocusFetchShoppingLists(false)
+        }, [])
+      )
+    
 
     const getShoppingDetail = async (idShoppingList: number, idUserCompra: number) => {      
 
@@ -28,8 +40,6 @@ export const useFetchShoppingListDetail = () => {
         } finally {
             setIsLoading(false)
         }
-
-
     }
 
     return {
