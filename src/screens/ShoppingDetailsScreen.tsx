@@ -8,11 +8,10 @@ import ShoppingCardComponent from '../components/ShoppingCardComponent';
 import FloatingActionButton from '../components/FloatingActionButton';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../navigation/HomeStackNavigator';
-import { useCollaborators } from '../hooks/useShopping';
 import { AuthContext } from '../context/AuthContext';
 import { AddExpenseParams, CreateShoppingRequest } from '../interfaces/ShoppingInterface';
 import { useFetchShoppingListDetail } from '../hooks/shoppingList/useFetchShoppingListDetail';
-import { useSafeAreaFrame } from 'react-native-safe-area-context';
+import { useFetchCollaborators } from '../hooks/collaborators/useFetchCollaborators';
 
 interface ShoppingDetailsScreenProps extends StackScreenProps<RootStackParams, 'ShoppingDetails'> { }
 
@@ -25,14 +24,18 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
   const [user, setUser] = useState(userLogged!.id);
 
 
-  const {isLoading, shoppingDetailList, getShoppingDetail} = useFetchShoppingListDetail();
-  const { collaborators } = useCollaborators(shoppingList.id)
+  const { isLoading, shoppingDetailList, getShoppingDetail } = useFetchShoppingListDetail();
+  
+  const { 
+    collaborators, 
+    fetchCollaborators, 
+    isLoading: isLoadingCollaborators } = useFetchCollaborators(shoppingList.id)
 
 
   const changeList = (userId: number) => {
     console.log("#############3 user: " + user);
     setUser(userId)
-       
+
   }
 
   const [createShopping, setCreateShopping] = useState<CreateShoppingRequest>({
@@ -70,9 +73,6 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
         estado={shoppingList.estado}
       />
 
-
-
-
       {/* Shoppers */}
       <View
         style={{
@@ -81,51 +81,64 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
           paddingVertical: 0,
         }}
       >
-
-        <FlatList
-          data={collaborators}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item, index }) => (
-
-            <TouchableOpacity
-              onPress={() => { changeList(item.idUsuario) }}
+        {
+          isLoadingCollaborators ?
+            <View style={{ 
+                justifyContent: 'center', 
+                alignItems: 'center', 
+                height: 81,
+              }}
             >
-              <View style={{
-                ...styles.shopperCardContainer,
-                backgroundColor: user === item.idUsuario ? '#18032E' : COLORS.tabNavigatorPrimaryColor,
+              <ActivityIndicator color={'white'} size={20} />
+            </View>
+            :
+            <FlatList
+              data={collaborators}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={({ item, index }) => (
 
-              }}>
+                <TouchableOpacity
+                  onPress={() => { changeList(item.idUsuario) }}
+                >
+                  <View style={{
+                    ...styles.shopperCardContainer,
+                    backgroundColor: user === item.idUsuario ? '#18032E' : COLORS.tabNavigatorPrimaryColor,
 
-                <View style={styles.shopperCardTextContainer}>
-                  <Icon name='account-cash-outline' size={14} color='white' />
-                  <Text style={{ color: 'white', fontSize: 14, fontWeight: 'bold' }}>{item.nombresUsuario} id: {item.idUsuario}</Text>
-                </View>
+                  }}>
 
-                {
-                  item.esCreador ?
                     <View style={styles.shopperCardTextContainer}>
-                      <Icon name='wrench' size={12} color='white' />
-                      <Text style={styles.montoText}>Creador</Text>
+                      <Icon name='account-cash-outline' size={14} color='white' />
+                      <Text style={{ color: 'white', fontSize: 14, fontWeight: 'bold' }}>{item.nombresUsuario} id: {item.idUsuario}</Text>
                     </View>
-                    :<></>
 
-                }
+                    {
+                      item.esCreador ?
+                        <View style={styles.shopperCardTextContainer}>
+                          <Icon name='wrench' size={12} color='white' />
+                          <Text style={styles.montoText}>Creador</Text>
+                        </View>
+                        : <></>
 
-                
+                    }
 
-                {/* <View style={styles.shopperCardTextContainer}>
+
+
+                    {/* <View style={styles.shopperCardTextContainer}>
                   <Icon name='currency-usd-off' size={12} color='white' />
                   <Text style={styles.montoText}>{item.porcentaje}</Text>
                 </View> */}
 
-                <Text style={styles.porcentaje}>{item.porcentaje}%</Text>
+                    <Text style={styles.porcentaje}>{item.porcentaje}%</Text>
 
-              </View>
-            </TouchableOpacity>
-          )}
-          horizontal={true}
-          showsHorizontalScrollIndicator={false}
-        />
+                  </View>
+                </TouchableOpacity>
+              )}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+            />
+        }
+
+
       </View>
 
       {/* Compras de una lista */}
