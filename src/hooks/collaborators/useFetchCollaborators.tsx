@@ -5,7 +5,7 @@ import { getCollaborators } from "../../services/collaboratorService";
 import { useFocusEffect } from "@react-navigation/native";
 import { ShoppingContext } from "../../context/ShoppingContext";
 
-export const useFetchCollaborators = (idShoppingList: number) => {
+export const useFetchCollaborators = (request: CollaboratorsFilterRequest) => {
   const { authState } = useContext(AuthContext);
   const { shoppingState, setIsFocusFetchShoppingLists } = useContext(ShoppingContext);
 
@@ -17,19 +17,13 @@ export const useFetchCollaborators = (idShoppingList: number) => {
   useFocusEffect(
     useCallback(() => {
       if (!shoppingState.isFocusFetchShoppingLists) {
-        fetchCollaborators(idShoppingList)
+        fetchCollaborators(request)
       }
       setIsFocusFetchShoppingLists(false)
     }, [])
   )
 
-  const fetchCollaborators = async (idShoppingList: number) => {
-
-    const request: CollaboratorsFilterRequest = {
-      idListaCompras: idShoppingList,
-      estados: ["APROBADO"],
-      // nombres: nombre
-    }
+  const fetchCollaborators = async (request: CollaboratorsFilterRequest) => {
 
     console.log("RR LLamando a la API para traer listas de colaboradores: ", JSON.stringify(request));
     try {
@@ -46,7 +40,7 @@ export const useFetchCollaborators = (idShoppingList: number) => {
       });
 
       setCollaborators(response)
-      
+
     } catch (error) {
       console.error("ERROR °°°°°°°°°°°° ", error.response.data);
       throw error;
@@ -54,7 +48,14 @@ export const useFetchCollaborators = (idShoppingList: number) => {
     setIsLoading(false)
   }
 
+  const reloadCollaborators = async () => {
+    setIsLoading(true);
+    await fetchCollaborators(request);
+    setIsLoading(false);
+  };
+
   return {
+    reloadCollaborators,
     fetchCollaborators,
     isLoading,
     collaborators

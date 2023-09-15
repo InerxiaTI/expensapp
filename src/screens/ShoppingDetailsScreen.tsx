@@ -12,6 +12,7 @@ import { AuthContext } from '../context/AuthContext';
 import { AddExpenseParams, CreateShoppingRequest } from '../interfaces/ShoppingInterface';
 import { useFetchShoppingListDetail } from '../hooks/shoppingList/useFetchShoppingListDetail';
 import { useFetchCollaborators } from '../hooks/collaborators/useFetchCollaborators';
+import { CollaboratorsFilterRequest } from '../interfaces/UserInterface';
 
 interface ShoppingDetailsScreenProps extends StackScreenProps<RootStackParams, 'ShoppingDetails'> { }
 
@@ -22,6 +23,10 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
 
   const shoppingList = route.params
   const [user, setUser] = useState(userLogged!.id);
+  const request: CollaboratorsFilterRequest = {
+    idListaCompras: shoppingList.id,
+    estados: ['APROBADO']
+  }
 
   const { 
     isLoading, 
@@ -30,7 +35,7 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
 
   const { 
     collaborators, 
-    isLoading: isLoadingCollaborators } = useFetchCollaborators(shoppingList.id)
+    isLoading: isLoadingCollaborators } = useFetchCollaborators(request)
 
 
   const changeList = (userId: number) => {

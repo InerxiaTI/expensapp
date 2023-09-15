@@ -3,10 +3,10 @@ import BaseScreenComponent from '../components/BaseScreenComponent'
 import { ScrollView, Text, View } from 'react-native'
 import { StackScreenProps } from '@react-navigation/stack'
 import { RootStackParams } from '../navigation/HomeStackNavigator'
-import { CollaboratorsParams } from '../interfaces/UserInterface'
-import { useCollaboratorsV2 } from '../hooks/useCollaborators'
+import { CollaboratorsFilterRequest, CollaboratorsParams } from '../interfaces/UserInterface'
 import CollaboratorCardComponent from '../components/CollaboratorCardComponent'
 import {GenericHeaderComponent} from '../components/GenericHeaderComponent'
+import { useFetchCollaborators } from '../hooks/collaborators/useFetchCollaborators'
 
 
 interface CollaboratorsScreenProps extends StackScreenProps<RootStackParams, 'Collaborators'> { }
@@ -16,7 +16,11 @@ const CollaboratorsScreen = ({ route, navigation }: CollaboratorsScreenProps) =>
 
   const collaboratorParams: CollaboratorsParams = route.params
 
-  const { reloadCollaborators, isLoading, collaborators } = useCollaboratorsV2(collaboratorParams.idListaCompras)
+  const request: CollaboratorsFilterRequest = {
+    idListaCompras: collaboratorParams.idListaCompras!
+  }
+
+  const { reloadCollaborators, isLoading, collaborators } = useFetchCollaborators(request)
 
   const approvedCollaborators = collaborators.filter(collaborator => collaborator.estado === 'APROBADO');
   const pendingCollaborators = collaborators.filter(collaborator => collaborator.estado === 'PENDIENTE');
@@ -25,11 +29,8 @@ const CollaboratorsScreen = ({ route, navigation }: CollaboratorsScreenProps) =>
     reloadCollaborators()
   };
 
-  useEffect(() => {
-    console.log("++++++++++++++++++++++++++++++RECARGANDOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO {} ", JSON.stringify(collaboratorParams));
-    
+  useEffect(() => {   
     updateCollaboratorsList()
-
   }, [route.params.porcentaje])
 
 
