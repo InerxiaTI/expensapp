@@ -6,15 +6,14 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { KeyboardAvoidingScrollView } from '@cassianosch/react-native-keyboard-sticky-footer-avoiding-scroll-view';
 
-import ButtonV1Component from '../components/buttons/ButtonV1Component';
 import InputV1Component from '../components/inputs/InputV1Component';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../navigation/HomeStackNavigator';
 import { CreateShoppingRequest, AddExpenseParams } from '../interfaces/ShoppingInterface';
-import { useNewShopping } from '../hooks/useShopping';
 import { Collaborator } from '../interfaces/UserInterface';
 import { ButtonV2Component } from '../components/buttons/ButtonV2Component';
+import { useNewShopping } from '../hooks/shoppingList/useNewShopping';
 
 
 interface AddExpenseScreenProps extends StackScreenProps<RootStackParams, 'AddExpense'> { }
@@ -25,11 +24,6 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 	const { isLoading, setIsLoading, shopping, saveShopping } = useNewShopping()
 
 	const [selectedCollaborator, setSelectedCollaborator] = useState<Collaborator>({});
-
-	const handleCollaboratorInputChange = (collaborator) => {
-		setSelectedCollaborator(collaborator);
-	};
-
 
 	const [compra, setCompra] = useState("");
 	const [valorCompra, setValorCompra] = useState("");
@@ -49,7 +43,7 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 		validateForm(compra, text);
 	};
 
-	const validateForm = (compra, valor) => {
+	const validateForm = (compra: string, valor: string) => {
     const formIsValid = compra.trim() !== '' && valor.trim() !== '';
     setHabilitarBoton(formIsValid);
   };

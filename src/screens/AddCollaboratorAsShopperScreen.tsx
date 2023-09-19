@@ -1,18 +1,22 @@
 import React from 'react'
 import BaseScreenComponent from '../components/BaseScreenComponent'
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
-import { useCollaborators } from '../hooks/useShopping'
 import { StackScreenProps } from '@react-navigation/stack'
 import { RootStackParams } from '../navigation/HomeStackNavigator'
 import { CreateShoppingRequest } from '../interfaces/ShoppingInterface'
-import { Collaborator } from '../interfaces/UserInterface'
+import { Collaborator, CollaboratorsFilterRequest } from '../interfaces/UserInterface'
+import { useFetchCollaborators } from '../hooks/collaborators/useFetchCollaborators'
 
 interface AddCollaboratorAsShopperProps extends StackScreenProps<RootStackParams, 'AddCollaboratorAsShopper'> { }
 
 const AddCollaboratorAsShopperScreen = ({ route, navigation }: AddCollaboratorAsShopperProps) => {
     const createShopping: CreateShoppingRequest = route.params
 
-    const { getCollaborators, collaborators } = useCollaborators(createShopping.idListaCompras)
+    const request: CollaboratorsFilterRequest = {
+        idListaCompras: createShopping.idListaCompras!
+    }
+    
+    const {  reloadCollaborators, isLoading, collaborators } = useFetchCollaborators(request)
 
     const handleCollaboratorPress = (collaborator: Collaborator) => {
         navigation.navigate('AddExpense', {createShoppingRequest: createShopping, collaborator: collaborator});

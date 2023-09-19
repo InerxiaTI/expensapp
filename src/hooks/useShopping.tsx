@@ -4,38 +4,7 @@ import expenseMateApi from "../api/expenseMateApi"
 
 
 
-//crear compra
-export const useNewShopping = () => {
-    const [isLoading, setIsLoading] = useState(false)
-    const [shopping, setShopping] = useState<CreateShopping>()
 
-
-    const saveShopping = async (shopping: CreateShoppingRequest) => {
-
-        try {
-            const response = await expenseMateApi.post<CreateShoppingResponse>(
-                '/api/compra/crear-compra', 
-                shopping
-            )
-            console.log("response: "+JSON.stringify(response.data.body));
-            
-            setShopping(response.data.body)
-        } catch (error) {
-            console.error("ERROR °°°°°°°°°°°° ", error.response.data);
-            throw error;
-        }
-
-        setIsLoading(false)
-    }
-
-
-    return {
-        isLoading,
-        setIsLoading,
-        shopping,
-        saveShopping
-    }
-}
 
 
 
