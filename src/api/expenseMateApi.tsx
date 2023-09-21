@@ -1,5 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
 import CONFIGS from "../config/config";
+import { errorLog, infoLog } from "../utils/HandlerError";
+import { ErrorMate } from "../interfaces/ErrorInterface";
 
 const expenseMateApi = axios.create({
     baseURL: CONFIGS.EXPENSEMATE.BASE_URL,
@@ -53,20 +55,26 @@ const responseHandler = (response) => {
 }
 
 const responseErrorHandler = (error) => {
-    console.log("LOGF9 INTERCEPTOR RESPONSE ERROR");
+   
+    infoLog("====================================");
+    infoLog("==== INTERCEPTOR RESPONSE ERROR ====");
+    infoLog("====================================");
+    infoLog(`URL: ${error.config?.baseURL}${error.config?.url}`);
+    infoLog(`METHOD: ${error.config?.method}`)
+    infoLog(`Message: ${error.message}`)
+    infoLog(`Axios: ${error}`)
+    infoLog("====================================");
     
     // Aquí puedes manejar los errores de respuesta
     if (error.response) {
-        // Si hay una respuesta del servidor con un código de estado diferente de 2xx,
-        // puedes acceder al código de estado y al mensaje de error si está disponible.
-        console.log('LOGF9 Código de estado de error:', error.response.status);
-        console.log('LOGF9 Mensaje de error:', JSON.stringify(error));
+        const errorMate = error.response.data;      
+        
+        infoLog(`STATUS: ${errorMate.status}`)
+        infoLog(`Message: ${errorMate.message}`)
 
-        // Puedes lanzar el error nuevamente o mostrar un mensaje genérico al usuario
-        // throw error;
         if (error.response.status === 500) {
             console.log("LOGF9 ES JODIDO");
-
+            // Acciones necesarias para llamar pantalla de error, o para mostrar modal de error.
             //throw new Error('Ha ocurrido un error inesperado. Por favor, inténtelo de nuevo más tarde.');
         } else {
             console.log("LOGF9 AQUI EN NO 500S");

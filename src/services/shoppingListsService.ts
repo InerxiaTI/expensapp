@@ -16,7 +16,6 @@ const getShoppingLists = async (user: User) => {
 		)
 		return response.data.body
 	} catch (error) {
-		console.error(error);
 		throw error;
 	}
 }
@@ -24,15 +23,14 @@ const getShoppingLists = async (user: User) => {
 const saveShoppingList = async (request: CreateShoppingListRequest) => {
 	console.log("LLamando a la API para crear lista de compras");
 	try {
-			const response = await expenseMateApi.post<CreateShoppingListResponse>(
-					'/api/lista-compra/crear-lista-compra', 
-					request
-			)
-			console.log("response NEW SHOPPING LIST: "+JSON.stringify(response.data.body));
-			return response.data.body
+		const response = await expenseMateApi.post<CreateShoppingListResponse>(
+			'/api/lista-compra/crear-lista-compra',
+			request
+		)
+		console.log("response NEW SHOPPING LIST: " + JSON.stringify(response.data.body));
+		return response.data.body
 	} catch (error) {
-			console.error(error);
-			throw error;
+		throw error;
 	}
 
 }
@@ -43,12 +41,11 @@ const getShoppingListDetail = async (request: ShoppingRequest) => {
 	console.log("LLamando a la API para traer compras de una lista de compras: ", JSON.stringify(request));
 	try {
 		const response = await expenseMateApi.post<ShoppingResponse>(
-			'/api/compra/filter', 
+			'/api/compra/filter',
 			request
 		)
 		return response.data.body
 	} catch (error) {
-		console.error("ERROR °°°°°°°°°°°° ", error.response.data);
 		throw error;
 	}
 }
@@ -57,14 +54,13 @@ const createShopping = async (shopping: CreateShoppingRequest) => {
 	console.log("LLamando a la API para crear una compra");
 	try {
 		const response = await expenseMateApi.post<CreateShoppingResponse>(
-			'/api/compra/crear-compra', 
+			'/api/compra/crear-compra',
 			shopping
 		)
 
 		return response.data.body
-		
+
 	} catch (error) {
-		console.error("ERROR °°°°°°°°°°°° ", error.response.data);
 		throw error;
 	}
 
@@ -77,12 +73,11 @@ const startShoppingList = async (idListaCompras: number) => {
 		const response = await expenseMateApi.put<CreateShoppingListResponse>(
 			`/api/lista-compra/inicializar-lista-compras?idListaCompras=${idListaCompras}`
 		)
-		console.log("88888888888888888888888888888888\n response: "+JSON.stringify(response.data.body));
+		console.log("88888888888888888888888888888888\n response: " + JSON.stringify(response.data.body));
 
 		return response.data.body
-		
+
 	} catch (error) {
-		console.error("ERROR °°°°°°°°°°°° ", error.response.data);
 		throw error;
 	}
 
@@ -93,13 +88,12 @@ const sendRequestAddCollaborator = async (request: JoinShoppingListRequest) => {
 
 	try {
 		const response = await expenseMateApi.post<JoinsShoppingListResponse>(
-			'/api/lista-compra/solicitud-agregar-colaborador', 
+			'/api/lista-compra/solicitud-agregar-colaborador',
 			request
 		)
-		console.log("response: "+JSON.stringify(response.data.body));
+		console.log("response: " + JSON.stringify(response.data.body));
 		return response.data.body
 	} catch (error) {
-		console.log(error);
 		throw error;
 	}
 

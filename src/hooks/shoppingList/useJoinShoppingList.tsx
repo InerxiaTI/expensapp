@@ -17,12 +17,9 @@ export const useJoinShoppingList = () => {
         }
 
         try {
-            const response = await sendRequestAddCollaborator(request)
-            console.log("response: "+JSON.stringify(response));
-            
+            const response = await sendRequestAddCollaborator(request)           
             setJoinShoppingList(response)
         } catch (error) {
-            console.log("LOGF9 AQUI 1: ", error);
             throw error;
         }
 

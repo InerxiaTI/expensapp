@@ -7,6 +7,7 @@ import InputV1Component from '../components/inputs/InputV1Component';
 import { AuthContext } from '../context/AuthContext';
 import { ButtonV2Component } from '../components/buttons/ButtonV2Component';
 import { useJoinShoppingList } from '../hooks/shoppingList/useJoinShoppingList';
+import { errorLog } from '../utils/HandlerError';
 
 
 const JoinShoppingListScreen = () => {
@@ -42,9 +43,7 @@ const JoinShoppingListScreen = () => {
       setIsLoading(false);
 
     } catch (error) {
-      //console.error("LOGF9 Falla con unirse: " + error);
-      
-      //console.log("LOGF9 Falla al guardar: " + error);
+      errorLog(error.response.data.message, "Error saving join");
       ToastAndroid.show(error.response.data.message, ToastAndroid.LONG)
       /*Snackbar.show({
         marginBottom: 50,
@@ -57,7 +56,6 @@ const JoinShoppingListScreen = () => {
           onPress: () => {  },
         },
       });*/
-      //throw new Error(error)
      
     } finally {
       setIsLoading(false)
