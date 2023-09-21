@@ -42,8 +42,23 @@ const JoinShoppingListScreen = () => {
       setIsLoading(false);
 
     } catch (error) {
-      console.log("Falla al guardar: " + error);
+      //console.error("LOGF9 Falla con unirse: " + error);
+      
+      //console.log("LOGF9 Falla al guardar: " + error);
       ToastAndroid.show(error.response.data.message, ToastAndroid.LONG)
+      /*Snackbar.show({
+        marginBottom: 50,
+        textColor: 'white',
+        text: error.response.data.message,
+        duration: Snackbar.LENGTH_LONG,
+        action: {
+          text: 'UNDO',
+          textColor: 'green',
+          onPress: () => {  },
+        },
+      });*/
+      //throw new Error(error)
+     
     } finally {
       setIsLoading(false)
       setIsDisabled(false)
@@ -96,7 +111,6 @@ const JoinShoppingListScreen = () => {
           habilitarBoton={habilitarBoton}
           isLoading={isLoading}
         />
-
       </View>
 
     </BaseScreenComponent>

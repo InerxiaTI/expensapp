@@ -22,7 +22,7 @@ export const useJoinShoppingList = () => {
             
             setJoinShoppingList(response)
         } catch (error) {
-            console.log(error);
+            console.log("LOGF9 AQUI 1: ", error);
             throw error;
         }
 
