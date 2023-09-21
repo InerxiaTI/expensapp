@@ -30,7 +30,7 @@ export const ButtonV2Component = ({
                 activeOpacity={0.3}
                 onPress={onPress}
                 style={{
-                    backgroundColor: '#18032E',
+                    backgroundColor: '#7600D3',
                     borderRadius: 20,
                     height: 50,
                     justifyContent: 'center',

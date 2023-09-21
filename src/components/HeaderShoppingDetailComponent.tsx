@@ -7,8 +7,8 @@ import Clipboard from '@react-native-clipboard/clipboard';
 import { sliceText } from '../utils/textUtil'
 import { CollaboratorsParams } from '../interfaces/UserInterface'
 import { AuthContext } from '../context/AuthContext'
-import { useStartShoppingList } from '../hooks/useShopping'
 import HeaderContainerComponent from './base/HeaderContainerComponent'
+import { useStartShoppingList } from '../hooks/shoppingList/useStartShoppingList'
 
 interface HeaderShoppingDetailProps {
   idListaCompras: number;

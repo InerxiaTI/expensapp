@@ -71,10 +71,29 @@ const createShopping = async (shopping: CreateShoppingRequest) => {
 }
 
 
+const startShoppingList = async (idListaCompras: number) => {
+
+	try {
+		const response = await expenseMateApi.put<CreateShoppingListResponse>(
+			`/api/lista-compra/inicializar-lista-compras?idListaCompras=${idListaCompras}`
+		)
+		console.log("88888888888888888888888888888888\n response: "+JSON.stringify(response.data.body));
+
+		return response.data.body
+		
+	} catch (error) {
+		console.error("ERROR °°°°°°°°°°°° ", error.response.data);
+		throw error;
+	}
+
+}
+
+
 export {
 	getShoppingLists,
 	saveShoppingList,
 	getShoppingListDetail,
-	createShopping
+	createShopping,
+	startShoppingList
 
 }
