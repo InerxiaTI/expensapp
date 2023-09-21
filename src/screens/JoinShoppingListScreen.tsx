@@ -4,9 +4,9 @@ import { Image, TextInput, ToastAndroid, View } from 'react-native'
 import { GenericHeaderComponent } from '../components/GenericHeaderComponent'
 import expenseBanner from '../../assets/expenseBanner.png';
 import InputV1Component from '../components/inputs/InputV1Component';
-import { useJoinShoppingList } from '../hooks/useJoin';
 import { AuthContext } from '../context/AuthContext';
 import { ButtonV2Component } from '../components/buttons/ButtonV2Component';
+import { useJoinShoppingList } from '../hooks/shoppingList/useJoinShoppingList';
 
 
 const JoinShoppingListScreen = () => {
@@ -87,6 +87,7 @@ const JoinShoppingListScreen = () => {
           value={textValue}
           editable={!isDisabled}
           placeholder='Ingrese código de lista'
+          autoCapitalize='characters'
         />
 
         <ButtonV2Component

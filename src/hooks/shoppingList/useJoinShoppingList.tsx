@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { JoinShoppingList, JoinShoppingListRequest, JoinsShoppingListResponse } from '../interfaces/ShoppingInterface';
-import expenseMateApi from "../api/expenseMateApi"
+import { JoinShoppingList, JoinShoppingListRequest } from "../../interfaces/ShoppingInterface"
+import { sendRequestAddCollaborator } from "../../services/shoppingListsService"
 
 
 
@@ -17,13 +17,10 @@ export const useJoinShoppingList = () => {
         }
 
         try {
-            const response = await expenseMateApi.post<JoinsShoppingListResponse>(
-                '/api/lista-compra/solicitud-agregar-colaborador', 
-                request
-            )
-            console.log("response: "+JSON.stringify(response.data.body));
+            const response = await sendRequestAddCollaborator(request)
+            console.log("response: "+JSON.stringify(response));
             
-            setJoinShoppingList(response.data.body)
+            setJoinShoppingList(response)
         } catch (error) {
             console.log(error);
             throw error;

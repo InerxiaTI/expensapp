@@ -10,7 +10,9 @@ interface InputV1Props {
     keyboardType?: KeyboardType,
     refOwn?:React.Ref<TextInput>,
     autoFocus?: boolean
-    autoCorrect?: boolean
+    autoCorrect?: boolean,
+    autoCapitalize?: "none" | "sentences" | "words" | "characters" | undefined
+
 
 }
 
@@ -18,7 +20,7 @@ const InputV1Component = ({
     title = '', 
     placeholder = '', onChangeText, value, editable= true, 
     keyboardType = 'default', autoFocus = false, refOwn,
-    autoCorrect = true}: InputV1Props) => {
+    autoCorrect = true, autoCapitalize= 'none'}: InputV1Props) => {
 
     const textInputRef = useRef(null);
     React.useImperativeHandle(refOwn, () => textInputRef.current!);
@@ -42,6 +44,7 @@ const InputV1Component = ({
                     style={styles.searchTextInput}
                     autoFocus={autoFocus}
                     ref={textInputRef}
+                    autoCapitalize={autoCapitalize}
                     // autoCorrect={autoCorrect}
                 />
 

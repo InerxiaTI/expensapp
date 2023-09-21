@@ -1,5 +1,5 @@
 import expenseMateApi from "../api/expenseMateApi";
-import { CreateShoppingListRequest, CreateShoppingListResponse, CreateShoppingRequest, CreateShoppingResponse, ShoppingListsResponse, ShoppingRequest, ShoppingResponse } from "../interfaces/ShoppingInterface";
+import { CreateShoppingListRequest, CreateShoppingListResponse, CreateShoppingRequest, CreateShoppingResponse, JoinShoppingListRequest, JoinsShoppingListResponse, ShoppingListsResponse, ShoppingRequest, ShoppingResponse } from "../interfaces/ShoppingInterface";
 import { User } from "../interfaces/UserInterface";
 
 
@@ -89,11 +89,29 @@ const startShoppingList = async (idListaCompras: number) => {
 }
 
 
+const sendRequestAddCollaborator = async (request: JoinShoppingListRequest) => {
+
+	try {
+		const response = await expenseMateApi.post<JoinsShoppingListResponse>(
+			'/api/lista-compra/solicitud-agregar-colaborador', 
+			request
+		)
+		console.log("response: "+JSON.stringify(response.data.body));
+		return response.data.body
+	} catch (error) {
+		console.log(error);
+		throw error;
+	}
+
+}
+
+
 export {
 	getShoppingLists,
 	saveShoppingList,
 	getShoppingListDetail,
 	createShopping,
-	startShoppingList
+	startShoppingList,
+	sendRequestAddCollaborator
 
 }
