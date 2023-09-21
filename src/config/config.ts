@@ -5,7 +5,7 @@ const CONFIGS = {
     EXPENSEMATE: {
         BASE_URL: `${HOST}`
     },
-    REQUEST_TIMEOUT_MS: 10000
+    REQUEST_TIMEOUT_MS: 5000
 }
 
 export default CONFIGS

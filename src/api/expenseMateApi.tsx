@@ -83,14 +83,14 @@ const responseErrorHandler = (error) => {
         }
     } else if (error.request) {
         // Si la solicitud no pudo ser realizada (por ejemplo, problemas de red)
-        console.error('LOGF9 Error de solicitud:', error.request);
+        errorLog('Error de solicitud:', error);
 
     } else {
         // Error inesperado
-        console.error('LOGF9 Error inesperado:', error.message);
+        errorLog('Error inesperado:', error);
     }
 
-    console.log("LOGF9 antes del REJECT del RESPONSE ERROR");
+   infoLog("antes del REJECT del RESPONSE ERROR");
     
     return Promise.reject(error)
 }
