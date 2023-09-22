@@ -6,20 +6,28 @@ import { RootStackParams } from '../navigation/MainStackNavigator'
 import { CreateShoppingRequest } from '../interfaces/ShoppingInterface'
 import { Collaborator, CollaboratorsFilterRequest } from '../interfaces/UserInterface'
 import { useFetchCollaborators } from '../hooks/collaborators/useFetchCollaborators'
+import CollaboratorCardComponent from '../components/CollaboratorCardComponent'
+
+export interface AddCollaboratorAsShopperParams {
+    createShoppingRequest: CreateShoppingRequest,
+    idUsuarioCreador: number,
+    estadoLista: string
+}
 
 interface AddCollaboratorAsShopperProps extends StackScreenProps<RootStackParams, 'AddCollaboratorAsShopper'> { }
 
 const AddCollaboratorAsShopperScreen = ({ route, navigation }: AddCollaboratorAsShopperProps) => {
-    const createShopping: CreateShoppingRequest = route.params
+    const addCollaboratorsAsShopper: AddCollaboratorAsShopperParams = route.params
+    const createShopping: CreateShoppingRequest = addCollaboratorsAsShopper.createShoppingRequest
 
     const request: CollaboratorsFilterRequest = {
-        idListaCompras: createShopping.idListaCompras!
+        idListaCompras: createShopping.idListaCompras
     }
-    
-    const {  reloadCollaborators, isLoading, collaborators } = useFetchCollaborators(request)
+
+    const { reloadCollaborators, isLoading, collaborators } = useFetchCollaborators(request)
 
     const handleCollaboratorPress = (collaborator: Collaborator) => {
-        navigation.navigate('AddExpense', {createShoppingRequest: createShopping, collaborator: collaborator});
+        navigation.navigate('AddExpense', { createShoppingRequest: createShopping, collaborator: collaborator });
     };
 
     return (
@@ -27,16 +35,16 @@ const AddCollaboratorAsShopperScreen = ({ route, navigation }: AddCollaboratorAs
 
             <Text style={{ color: 'white' }}>Holas {createShopping.idListaCompras}</Text>
             <ScrollView>
-                {collaborators.map((collaborator) => (
-                    <TouchableOpacity
-                        key={collaborator.id}
-                        onPress={() => handleCollaboratorPress(collaborator)}
-                    >
-                        <View>
-                            <Text>{collaborator.nombresUsuario} {collaborator.apellidosUsuario}</Text>
-                            {/* Mostrar más detalles si es necesario */}
-                        </View>
-                    </TouchableOpacity>
+                {collaborators.map((collaborator, index) => (
+                    <CollaboratorCardComponent
+                        key={index}
+                        collaborator={collaborator}
+                        idUsuarioCreador={addCollaboratorsAsShopper.idUsuarioCreador}
+                        estadoLista={addCollaboratorsAsShopper.estadoLista}
+                        updateCollaboratorsList={()=>{}}
+                        actionButtom={()=> {handleCollaboratorPress(collaborator)}}
+
+                    />
                 ))}
             </ScrollView>
 

@@ -3,14 +3,11 @@ import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import LoginScreen from '../screens/LoginScreen';
 import { TabsNavigator } from './TabsNavigator';
-import { AddExpenseParams, CreateShoppingRequest, ShoppingList } from '../interfaces/ShoppingInterface';
+import { AddExpenseParams, ShoppingList } from '../interfaces/ShoppingInterface';
 import SettingsScreen from '../screens/SettingsScreen';
-import JoinShoppingListScreen from '../screens/JoinShoppingListScreen';
 import NewShoppingListScreen from '../screens/NewShoppingListScreen';
-import AddCollaboratorAsShopperScreen from '../screens/AddCollaboratorAsShopperScreen';
-import CollaboratorsScreen from '../screens/CollaboratorsScreen';
-import { AssignPercentageParams, CollaboratorsParams } from '../interfaces/UserInterface';
-import AssignPercentageCollaboratorScreen from '../screens/AssignPercentageCollaboratorScreen';
+import { AddCollaboratorAsShopperParams } from '../screens/AddCollaboratorAsShopperScreen';
+import { CollaboratorsParams } from '../interfaces/UserInterface';
 import ErrorInesperadoScreen from '../screens/error/ErrorGeneralScreen';
 import { infoLog } from '../utils/HandlerError';
 
@@ -24,7 +21,7 @@ export type RootStackParams = {
   NewShoppingList: undefined,
   JoinShoppingList: undefined,
   Settings: undefined,
-  AddCollaboratorAsShopper: CreateShoppingRequest,
+  AddCollaboratorAsShopper: AddCollaboratorAsShopperParams,
   Collaborators: CollaboratorsParams,
   AssignPercentageCollaborator: any,
   ErrorInesperado: any,

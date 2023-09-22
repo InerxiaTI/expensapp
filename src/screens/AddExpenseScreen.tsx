@@ -181,7 +181,11 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 						<Text style={{ ...styles.textInfoInput, fontSize: 20 }}>Comprador</Text>
 						<View style={styles.searchContainer}>
 							<TouchableWithoutFeedback
-								onPress={() => { navigation.navigate('AddCollaboratorAsShopper', addExpenseParams!.createShoppingRequest!) }}
+								onPress={() => { navigation.navigate('AddCollaboratorAsShopper', {
+									createShoppingRequest: addExpenseParams?.createShoppingRequest!,
+									estadoLista: addExpenseParams.estadoLista!,
+									idUsuarioCreador: addExpenseParams.idUsuarioCreador!
+								}) }}
 							>
 								<View
 									style={{

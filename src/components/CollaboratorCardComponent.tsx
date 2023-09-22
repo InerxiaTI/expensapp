@@ -13,9 +13,13 @@ interface CollaboratorCardProps {
     idUsuarioCreador: number;
     estadoLista: string;
     updateCollaboratorsList: () => void;
-}
+    actionButtom?: () => void
+ }
 
-const CollaboratorCardComponent = ({ collaborator, idUsuarioCreador, updateCollaboratorsList, estadoLista }: CollaboratorCardProps) => {
+const CollaboratorCardComponent = ({ 
+    collaborator, 
+    idUsuarioCreador, 
+    updateCollaboratorsList, estadoLista, actionButtom }: CollaboratorCardProps) => {
 
     const navigator = useNavigation();
 
@@ -117,13 +121,17 @@ const CollaboratorCardComponent = ({ collaborator, idUsuarioCreador, updateColla
             setDisableButtonCard(false)
         }
 
+        if (actionButtom?.length !== undefined) {
+            setDisableButtonCard(false)
+        }
+
     })
 
     return (
 
         <TouchableOpacity
             disabled={disableButtonCard}
-            onPress={() => goToAssignPercentageScreen()}
+            onPress={() => actionButtom?.length == undefined? goToAssignPercentageScreen(): actionButtom()}
             style={{
                 backgroundColor: '#262626',
                 height: 50,
@@ -162,9 +170,6 @@ const CollaboratorCardComponent = ({ collaborator, idUsuarioCreador, updateColla
                     </View>
 
             }
-
-
-
         </TouchableOpacity>
 
 
