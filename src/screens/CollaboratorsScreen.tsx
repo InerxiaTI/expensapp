@@ -42,7 +42,7 @@ const CollaboratorsScreen = ({ route, navigation }: CollaboratorsScreenProps) =>
       <View
         style={{
           flex: 1,
-          borderWidth: 0,
+          borderWidth: 1,
           borderColor: 'red',
           marginTop: 50,
           paddingHorizontal: 15
@@ -51,7 +51,7 @@ const CollaboratorsScreen = ({ route, navigation }: CollaboratorsScreenProps) =>
         <View
           style={{
             flex: 2,
-            borderWidth: 0,
+            borderWidth: 1,
             borderColor: 'yellow'
           }}
         >

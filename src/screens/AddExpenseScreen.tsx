@@ -133,7 +133,7 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 
 				<View
 					style={{
-						borderWidth: 1,
+						borderWidth: 0,
 						borderColor: 'red',
 						flexDirection: 'row',
 						gap: 10

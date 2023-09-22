@@ -7,6 +7,7 @@ import { CreateShoppingRequest } from '../interfaces/ShoppingInterface'
 import { Collaborator, CollaboratorsFilterRequest } from '../interfaces/UserInterface'
 import { useFetchCollaborators } from '../hooks/collaborators/useFetchCollaborators'
 import CollaboratorCardComponent from '../components/CollaboratorCardComponent'
+import { GenericHeaderComponent } from '../components/GenericHeaderComponent'
 
 export interface AddCollaboratorAsShopperParams {
     createShoppingRequest: CreateShoppingRequest,
@@ -32,21 +33,30 @@ const AddCollaboratorAsShopperScreen = ({ route, navigation }: AddCollaboratorAs
 
     return (
         <BaseScreenComponent>
+          <GenericHeaderComponent title='Comprador' showArrowBack />
 
-            <Text style={{ color: 'white' }}>Holas {createShopping.idListaCompras}</Text>
-            <ScrollView>
-                {collaborators.map((collaborator, index) => (
-                    <CollaboratorCardComponent
-                        key={index}
-                        collaborator={collaborator}
-                        idUsuarioCreador={addCollaboratorsAsShopper.idUsuarioCreador}
-                        estadoLista={addCollaboratorsAsShopper.estadoLista}
-                        updateCollaboratorsList={()=>{}}
-                        actionButtom={()=> {handleCollaboratorPress(collaborator)}}
+            <View
+                style={{
+                    flex: 1,
+                    paddingHorizontal: 15
+                }}
+            >
+                <ScrollView>
+                    {collaborators.map((collaborator, index) => (
+                        <CollaboratorCardComponent
+                            key={index}
+                            collaborator={collaborator}
+                            idUsuarioCreador={addCollaboratorsAsShopper.idUsuarioCreador}
+                            estadoLista={addCollaboratorsAsShopper.estadoLista}
+                            updateCollaboratorsList={() => { }}
+                            actionButtom={() => { handleCollaboratorPress(collaborator) }}
 
-                    />
-                ))}
-            </ScrollView>
+                        />
+                    ))}
+                </ScrollView>
+
+            </View>
+
 
         </BaseScreenComponent>
     )
