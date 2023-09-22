@@ -7,7 +7,7 @@ import { getCurrentRoute, reset } from "../navigation/servicesUtil/NavigationSer
 
 const expenseMateApi = axios.create({
     baseURL: CONFIGS.EXPENSEMATE.BASE_URL,
-    timeout: CONFIGS.REQUEST_TIMEOUT_MS
+    timeout: CONFIGS.REQUEST_TIMEOUT_MS,
 })
 
 
@@ -84,7 +84,7 @@ const responseErrorHandler = (error) => {
         infoLog(`STATUS: ${errorMate.status}`)
         infoLog(`Message: ${errorMate.message}`)
 
-        if (error.response.status === 400) {
+        if (error.response.status === 500) {
             console.log("LOGF9 ES JODIDO");
             redirect()
             // Acciones necesarias para llamar pantalla de error, o para mostrar modal de error.
@@ -96,7 +96,8 @@ const responseErrorHandler = (error) => {
         }
     } else if (error.request) {
         // Si la solicitud no pudo ser realizada (por ejemplo, problemas de red)
-        errorLog('Error de solicitud:', error);
+        errorLog('Error de solicitud:', error.message);
+        errorLog('Error de solicitud:', JSON.stringify(error));
 
     } else {
         // Error inesperado
