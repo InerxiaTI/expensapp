@@ -9,7 +9,7 @@ import { KeyboardAvoidingScrollView } from '@cassianosch/react-native-keyboard-s
 import InputV1Component from '../components/inputs/InputV1Component';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { StackScreenProps } from '@react-navigation/stack';
-import { RootStackParams } from '../navigation/HomeStackNavigator';
+import { RootStackParams } from '../navigation/MainStackNavigator';
 import { CreateShoppingRequest, AddExpenseParams } from '../interfaces/ShoppingInterface';
 import { Collaborator } from '../interfaces/UserInterface';
 import { ButtonV2Component } from '../components/buttons/ButtonV2Component';

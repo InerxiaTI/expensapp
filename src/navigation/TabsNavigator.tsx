@@ -5,10 +5,10 @@ import ProfileScreen from '../screens/SettingsScreen';
 import { COLORS } from '../theme/Theme';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import NewShoppingListScreen from '../screens/NewShoppingListScreen';
-import {  HomeStackNavigator, JoinShoppingListStack, NewShoppingListStack, SettingsStack } from './HomeStackNavigator';
+import { JoinShoppingListStack, NewShoppingListStack, SettingsStack } from './MainStackNavigator';
 import { AuthContext } from '../context/AuthContext';
 import { useTabBarVisibility } from '../context/TabBarContext';
-import HomeScreen from '../screens/HomeScreen';
+import { HomeNavigation } from './HomeNavigation';
 
 
 const Tab = createMaterialBottomTabNavigator();
@@ -151,7 +151,7 @@ const TabNoMaterial2 = () => {
       })}
 
     >
-      <Tab2.Screen name="HomeStack" options={{ title: 'Inicio' }} component={HomeScreen} />
+      <Tab2.Screen name="HomeStack" options={{ title: 'Inicio' }} component={HomeNavigation} />
       <Tab2.Screen name="NewShoppingListStack" options={{ title: 'Nuevo' }} component={NewShoppingListStack} />
       <Tab2.Screen name="JoinShoppingListStack" options={{ title: 'Unirse' }} component={JoinShoppingListStack} />
       <Tab2.Screen name="SettingsStack" options={{ tabBarLabel: 'Ajustes' }} component={SettingsStack} />

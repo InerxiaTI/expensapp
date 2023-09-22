@@ -7,7 +7,7 @@ import HeaderShoppingDetailComponent from '../components/HeaderShoppingDetailCom
 import ShoppingCardComponent from '../components/ShoppingCardComponent';
 import FloatingActionButton from '../components/FloatingActionButton';
 import { StackScreenProps } from '@react-navigation/stack';
-import { RootStackParams } from '../navigation/HomeStackNavigator';
+import { RootStackParams } from '../navigation/MainStackNavigator';
 import { AuthContext } from '../context/AuthContext';
 import { AddExpenseParams, CreateShoppingRequest } from '../interfaces/ShoppingInterface';
 import { useFetchShoppingListDetail } from '../hooks/shoppingList/useFetchShoppingListDetail';
