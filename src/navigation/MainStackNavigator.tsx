@@ -12,10 +12,12 @@ import CollaboratorsScreen from '../screens/CollaboratorsScreen';
 import { AssignPercentageParams, CollaboratorsParams } from '../interfaces/UserInterface';
 import AssignPercentageCollaboratorScreen from '../screens/AssignPercentageCollaboratorScreen';
 import ErrorInesperadoScreen from '../screens/error/ErrorGeneralScreen';
+import { infoLog } from '../utils/HandlerError';
 
 export type RootStackParams = {
+  Auth: undefined,
   Tabs: undefined,
-  HomeTab: undefined,
+  Home: undefined,
   ShoppingDetails: ShoppingList,
   AddExpense: AddExpenseParams,
   Login: undefined,
@@ -34,6 +36,7 @@ const Stack = createStackNavigator<RootStackParams>();
 export const NewShoppingListStack = () => {
   return (
     <Stack.Navigator
+      // initialRouteName='NewShoppingList'
       screenOptions={{
         headerShown: false,
         headerStyle: {
@@ -45,20 +48,7 @@ export const NewShoppingListStack = () => {
     </Stack.Navigator>
   )
 }
-export const JoinShoppingListStack = () => {
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-        headerStyle: {
-          elevation: 0,
-          shadowColor: 'transparent',
-        }
-      }}>
-      <Stack.Screen name="JoinShoppingList" component={JoinShoppingListScreen} />
-    </Stack.Navigator>
-  )
-}
+
 export const SettingsStack = () => {
   return (
     <Stack.Navigator
@@ -74,9 +64,15 @@ export const SettingsStack = () => {
   )
 }
 
-export const AuthStack = () => {
+const AuthStack = createStackNavigator();
+
+export const AuthNavigation = () => {
+
+  infoLog("EN EL AUTH NAVIGATION")
+
+
   return (
-    <Stack.Navigator
+    <AuthStack.Navigator
       initialRouteName='Login'
       screenOptions={{
         headerShown: false,
@@ -86,8 +82,10 @@ export const AuthStack = () => {
         }
       }}
     >
-      <Stack.Screen name="Login" component={LoginScreen} />
-    </Stack.Navigator>
+      <AuthStack.Screen name="Login" options={{
+        gestureEnabled: false
+      }} component={LoginScreen} />
+    </AuthStack.Navigator>
   );
 }
 const StackError = createStackNavigator();
@@ -111,32 +109,24 @@ export const ErrorGeneralStack = () => {
 export const MainStackNavigator = () => {
 
   const { authState } = useContext(AuthContext);
-  console.log("logueado: " + authState.isLoggedIn);
+  console.log("MAINS STACK NAVI logueado: " + authState.isLoggedIn);
 
-  if (authState.isLoggedIn) {
-    return (
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-          headerStyle: {
-            elevation: 0,
-            shadowColor: 'transparent',
-          }
-        }}
-      >
-        <Stack.Screen name="HomeTab" component={TabsNavigator} />
-        <Stack.Screen name="AddCollaboratorAsShopper" component={AddCollaboratorAsShopperScreen}/>
-        <Stack.Screen name="Collaborators" component={CollaboratorsScreen}/>
-        <Stack.Screen name="AssignPercentageCollaborator" component={AssignPercentageCollaboratorScreen}/>
-        <Stack.Screen name="ErrorInesperado" component={ErrorInesperadoScreen}/>
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        headerStyle: {
+          elevation: 0,
+          shadowColor: 'transparent',
+        }
+      }}
+    >
+      <Stack.Screen name="Auth" component={AuthNavigation} />
+      <Stack.Screen name="Tabs" component={TabsNavigator} />
+      <Stack.Screen name="ErrorInesperado" component={ErrorInesperadoScreen} />
+    </Stack.Navigator>
+  );
 
-      </Stack.Navigator>
-    );
-  } else {
-    return (
-      <AuthStack />
-    )
-  }
 
 
 

@@ -1,17 +1,23 @@
-import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Dimensions, KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableOpacity, View, ToastAndroid, ActivityIndicator } from 'react-native';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react'
+import { Dimensions, KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableOpacity, View, ToastAndroid, ActivityIndicator, BackHandler } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { AuthContext } from '../context/AuthContext'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useLogin } from '../hooks/useLogin'
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { infoLog } from '../utils/HandlerError';
+import { reset } from '../navigation/servicesUtil/NavigationService';
 
 const { height } = Dimensions.get('window');
 
 
 const LoginScreen = () => {
-  const { signIn } = useContext(AuthContext);
+  const { signIn, authState } = useContext(AuthContext);
+  const navigator = useNavigation();
+
+  const [shouldNavigateToTabs, setShouldNavigateToTabs] = useState(false);
 
   const [isDisabled, setIsDisabled] = useState(false);
 
@@ -32,58 +38,91 @@ const LoginScreen = () => {
 
     setTimeout(async () => {
       console.log("Esperando...");
-      if(email && password) {
+      if (email && password) {
         try {
           console.log("1.");
           let myuser = await validateUser(email, password);
           const userLogged = myuser?.data.body
           console.log("6.", JSON.stringify(myuser?.data.body.correo));
-  
-    
+
+
           if (userLogged) {
             if (userLogged && userLogged.activo === true) {
               console.log("usuario encontrado");
               signIn(userLogged)
-        
+              setShouldNavigateToTabs(true);
+
             } else {
               console.log("usuario o contraseña incorrecta / o usuario inactivo");
               ToastAndroid.show("Usuario o contraseña incorrecta", ToastAndroid.LONG)
             }
-        
+
           }
-    
+
         } catch (error) {
           console.log("ERROR: " + error);
-          ToastAndroid.show(error.response.data.message, ToastAndroid.LONG )
+          ToastAndroid.show(error.response.data.message, ToastAndroid.LONG)
         } finally {
           setIsLoading(false)
           setIsDisabled(false)
 
         }
-      } else{
+      } else {
         ToastAndroid.show("Usuario o contraseña incorrecta", ToastAndroid.LONG)
         setIsLoading(false)
         setIsDisabled(false)
 
       }
-      
+
     }, 2000)
 
 
   }
 
+  useFocusEffect(
+    React.useCallback(() => {
+      const onBackPress = () => {
+        infoLog("NO HACER NADA")
+        return true
+      };
+
+      const subscription = BackHandler.addEventListener('hardwareBackPress', onBackPress);
+
+      return () => subscription.remove();
+    }, [])
+  );
+
+
   useEffect(() => {
+    infoLog("PRUEBA DE SHOW: "+shouldNavigateToTabs)
     const getUserFromStorage = async () => {
+      infoLog("En el use del login")
       const userData = await AsyncStorage.getItem('user');
+      infoLog("En el use del login 2: "+JSON.stringify(userData));
+
       if (userData) {
         const parsedUserData = JSON.parse(userData);
         // Actualizar el contexto con los datos del usuario almacenados
         signIn(parsedUserData);
+        infoLog("En el use del login 3: "+authState.isLoggedIn)
+        infoLog("En el use del login 5 "+JSON.stringify(parsedUserData))
+        setShouldNavigateToTabs(true);
+
+        
       }
     };
-
     getUserFromStorage();
-  }, []);
+
+  }, [])
+
+  useEffect(() => {
+    infoLog("PRUEBA DE SHOULD: "+shouldNavigateToTabs+" logueado: "+authState.isLoggedIn)
+    if (shouldNavigateToTabs && authState.isLoggedIn==true) {
+      reset(0, 'Tabs', {})
+    }
+
+  }, [shouldNavigateToTabs, authState.isLoggedIn])
+
 
   return (
     <SafeAreaView style={{ borderColor: 'white', borderWidth: 0, flex: 1 }}>

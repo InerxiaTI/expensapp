@@ -9,7 +9,7 @@ const HomeScreen = () => {
   const {authState} = useContext(AuthContext);
   const user = authState.user
   
-  const { isLoading, shoppingLists, onRefresh, refreshing} = useFetchShoppingLists();
+  const { isLoading, shoppingLists, onRefresh, refreshing} = useFetchShoppingLists(user!);
 
 
   if (isLoading) {

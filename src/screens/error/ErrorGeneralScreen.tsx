@@ -18,7 +18,7 @@ const ErrorInesperadoScreen = ({ route, navigation }:ErrorInesperadoProps) => {
             }}
         >PANTALLA ERRORES INESPERADOS (500)</Text>
 
-        <Button title='Volver inicio' onPress={()=> {navigation.navigate('HomeTab')}}/>
+        <Button title='Volver inicio' onPress={()=> {navigation.navigate('Auth')}}/>
 
 
     </BaseScreenComponent>

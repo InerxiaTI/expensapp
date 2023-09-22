@@ -8,10 +8,9 @@ import { getShoppingLists } from "../../services/shoppingListsService";
 
 
 
-export const useFetchShoppingLists = () => {
-    const {authState} = useContext(AuthContext);
+export const useFetchShoppingLists = (user: User) => {
     const {shoppingState, setIsFocusFetchShoppingLists} = useContext(ShoppingContext);
-    const user = authState.user
+    // const user = authState.user
 
     const [isLoading, setIsLoading] = useState(true)
     const [refreshing, setRefreshing] = useState(false);

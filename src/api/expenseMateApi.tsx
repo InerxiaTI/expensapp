@@ -1,12 +1,24 @@
 import axios, { AxiosRequestConfig } from "axios";
 import CONFIGS from "../config/config";
 import { errorLog, infoLog } from "../utils/HandlerError";
-import { ErrorMate } from "../interfaces/ErrorInterface";
+import { getCurrentRoute, reset } from "../navigation/servicesUtil/NavigationService";
+
+
 
 const expenseMateApi = axios.create({
     baseURL: CONFIGS.EXPENSEMATE.BASE_URL,
     timeout: CONFIGS.REQUEST_TIMEOUT_MS
 })
+
+
+const redirect = () => {
+    infoLog(`Route: ${JSON.stringify(getCurrentRoute())}`)
+
+    infoLog("Antes navi")
+
+    reset(1, 'ErrorInesperado', {'test': true})
+    
+}
 
 // Permite interceptar las request y hacer algo con ellas. 
 const requestHandler = (request) => {
@@ -28,7 +40,7 @@ const requestHandler = (request) => {
 
 const requestErrorHandler = (error) => {
     console.log("LOGF9 INTERCEPTOR REQUEST ERROR");
-    
+
 
     console.log("LOGF9 request, error: " + error);
 
@@ -55,7 +67,7 @@ const responseHandler = (response) => {
 }
 
 const responseErrorHandler = (error) => {
-   
+
     infoLog("====================================");
     infoLog("==== INTERCEPTOR RESPONSE ERROR ====");
     infoLog("====================================");
@@ -64,16 +76,17 @@ const responseErrorHandler = (error) => {
     infoLog(`Message: ${error.message}`)
     infoLog(`Axios: ${error}`)
     infoLog("====================================");
-    
+
     // Aquí puedes manejar los errores de respuesta
     if (error.response) {
-        const errorMate = error.response.data;      
-        
+        const errorMate = error.response.data;
+
         infoLog(`STATUS: ${errorMate.status}`)
         infoLog(`Message: ${errorMate.message}`)
 
-        if (error.response.status === 500) {
+        if (error.response.status === 400) {
             console.log("LOGF9 ES JODIDO");
+            redirect()
             // Acciones necesarias para llamar pantalla de error, o para mostrar modal de error.
             //throw new Error('Ha ocurrido un error inesperado. Por favor, inténtelo de nuevo más tarde.');
         } else {
@@ -90,8 +103,8 @@ const responseErrorHandler = (error) => {
         errorLog('Error inesperado:', error);
     }
 
-   infoLog("antes del REJECT del RESPONSE ERROR");
-    
+    infoLog("antes del REJECT del RESPONSE ERROR");
+
     return Promise.reject(error)
 }
 

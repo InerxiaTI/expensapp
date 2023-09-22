@@ -6,12 +6,15 @@ const errorLog = (message: string, error?: any) => {
 }
 
 
-const infoLog = (message: string) => {
-    console.info(LOGGER_ID, message);
+const infoLog = (message: string, tag?: string) => {
+
+    const TAG = tag || LOGGER_ID
+
+    console.info(TAG, message);
 }
 
 
 export {
     infoLog,
-    errorLog
+    errorLog,
 }

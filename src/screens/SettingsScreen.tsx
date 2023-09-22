@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 import BaseScreenComponent from '../components/BaseScreenComponent'
 import { AuthContext } from '../context/AuthContext';
+import { reset } from '../navigation/servicesUtil/NavigationService';
 
 const SettingsScreen = () => {
 
@@ -9,6 +10,7 @@ const SettingsScreen = () => {
 
   const handleLogOut = () => {
     logOut()
+    reset(0, 'Auth', {})
 
   }
 

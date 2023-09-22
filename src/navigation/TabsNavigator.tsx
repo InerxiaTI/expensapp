@@ -5,10 +5,14 @@ import ProfileScreen from '../screens/SettingsScreen';
 import { COLORS } from '../theme/Theme';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import NewShoppingListScreen from '../screens/NewShoppingListScreen';
-import { JoinShoppingListStack, NewShoppingListStack, SettingsStack } from './MainStackNavigator';
+import { NewShoppingListStack, SettingsStack } from './MainStackNavigator';
 import { AuthContext } from '../context/AuthContext';
 import { useTabBarVisibility } from '../context/TabBarContext';
 import { HomeNavigation } from './HomeNavigation';
+import { JoinShoppingListNavigation } from './JoinShoppingListNavigation';
+import { useNavigation } from '@react-navigation/core';
+import { infoLog } from '../utils/HandlerError';
+import { getCurrentRoute, getCurrentScreenName } from './servicesUtil/NavigationService';
 
 
 const Tab = createMaterialBottomTabNavigator();
@@ -76,7 +80,7 @@ const TabMaterial = () => {
           tabBarLabel: 'Home',
           tabBarColor: 'red'
         }}
-        component={HomeStackNavigator} />
+        component={HomeNavigation} />
       <Tab.Screen name="NewShoppingList" options={{ title: 'Nuevo' }} component={NewShoppingListScreen} />
       <Tab.Screen name="Profile" options={{ tabBarLabel: 'Perfil' }} component={ProfileScreen} />
     </Tab.Navigator>
@@ -89,11 +93,16 @@ const TabMaterial = () => {
 
 const TabNoMaterial2 = () => {
   const { authState } = useContext(AuthContext);
-  console.log("logueado: " + authState.isLoggedIn);
-  const { isTabBarVisible } = useTabBarVisibility();
+  console.log("TabNoMaterial2 logueado: " + authState.isLoggedIn);
+  const currentRouteName = getCurrentScreenName();
 
-  console.log("is tabbar visible: " + isTabBarVisible);
+  infoLog("current screen: " + currentRouteName, "TAB_BAR");
 
+  const isRoutePartOfTabBar = () => {
+    const tabBarRoutes = ["HomeStack", "NewShoppingListStack", "JoinShoppingListStack", "SettingsStack", 
+    "Home", "NewShoppingList", "JoinShoppingList", "Settings", "Tabs"];
+    return tabBarRoutes.includes(currentRouteName);
+  };
   return (
     <Tab2.Navigator
       screenOptions={({ route }) => ({
@@ -103,7 +112,7 @@ const TabNoMaterial2 = () => {
         // tabBarActiveBackgroundColor: COLORS.backgroudPrimary,
         tabBarShowLabel: true,
         tabBarStyle: {
-          // display: isTabBarVisible? 'none' : 'none',
+          display: isRoutePartOfTabBar()? 'flex' : 'none',
           borderTopWidth: 0,
           backgroundColor: COLORS.tabNavigatorPrimaryColor,
           paddingTop: 7,
@@ -127,7 +136,7 @@ const TabNoMaterial2 = () => {
 
         },
         tabBarIcon: ({ color, focused }) => {
-
+          // infoLogTag("ICON: "+route.name, "TAB_BAR")
           let iconName: string = '';
           switch (route.name) {
             case 'HomeStack':
@@ -153,8 +162,8 @@ const TabNoMaterial2 = () => {
     >
       <Tab2.Screen name="HomeStack" options={{ title: 'Inicio' }} component={HomeNavigation} />
       <Tab2.Screen name="NewShoppingListStack" options={{ title: 'Nuevo' }} component={NewShoppingListStack} />
-      <Tab2.Screen name="JoinShoppingListStack" options={{ title: 'Unirse' }} component={JoinShoppingListStack} />
-      <Tab2.Screen name="SettingsStack" options={{ tabBarLabel: 'Ajustes' }} component={SettingsStack} />
+      <Tab2.Screen name="JoinShoppingListStack" options={{ title: 'Unirse' }} component={JoinShoppingListNavigation} />
+      <Tab2.Screen name="SettingsStack" options={{ tabBarLabel: 'Ajustes'}} component={SettingsStack} />
     </Tab2.Navigator>
   )
 
