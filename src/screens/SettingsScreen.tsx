@@ -1,10 +1,12 @@
-import React, { useContext, useEffect } from 'react'
-import { StatusBar, Text, TouchableOpacity, View } from 'react-native'
+import React, { useContext } from 'react'
+import { Text, TouchableOpacity, View } from 'react-native'
 import BaseScreenComponent from '../components/BaseScreenComponent'
 import { AuthContext } from '../context/AuthContext';
 import { reset } from '../navigation/servicesUtil/NavigationService';
-import { ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import SettingsCardComponent from '../components/SettingsCardComponent';
+import { infoLog } from '../utils/HandlerError';
 
 
 const SettingsScreen = () => {
@@ -36,6 +38,13 @@ const SettingsScreen = () => {
         }}
       >
         {/* Card settings */}
+
+        <SettingsCardComponent onPress={()=>{infoLog("Desde settings")}} title='Categorías' icon='shape'/>
+        <SettingsCardComponent onPress={()=>{infoLog("Desde settings")}} title='Notificaciones' icon='shape'/>
+        <SettingsCardComponent onPress={()=>{infoLog("Desde settings")}} title='Privacidad y seguridad' icon='shape'/>
+        <SettingsCardComponent onPress={()=>{infoLog("Desde settings")}} title='Datos y almacenamiento' icon='shape'/>
+        <SettingsCardComponent onPress={()=>{infoLog("Desde settings")}} title='Idioma' icon='shape'/>
+
         <TouchableOpacity
           onPress={handleLogOut}
           style={{
