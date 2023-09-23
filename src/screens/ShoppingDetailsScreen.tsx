@@ -52,7 +52,10 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
   })
 
   const [addExpenseParams, setAddExpenseParams] = useState<AddExpenseParams>({
-    createShoppingRequest: createShopping
+    createShoppingRequest: createShopping,
+    estadoLista: shoppingList.estado,
+    idUsuarioCreador: shoppingList.usuarioCreador
+
   })
 
   useEffect(() => {

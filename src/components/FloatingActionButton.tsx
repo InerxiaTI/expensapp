@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
         right: 25
     },
     fab: {
-        backgroundColor: '#18032E',
+        backgroundColor: '#7600D3',
         borderRadius: 100,
         width: 60,
         height: 60,

@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
 
     },
     priceText: {
-        color: '#59D8E0',
+        color: '#CD8EFF',
         fontWeight: '800',
         fontSize: 16,
         lineHeight: 19
