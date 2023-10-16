@@ -2,11 +2,11 @@ import expenseMateApi from "../api/expenseMateApi";
 import { JoinsShoppingListResponse } from "../interfaces/ShoppingInterface";
 import { CollaboratorsFilterRequest, CollaboratorsFilterResponse, ApproveRejectCollaboratorRequest, AssignPercentageCollaboratorRequest } from '../interfaces/UserInterface';
 
-
+//TODO agregar nombre y apellido en la response (back)
 const getCollaborators = async (request: CollaboratorsFilterRequest) => {
     try {
         const response = await expenseMateApi.post<CollaboratorsFilterResponse>(
-            '/api/lista-compra/filter-integrantes', 
+            '/api/lista-compra/filter-integrantes-total-compras', 
             request
         )
        return response.data.body

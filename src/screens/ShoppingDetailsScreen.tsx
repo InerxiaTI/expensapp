@@ -21,7 +21,7 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
   const { authState } = useContext(AuthContext);
   const userLogged = authState.user
 
-  const shoppingList = route.params
+  const shoppingList = route.params  
   const [user, setUser] = useState(userLogged!.id);
   const request: CollaboratorsFilterRequest = {
     idListaCompras: shoppingList.id,
@@ -54,7 +54,7 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
   const [addExpenseParams, setAddExpenseParams] = useState<AddExpenseParams>({
     createShoppingRequest: createShopping,
     estadoLista: shoppingList.estado,
-    idUsuarioCreador: shoppingList.usuarioCreador
+    idUsuarioCreador: shoppingList.idUsuarioCreador
 
   })
 
@@ -78,7 +78,7 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
         title={shoppingList.nombre}
         code={shoppingList.codigoGenerado}
         idListaCompras={shoppingList.id}
-        idUsuarioCreador={shoppingList.usuarioCreador}
+        idUsuarioCreador={shoppingList.idUsuarioCreador}
         estado={shoppingList.estado}
       />
 
