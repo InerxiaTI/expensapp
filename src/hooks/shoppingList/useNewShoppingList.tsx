@@ -1,8 +1,11 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { CreateShoppingListRequest, ShoppingList } from "../../interfaces/ShoppingInterface"
 import { saveShoppingList } from "../../services/shoppingListsService"
+import { ShoppingContext } from "../../context/ShoppingContext";
 
 export const useNewShoppingLists = () => {
+    const {shoppingState, setRefreshHome} = useContext(ShoppingContext);
+
     const [isLoading, setIsLoading] = useState(false)
     const [codigo, setCodigo] = useState('')
     const [shoppingList, setShoppingList] = useState<ShoppingList>()
@@ -20,6 +23,8 @@ export const useNewShoppingLists = () => {
             const response = await saveShoppingList(request);
             setCodigo(response.codigoGenerado)
             setShoppingList(response)
+            setRefreshHome(true)
+            
         } catch (error) {
             console.error(error);
             throw error;

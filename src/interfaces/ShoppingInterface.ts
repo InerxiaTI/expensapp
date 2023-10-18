@@ -137,8 +137,8 @@ export interface JoinShoppingList {
 }
 
 export interface ShoppingListsBodyResponse {
-    page:          number;
-    size:          number;
+    page:          string;
+    size:          string;
     content:       ShoppingList[];
     totalElements: number;
     totalPages:    number;

@@ -1,4 +1,4 @@
-const HOST = 'http://192.168.1.171:3000'
+const HOST = 'http://192.168.1.161:3000'
 
 const CONFIGS = {
     ENV: 'qa-rpi',

@@ -3,20 +3,20 @@ import { CreateShoppingListRequest, CreateShoppingListResponse, CreateShoppingRe
 import { User } from "../interfaces/UserInterface";
 
 // TODO
-const getShoppingLists = async (user: User) => {
+const getShoppingLists = async (user: User, pageable: any) => {
 	console.log("LLamando a la API para traer listas de compras");
 	try {
 		const response = await expenseMateApi.post<ShoppingListsResponse>(
 			'/api/lista-compra/filter',{usuario: user.id},
 			{
 				params: {
-					page: 1,
-					size: 50,
+					page: pageable.currentPage,
+					size: pageable.size,
 					sort: 'id,DESC'
 				}
 			}
 		)
-		return response.data.body.content
+		return response.data
 	} catch (error) {
 		throw error;
 	}

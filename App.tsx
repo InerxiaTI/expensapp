@@ -45,12 +45,12 @@ const App = () => {
       >
 
       <AppState>
-        <TabBarProvider>
-          <ShoppingProvider>
+        <ShoppingProvider>
+          <TabBarProvider>
             <StatusBar animated={true} translucent backgroundColor="transparent" barStyle="dark-content" />
             <MainStackNavigator />
-          </ShoppingProvider>
-        </TabBarProvider>
+          </TabBarProvider>
+        </ShoppingProvider>
       </AppState>
     </NavigationContainer>
   )
