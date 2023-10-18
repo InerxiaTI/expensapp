@@ -23,14 +23,19 @@ export const useFetchShoppingLists = (user: User) => {
 
     useFocusEffect(
         useCallback(() => {    
-                   
+               
             if(shoppingState.refreshHome) {
-                fetchShoppingLists(user!)  
-                setRefreshHome(false)          
+                fetchShoppingLists(user!)          
             }
-            
+
+            setRefreshHome(false)
+
         }, [shoppingState.refreshHome])
 	)
+
+    useEffect(()=>{
+        fetchShoppingLists(user!)
+    },[])
 
     const fetchShoppingListsInfinite = async (user: User) => {
         try {

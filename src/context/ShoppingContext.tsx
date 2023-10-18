@@ -10,7 +10,7 @@ export interface ShoppingState {
 
 export const shoppingInitialState: ShoppingState = {
     isFocusFetchShoppingLists: false,
-    refreshHome: true
+    refreshHome: false
 }
 
 export interface ShoppingContextProps {

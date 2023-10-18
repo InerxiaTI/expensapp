@@ -83,7 +83,7 @@ const HomeScreen = () => {
                 }}
               >
                 <ActivityIndicator 
-                  color={"red"}
+                  color={"#7600D3"}
                   size={30}
                 />
               </View>
