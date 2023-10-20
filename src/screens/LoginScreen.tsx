@@ -5,43 +5,50 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { AuthContext } from '../context/AuthContext'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useLogin } from '../hooks/useLogin'
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 import { infoLog } from '../utils/HandlerError';
 import { reset } from '../navigation/servicesUtil/NavigationService';
 import BaseScreenComponent from '../components/BaseScreenComponent';
+import { ButtonV2Component } from '../components/buttons/ButtonV2Component';
+import { useForm } from '../hooks/useForm';
 
 const { height } = Dimensions.get('window');
 
 
 const LoginScreen = () => {
   const { signIn, authState } = useContext(AuthContext);
-  const navigator = useNavigation();
-
   const [shouldNavigateToTabs, setShouldNavigateToTabs] = useState(false);
-
   const [isDisabled, setIsDisabled] = useState(false);
 
   const { isLoading, setIsLoading, validateUser } = useLogin()
+  const [habilitarBoton, setHabilitarBoton] = useState(false)
 
   const passwordInputRef = useRef<TextInput>(null);
 
+  const {form, onChangeValidate, isValidEmail} = useForm({
+   email: {
+    email: ''
+   },
+   password: {
+    password: ''
+   }
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  })
 
-  console.log("email: " + email);
+
 
 
   const handleAuth = async () => {
     setIsDisabled(true)
     setIsLoading(true)
+    setHabilitarBoton(false)
 
     setTimeout(async () => {
       console.log("Esperando...");
-      if (email && password) {
+      if (form.email && form.password) {
         try {
           console.log("1.");
-          let myuser = await validateUser(email, password);
+          let myuser = await validateUser(form.email.email, form.password.password);
           const userLogged = myuser?.data.body
           console.log("6.", JSON.stringify(myuser?.data.body.correo));
 
@@ -65,12 +72,16 @@ const LoginScreen = () => {
         } finally {
           setIsLoading(false)
           setIsDisabled(false)
+          setHabilitarBoton(true)
+
 
         }
       } else {
         ToastAndroid.show("Usuario o contraseña incorrecta", ToastAndroid.LONG)
         setIsLoading(false)
         setIsDisabled(false)
+        setHabilitarBoton(true)
+
 
       }
 
@@ -94,21 +105,13 @@ const LoginScreen = () => {
 
 
   useEffect(() => {
-    infoLog("PRUEBA DE SHOW: " + shouldNavigateToTabs)
     const getUserFromStorage = async () => {
-      infoLog("En el use del login")
       const userData = await AsyncStorage.getItem('user');
-      infoLog("En el use del login 2: " + JSON.stringify(userData));
 
       if (userData) {
         const parsedUserData = JSON.parse(userData);
-        // Actualizar el contexto con los datos del usuario almacenados
         signIn(parsedUserData);
-        infoLog("En el use del login 3: " + authState.isLoggedIn)
-        infoLog("En el use del login 5 " + JSON.stringify(parsedUserData))
         setShouldNavigateToTabs(true);
-
-
       }
     };
     getUserFromStorage();
@@ -116,11 +119,9 @@ const LoginScreen = () => {
   }, [])
 
   useEffect(() => {
-    infoLog("PRUEBA DE SHOULD: " + shouldNavigateToTabs + " logueado: " + authState.isLoggedIn)
     if (shouldNavigateToTabs && authState.isLoggedIn == true) {
       reset(0, 'Tabs', {})
     }
-
   }, [shouldNavigateToTabs, authState.isLoggedIn])
 
 
@@ -176,13 +177,14 @@ const LoginScreen = () => {
 
                   <TextInput
                     editable={!isDisabled}
-                    value={email}
                     keyboardType='email-address'
                     returnKeyType="next"
                     onSubmitEditing={() => passwordInputRef.current!.focus()}
                     autoCapitalize='none'
                     placeholder='Email'
-                    onChangeText={setEmail}
+                    onChangeText={(value) => onChangeValidate(value, 'email', setHabilitarBoton, () => {
+                      return isValidEmail(value);
+                    })}
                     placeholderTextColor={'#89898A'}
                     style={styles.searchTextInput}
                   />
@@ -192,13 +194,18 @@ const LoginScreen = () => {
                   <TextInput
                     editable={!isDisabled}
                     ref={passwordInputRef} // Referencia al input de contraseña
-                    value={password}
                     secureTextEntry={true}
                     returnKeyType="done" // Cambiar el tipo de tecla
                     onSubmitEditing={handleAuth}
                     keyboardType='default'
                     placeholder='Contraseña'
-                    onChangeText={setPassword}
+                    onChangeText={(value) => onChangeValidate(
+                      value, 'password', setHabilitarBoton, ()=>{                      
+                      if (value.length >= 4){
+                        return true
+                      }
+                      return false
+                    })}
                     placeholderTextColor={'#89898A'}
                     style={styles.searchTextInput}
                   />
@@ -228,6 +235,8 @@ const LoginScreen = () => {
 
 
             {/* Boton */}
+           
+            
             <View
               style={{
                 borderWidth: 0,
@@ -236,36 +245,14 @@ const LoginScreen = () => {
                 marginTop: height * 0.08
               }}
             >
-              <TouchableOpacity
-                onPress={() => handleAuth()}
-                style={{
-                  backgroundColor: '#7600D3',
-                  borderRadius: 20,
-                  height: 50,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  elevation: 3,
-                }}
-              >
 
-                {
-                  isLoading ? (
-                    <ActivityIndicator color={'white'} size={20} />
-                  ) :
-                    (
-                      <Text
-                        style={{
-                          fontSize: 14,
-                          fontWeight: '700',
-                          color: 'white'
+              <ButtonV2Component
+                onPress={handleAuth}
+                title='Login'
+                isLoading={isLoading}
+                habilitarBoton={habilitarBoton}
 
-                        }}
-                      >Login</Text>
-                    )
-                }
-
-
-              </TouchableOpacity>
+              />
             </View>
 
 
