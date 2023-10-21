@@ -36,32 +36,37 @@ const JoinShoppingListScreen = () => {
   const sendRequestJoinShoppingList = async () => {
     setIsDisabled(true);
     setIsLoading(true)
+    setHabilitarBoton(false)
+    setTimeout(async () => {
+      try {
+        await saveJoinShoppingList(textValue, user!.id);
+        setIsDisabled(false);
+        setIsLoading(false);
 
-    try {
-      await saveJoinShoppingList(textValue, user!.id);
-      setIsDisabled(false);
-      setIsLoading(false);
+      } catch (error) {
+        errorLog(error.response.data.message, "Error saving join");
+        ToastAndroid.show(error.response.data.message, ToastAndroid.LONG)
+        /*Snackbar.show({
+          marginBottom: 50,
+          textColor: 'white',
+          text: error.response.data.message,
+          duration: Snackbar.LENGTH_LONG,
+          action: {
+            text: 'UNDO',
+            textColor: 'green',
+            onPress: () => {  },
+          },
+        });*/
 
-    } catch (error) {
-      errorLog(error.response.data.message, "Error saving join");
-      ToastAndroid.show(error.response.data.message, ToastAndroid.LONG)
-      /*Snackbar.show({
-        marginBottom: 50,
-        textColor: 'white',
-        text: error.response.data.message,
-        duration: Snackbar.LENGTH_LONG,
-        action: {
-          text: 'UNDO',
-          textColor: 'green',
-          onPress: () => {  },
-        },
-      });*/
-     
-    } finally {
-      setIsLoading(false)
-      setIsDisabled(false)
+      } finally {
+        setIsLoading(false)
+        setIsDisabled(false)
+        setHabilitarBoton(true)
 
-    }
+
+      }
+    }, 5000)
+
   }
 
 
