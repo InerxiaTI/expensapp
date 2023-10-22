@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Dimensions, KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableOpacity, View, ToastAndroid, ActivityIndicator, BackHandler } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler'
+import { ScrollView, TextInput } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { AuthContext } from '../context/AuthContext'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -25,13 +25,13 @@ const LoginScreen = () => {
 
   const passwordInputRef = useRef<TextInput>(null);
 
-  const {form, onChangeValidate, isValidEmail} = useForm({
-   email: {
-    email: ''
-   },
-   password: {
-    password: ''
-   }
+  const { form, onChangeValidate, isValidEmail } = useForm({
+    email: {
+      email: ''
+    },
+    password: {
+      password: ''
+    }
 
   })
 
@@ -127,268 +127,250 @@ const LoginScreen = () => {
 
   return (
     <BaseScreenComponent>
+
+      <ScrollView
+        contentContainerStyle={{
+          alignItems: 'center',
+        }}
+      >
+        {/* cuadro de inputs y boton */}
         <View
           style={{
-            flex: 1,
-            borderColor: 'blue',
+            borderColor: 'red',
             borderWidth: 0,
-            alignItems: 'center',
-
+            height: height*0.55,
+            width: '90%',
+            marginTop: height * 0.1,
+            borderRadius: 8,
+            backgroundColor: '#262626'
           }}
         >
-          {/* cuadro de inpust */}
+
+          <Text
+            style={{
+              color: '#6B7280',
+              fontSize: 24,
+              fontWeight: '700',
+              fontStyle: 'normal',
+              marginTop: height * 0.06,
+              alignSelf: 'center'
+
+            }}
+          >Iniciar sesión</Text>
+
+          {/* Inputs */}
           <View
             style={{
-              borderColor: 'red',
+              marginHorizontal: 33,
+              borderColor: 'blue',
               borderWidth: 0,
-              height: height * 0.55,
-              width: '90%',
-              marginTop: height * 0.09,
-              borderRadius: 8,
-              backgroundColor: '#262626'
+
             }}
           >
+            <View style={styles.searchContainer}>
 
-            <Text
-              style={{
-                color: '#6B7280',
-                fontSize: 24,
-                fontWeight: '700',
-                fontStyle: 'normal',
-                marginTop: height * 0.06,
-                alignSelf: 'center'
+              <TextInput
+                editable={!isDisabled}
+                keyboardType='email-address'
+                returnKeyType="next"
+                onSubmitEditing={() => passwordInputRef.current!.focus()}
+                autoCapitalize='none'
+                placeholder='Email'
+                onChangeText={(value) => onChangeValidate(value, 'email', setHabilitarBoton, () => {
+                  return isValidEmail(value);
+                })}
+                placeholderTextColor={'#89898A'}
+                style={styles.searchTextInput}
+              />
+            </View>
+            <View style={styles.searchContainer}>
 
-              }}
-            >Iniciar sesión</Text>
-
-            {/* Inputs */}
-            <KeyboardAvoidingView
-              behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-            >
-              <View
-                style={{
-                  marginHorizontal: 33,
-                  borderColor: 'blue',
-                  borderWidth: 0,
-
-                }}
-              >
-                <View style={styles.searchContainer}>
-
-                  <TextInput
-                    editable={!isDisabled}
-                    keyboardType='email-address'
-                    returnKeyType="next"
-                    onSubmitEditing={() => passwordInputRef.current!.focus()}
-                    autoCapitalize='none'
-                    placeholder='Email'
-                    onChangeText={(value) => onChangeValidate(value, 'email', setHabilitarBoton, () => {
-                      return isValidEmail(value);
-                    })}
-                    placeholderTextColor={'#89898A'}
-                    style={styles.searchTextInput}
-                  />
-                </View>
-                <View style={styles.searchContainer}>
-
-                  <TextInput
-                    editable={!isDisabled}
-                    ref={passwordInputRef} // Referencia al input de contraseña
-                    secureTextEntry={true}
-                    returnKeyType="done" // Cambiar el tipo de tecla
-                    onSubmitEditing={handleAuth}
-                    keyboardType='default'
-                    placeholder='Contraseña'
-                    onChangeText={(value) => onChangeValidate(
-                      value, 'password', setHabilitarBoton, ()=>{                      
-                      if (value.length >= 4){
-                        return true
-                      }
-                      return false
-                    })}
-                    placeholderTextColor={'#89898A'}
-                    style={styles.searchTextInput}
-                  />
-                </View>
-
-                <View
-                  style={{
-                    borderColor: 'red',
-                    borderWidth: 0,
-                    marginTop: 10,
-                    flexDirection: 'row-reverse'
-                  }}
-                >
-
-                  <Text
-                    style={{
-                      color: '#59D8E0',
-                      fontSize: 14,
-                      fontWeight: '700',
-
-                    }}
-                  >Olvidaste la contraseña?</Text>
-                </View>
-              </View>
-
-            </KeyboardAvoidingView>
-
-
-            {/* Boton */}
-           
-            
-            <View
-              style={{
-                borderWidth: 0,
-                borderColor: 'yellow',
-                marginHorizontal: 33,
-                marginTop: height * 0.08
-              }}
-            >
-
-              <ButtonV2Component
-                onPress={handleAuth}
-                title='Login'
-                isLoading={isLoading}
-                habilitarBoton={habilitarBoton}
-
+              <TextInput
+                editable={!isDisabled}
+                ref={passwordInputRef} // Referencia al input de contraseña
+                secureTextEntry={true}
+                returnKeyType="done" // Cambiar el tipo de tecla
+                onSubmitEditing={handleAuth}
+                keyboardType='default'
+                placeholder='Contraseña'
+                onChangeText={(value) => onChangeValidate(
+                  value, 'password', setHabilitarBoton, () => {
+                    if (value.length >= 4) {
+                      return true
+                    }
+                    return false
+                  })}
+                placeholderTextColor={'#89898A'}
+                style={styles.searchTextInput}
               />
             </View>
 
-
-          </View>
-
-          {/* cuadro de texto y login con google */}
-
-          <View
-            style={{
-              borderColor: 'red',
-              borderWidth: 0,
-              width: '90%',
-
-            }}
-          >
             <View
               style={{
-                borderColor: 'blue',
+                borderColor: 'red',
                 borderWidth: 0,
-                flexDirection: 'row',
-                justifyContent: 'center',
-                gap: 10,
-                marginTop: 24
-
+                marginTop: 10,
+                flexDirection: 'row-reverse'
               }}
-
             >
-              <Text
-                style={{
-                  color: 'white',
-                  fontSize: 14,
-                  fontWeight: '700',
-                }}
-              >No tienes una cuenta?</Text>
+
               <Text
                 style={{
                   color: '#59D8E0',
                   fontSize: 14,
-                  fontWeight: '700'
-                }}
-              >Crear cuenta</Text>
+                  fontWeight: '700',
 
+                }}
+              >Olvidaste la contraseña?</Text>
             </View>
+          </View>
+
+
+          {/* Boton */}
+          <View
+            style={{
+              borderWidth: 0,
+              borderColor: 'yellow',
+              marginHorizontal: 33,
+              marginTop: height * 0.08
+            }}
+          >
+
+            <ButtonV2Component
+              onPress={handleAuth}
+              title='Login'
+              isLoading={isLoading}
+              habilitarBoton={habilitarBoton}
+
+            />
+          </View>
+        </View>
+
+        {/* cuadro de no tienes cuenta y login con google */}
+        <View
+          style={{
+            borderColor: 'red',
+            borderWidth: 0,
+            width: '90%',
+
+          }}
+        >
+          <View
+            style={{
+              borderColor: 'blue',
+              borderWidth: 0,
+              flexDirection: 'row',
+              justifyContent: 'center',
+              gap: 10,
+              marginTop: 24
+
+            }}
+
+          >
+            <Text
+              style={{
+                color: 'white',
+                fontSize: 14,
+                fontWeight: '700',
+              }}
+            >No tienes una cuenta?</Text>
+            <Text
+              style={{
+                color: '#59D8E0',
+                fontSize: 14,
+                fontWeight: '700'
+              }}
+            >Crear cuenta</Text>
+
+          </View>
+
+          <View
+            style={{
+              borderColor: 'yellow',
+              borderWidth: 0,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: height * 0.06
+
+            }}
+          >
+            <Text
+              style={{
+                color: '#6B7280',
+                fontSize: 24,
+                fontWeight: '700'
+              }}
+            >O inicia sesión con</Text>
 
             <View
               style={{
-                borderColor: 'yellow',
-                borderWidth: 0,
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginTop: height * 0.06
-
+                marginTop: height * 0.03,
+                flexDirection: 'row',
+                gap: 10,
               }}
             >
-              <Text
-                style={{
-                  color: '#6B7280',
-                  fontSize: 24,
-                  fontWeight: '700'
-                }}
-              >O inicia sesión con</Text>
 
-              <View
+              <TouchableOpacity
                 style={{
-                  marginTop: height * 0.03,
-                  flexDirection: 'row',
-                  gap: 10,
+                  backgroundColor: '#6B7280',
+                  width: 60,
+                  height: 60,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 8
+
                 }}
               >
+                <Icon
+                  name='google'
+                  color='black'
+                  size={40}
 
-                <TouchableOpacity
-                  style={{
-                    backgroundColor: '#6B7280',
-                    width: 60,
-                    height: 60,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderRadius: 8
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: '#6B7280',
+                  width: 60,
+                  height: 60,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 8
 
-                  }}
-                >
-                  <Icon
-                    name='google'
-                    color='black'
-                    size={40}
+                }}
+              >
+                <Icon
+                  name='facebook'
+                  color='black'
+                  size={40}
 
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={{
-                    backgroundColor: '#6B7280',
-                    width: 60,
-                    height: 60,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderRadius: 8
+                />
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  backgroundColor: '#6B7280',
+                  width: 60,
+                  height: 60,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 8
 
-                  }}
-                >
-                  <Icon
-                    name='facebook'
-                    color='black'
-                    size={40}
+                }}
+              >
+                <Icon
+                  name='github'
+                  color='black'
+                  size={40}
 
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={{
-                    backgroundColor: '#6B7280',
-                    width: 60,
-                    height: 60,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    borderRadius: 8
-
-                  }}
-                >
-                  <Icon
-                    name='github'
-                    color='black'
-                    size={40}
-
-                  />
-                </TouchableOpacity>
-              </View>
-
+                />
+              </TouchableOpacity>
             </View>
 
           </View>
 
-
-
-
-
         </View>
 
+      </ScrollView>
 
     </BaseScreenComponent>
 
