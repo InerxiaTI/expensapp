@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect, useContext } from 'react'
-import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Image, StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native'
 import expenseBanner from '../../assets/expenseBanner.png';
 import BaseScreenComponent from '../components/BaseScreenComponent';
 import { GenericHeaderComponent } from '../components/GenericHeaderComponent';
@@ -9,6 +9,7 @@ import InputV1Component from '../components/inputs/InputV1Component';
 import { ButtonV2Component } from '../components/buttons/ButtonV2Component';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNewShoppingLists } from '../hooks/shoppingList/useNewShoppingList';
+
 
 const NewShoppingListScreen = () => {
 
@@ -40,12 +41,15 @@ const NewShoppingListScreen = () => {
     setHabilitarBoton(false)
 
     try {
-      await createShoppingList(textValue, user!.id);
+      await createShoppingList(textValue, 0);
+      ToastAndroid.show("Lista creada con exito", ToastAndroid.LONG)
       setIsDisabled(false);
       setIsLoading(false);
 
     } catch (error) {
-      console.error("Falla al guardar: " + error);
+      //console.error("Falla al guardar: " + error);
+      //ToastAndroid.showWithGravity("No se pudo guardar la lista de compras", ToastAndroid.LONG, 1)
+      
     } finally {
       setIsLoading(false)
       setIsDisabled(false)

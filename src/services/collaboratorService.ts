@@ -8,7 +8,7 @@ const getCollaborators = async (request: CollaboratorsFilterRequest) => {
         const response = await expenseMateApi.post<CollaboratorsFilterResponse>(
             '/api/lista-compra/filter-integrantes-total-compras', 
             request
-        )
+        )        
        return response.data.body
           
     } catch (error) {

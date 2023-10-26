@@ -117,7 +117,7 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
 
                     <View style={styles.shopperCardTextContainer}>
                       <Icon name='account-cash-outline' size={14} color='white' />
-                      <Text style={{ color: 'white', fontSize: 14, fontWeight: 'bold' }}>{item.nombresUsuario} id: {item.idUsuario}</Text>
+                      <Text style={{ color: 'white', fontSize: 14, fontWeight: 'bold' }}>{item.nombres} id: {item.idUsuario}</Text>
                     </View>
 
                     {
