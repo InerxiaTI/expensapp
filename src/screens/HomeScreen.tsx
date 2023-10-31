@@ -1,9 +1,10 @@
-import React, { useContext} from 'react'
-import { ActivityIndicator, FlatList, RefreshControl, Text, View } from 'react-native'
+import React, { useContext, useEffect} from 'react'
+import { ActivityIndicator, FlatList, Platform, RefreshControl, Text, View } from 'react-native'
 import ShoppingListCardComponent from '../components/ShoppingListCardComponent'
 import BaseScreenComponent from '../components/BaseScreenComponent'
 import { AuthContext } from '../context/AuthContext'
 import { useFetchShoppingLists } from '../hooks/shoppingList/useFetchShoppingLists'
+import SplashScreen from 'react-native-splash-screen'
 
 const HomeScreen = () => {
   const {authState} = useContext(AuthContext);
@@ -11,6 +12,13 @@ const HomeScreen = () => {
   
   const { isLoading, shoppingLists, 
     onRefresh, refreshing, onInfiniteScroll, totalElements, isLoadingInfinite} = useFetchShoppingLists(user!);
+
+
+  useEffect(() => {
+    if(Platform.OS === 'android'){
+      SplashScreen.hide()
+    }
+  }, [])
 
   if (isLoading) {
     return (
