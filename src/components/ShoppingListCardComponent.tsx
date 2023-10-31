@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     mainText: {
-        color: 'white',
+        color: '#e7e7e7',
         fontStyle: 'normal',
         fontSize: 16,
         fontWeight: '400',
