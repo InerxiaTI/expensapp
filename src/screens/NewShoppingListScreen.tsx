@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect, useContext } from 'react'
-import { Image, StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native'
+import { Image, StyleSheet, Text, TextInput, ToastAndroid, View } from 'react-native'
 import expenseBanner from '../../assets/expenseBanner.png';
 import BaseScreenComponent from '../components/BaseScreenComponent';
 import { GenericHeaderComponent } from '../components/GenericHeaderComponent';
@@ -7,9 +7,9 @@ import { useIsFocused } from '@react-navigation/native';
 import { AuthContext } from '../context/AuthContext';
 import InputV1Component from '../components/inputs/InputV1Component';
 import { ButtonV2Component } from '../components/buttons/ButtonV2Component';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNewShoppingLists } from '../hooks/shoppingList/useNewShoppingList';
 import { errorLog } from '../utils/HandlerError';
+import ToolItemComponent from '../components/base/ToolItemComponent';
 
 
 const NewShoppingListScreen = () => {
@@ -51,7 +51,7 @@ const NewShoppingListScreen = () => {
       errorLog("Falla al guardar lista", error)
       ToastAndroid.showWithGravity("No se pudo guardar la lista de compras", ToastAndroid.LONG, 1)
       setCodigo('')
-      
+
     } finally {
       setIsLoading(false)
       setIsDisabled(false)
@@ -87,11 +87,10 @@ const NewShoppingListScreen = () => {
 
       <GenericHeaderComponent title='Crear lista' showArrowBack>
         <>
-          <TouchableOpacity
+          <ToolItemComponent
             onPress={resetFields}
-          >
-            <Icon name='reload' size={25} color='white' />
-          </TouchableOpacity>
+            icon='reload'
+          />
 
         </>
       </GenericHeaderComponent>

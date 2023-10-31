@@ -32,7 +32,7 @@ const HeaderContainerComponent = ({ title = '', showArrowBack = false, children 
 						alignItems: 'center',
 						borderWidth: 0,
 						borderColor: 'green',
-						gap: 15,
+						gap: 0,
 						height: 50
 					}}
 				>
@@ -46,7 +46,8 @@ const HeaderContainerComponent = ({ title = '', showArrowBack = false, children 
 									justifyContent: 'center',
 									alignItems: 'center',
 									borderWidth: 0,
-									borderColor: 'yellow'
+									borderColor: 'yellow',
+									paddingRight: 10
 
 								}}
 							>
@@ -76,10 +77,12 @@ const HeaderContainerComponent = ({ title = '', showArrowBack = false, children 
 
 				<View
 					style={{
+						borderWidth: 0,
+						borderColor: 'blue',
+						height: '100%',
 						flexDirection: 'row-reverse',
-						justifyContent: 'flex-start',
-						alignItems: 'center',
-						paddingHorizontal: 15
+						gap: 10,
+						paddingHorizontal: 1
 					}}
 				>
 					{children}

@@ -2,13 +2,13 @@ import React, { useContext, useEffect, useState } from 'react'
 import { View, TouchableOpacity, Modal, Text, TouchableWithoutFeedback, StyleSheet, Platform, ToastAndroid } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import BaseHeaderComponent from './base/BaseHeaderComponent'
 import Clipboard from '@react-native-clipboard/clipboard';
 import { sliceText } from '../utils/textUtil'
 import { CollaboratorsParams } from '../interfaces/UserInterface'
 import { AuthContext } from '../context/AuthContext'
 import HeaderContainerComponent from './base/HeaderContainerComponent'
 import { useStartShoppingList } from '../hooks/shoppingList/useStartShoppingList'
+import ToolItemComponent from './base/ToolItemComponent'
 
 interface HeaderShoppingDetailProps {
   idListaCompras: number;
@@ -124,104 +124,96 @@ const HeaderShoppingDetailComponent = ({ title, code, idListaCompras, idUsuarioC
 
 
   return (
-    <BaseHeaderComponent>
-      <>
-        <HeaderContainerComponent 
-          title={sliceText(title!, 25)} 
-          showArrowBack 
-        >
-          <>
-            <TouchableOpacity
-              onPress={showContextMenu}
-            >
-              <Icon name='dots-vertical' size={25} color='white' />
-            </TouchableOpacity>
-
-            {
-              user?.id === idUsuarioCreador ?
-
-              <TouchableOpacity
-                onPress={() => { handleActionShoppingList() }}
-                style={{
-                  marginRight: 10
-
-                }}
-              >
-                <Icon name={iconActionButton} size={25} color='white' />
-              </TouchableOpacity>
+    // <BaseHeaderComponent>
+    <>
+      <HeaderContainerComponent
+        title={sliceText(title!, 25)}
+        showArrowBack
+      >
+        <>
+          <ToolItemComponent
+            onPress={showContextMenu}
+            icon='dots-vertical'
+          />
+          {
+            user?.id === idUsuarioCreador ?
+              <ToolItemComponent
+                onPress={handleActionShoppingList}
+                icon={iconActionButton}
+              />
               :
               <></>
-            }
-          </>
-        </HeaderContainerComponent>
+          }
+        </>
+      </HeaderContainerComponent>
 
-        <Modal
-          transparent={true}
-          visible={isContextMenuVisible}
-          onRequestClose={hideContextMenu}
-        >
+      <Modal
+        transparent={true}
+        visible={isContextMenuVisible}
+        onRequestClose={hideContextMenu}
+      >
 
-          <TouchableWithoutFeedback onPress={hideContextMenu}>
+        <TouchableWithoutFeedback onPress={hideContextMenu}>
+          <View
+            style={{
+              borderColor: 'red',
+              borderWidth: 0,
+              flex: 1,
+              justifyContent: 'flex-start',
+              alignItems: 'flex-end',
+              backgroundColor: 'transparent'
+            }}
+          >
+
             <View
               style={{
-                borderColor: 'red',
-                borderWidth: 0,
-                flex: 1,
-                justifyContent: 'flex-start',
-                alignItems: 'flex-end',
-                backgroundColor: 'transparent'
+                width: 150,
+                backgroundColor: '#262626',
+                borderRadius: 8,
+                marginEnd: 10,
+                marginTop: 10,
+                paddingVertical: 15,
+                paddingLeft: 10,
+                paddingTop: 10,
+                gap: 10
               }}
             >
-
-              <View
+              <TouchableOpacity
+                onPress={handleCopyToClipboard}
                 style={{
-                  width: 150,
-                  backgroundColor: '#262626',
-                  borderRadius: 8,
-                  marginEnd: 10,
-                  marginTop: 10,
-                  paddingVertical: 15,
-                  paddingLeft: 10,
-                  paddingTop: 10,
-                  gap: 10
+                  flexDirection: 'row',
+                  borderColor: 'red',
+                  borderWidth: 0,
+                  gap: 5
                 }}
+
               >
-                <TouchableOpacity
-                  onPress={handleCopyToClipboard}
-                  style={{
-                    flexDirection: 'row',
-                    borderColor: 'red',
-                    borderWidth: 0,
-                    gap: 5
-                  }}
-
-                >
-                  <Icon name='content-copy' size={20} color={'white'} />
-                  <Text style={styles.contextMenu}>{code}</Text>
-                </TouchableOpacity>
+                <Icon name='content-copy' size={20} color={'white'} />
+                <Text style={styles.contextMenu}>{code}</Text>
+              </TouchableOpacity>
 
 
-                <TouchableOpacity
-                  onPress={() => goCollaboratorsScreen()}
-                  style={{
-                    flexDirection: 'row',
-                    borderColor: 'red',
-                    borderWidth: 0,
-                    gap: 5
-                  }}
+              <TouchableOpacity
+                onPress={() => goCollaboratorsScreen()}
+                style={{
+                  flexDirection: 'row',
+                  borderColor: 'red',
+                  borderWidth: 0,
+                  gap: 5
+                }}
 
-                >
-                  <Icon name='account-group-outline' size={20} color={'white'} />
-                  <Text style={styles.contextMenu}>Colaboradores</Text>
-                </TouchableOpacity>
-
-              </View>
+              >
+                <Icon name='account-group-outline' size={20} color={'white'} />
+                <Text style={styles.contextMenu}>Colaboradores</Text>
+              </TouchableOpacity>
 
             </View>
-          </TouchableWithoutFeedback>
-        </Modal>
-      </>
-    </BaseHeaderComponent >
+
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
+    </>
+    // </BaseHeaderComponent >
   )
 }
 
