@@ -4,6 +4,7 @@ import { ShoppingContext } from "../../context/ShoppingContext";
 import { ShoppingList, ShoppingListsResponse } from "../../interfaces/ShoppingInterface";
 import { User } from "../../interfaces/UserInterface";
 import { getShoppingLists } from "../../services/shoppingListsService";
+import { errorLog } from "../../utils/HandlerError";
 
 
 
@@ -63,8 +64,8 @@ export const useFetchShoppingLists = (user: User) => {
             }
            
         } catch (error) {
-            console.error(error);
-            throw error;
+            errorLog(error!.response.data.message);
+            //throw error;
             
         } finally {            
             setIsLoading(false);
@@ -91,8 +92,8 @@ export const useFetchShoppingLists = (user: User) => {
 
             setShoppingListsResponse(dataShowed)
         } catch (error) {
-            console.error(error);
-            throw error;
+            errorLog("Error fetching shopping lists", error);
+            //throw error;
             
         } finally {            
             setIsLoading(false);

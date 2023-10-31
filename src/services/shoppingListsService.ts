@@ -1,10 +1,10 @@
 import expenseMateApi from "../api/expenseMateApi";
 import { CreateShoppingListRequest, CreateShoppingListResponse, CreateShoppingRequest, CreateShoppingResponse, JoinShoppingListRequest, JoinsShoppingListResponse, ShoppingListsResponse, ShoppingRequest, ShoppingResponse } from "../interfaces/ShoppingInterface";
 import { User } from "../interfaces/UserInterface";
+import { errorLog, infoLog } from "../utils/HandlerError";
 
-// TODO
 const getShoppingLists = async (user: User, pageable: any) => {
-	console.log("LLamando a la API para traer listas de compras");
+	infoLog("LLamando a la API para traer listas de compras");
 	try {
 		const response = await expenseMateApi.post<ShoppingListsResponse>(
 			'/api/lista-compra/filter',{usuario: user.id},
@@ -16,8 +16,9 @@ const getShoppingLists = async (user: User, pageable: any) => {
 				}
 			}
 		)
-		return response.data
+		return response!.data
 	} catch (error) {
+		errorLog("Error direct on fetch shoping list", error);
 		throw error;
 	}
 }

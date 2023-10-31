@@ -22,7 +22,6 @@ export const reset = (index: any, name: any, params: any) => {
             )
         } catch (error) {
             infoLog("Error en reset")
-            
         }
     }
 

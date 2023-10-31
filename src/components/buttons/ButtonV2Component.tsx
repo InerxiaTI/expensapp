@@ -7,13 +7,15 @@ interface ButtonV2Props {
     onPress?: () => void, // Prop para recibir la función onPress
     habilitarBoton?: boolean,
     isLoading?: boolean,
+    buttonColor?: string
+    textColor?: string
 }
 
 export const ButtonV2Component = ({ 
     title = 'Button name', 
     onPress, 
     habilitarBoton = true,
-    isLoading = false }: ButtonV2Props) => {
+    isLoading = false, buttonColor = '#7600D3', textColor = '#FFFFFF'}: ButtonV2Props) => {
     return (
         <View
             style={{
@@ -30,7 +32,7 @@ export const ButtonV2Component = ({
                 activeOpacity={0.3}
                 onPress={onPress}
                 style={{
-                    backgroundColor: '#7600D3',
+                    backgroundColor: buttonColor,
                     borderRadius: 20,
                     height: 50,
                     justifyContent: 'center',
@@ -49,7 +51,7 @@ export const ButtonV2Component = ({
                                 style={{
                                     fontSize: 14,
                                     fontWeight: '700',
-                                    color: 'white'
+                                    color: textColor
 
                                 }}
                             >{title}</Text>
