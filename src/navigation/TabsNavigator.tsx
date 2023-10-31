@@ -13,6 +13,7 @@ import { JoinShoppingListNavigation } from './JoinShoppingListNavigation';
 import { useNavigation } from '@react-navigation/core';
 import { infoLog } from '../utils/HandlerError';
 import { getCurrentRoute, getCurrentScreenName } from './servicesUtil/NavigationService';
+import { useTranslation } from 'react-i18next';
 
 
 const Tab = createMaterialBottomTabNavigator();
@@ -103,6 +104,9 @@ const TabNoMaterial2 = () => {
     "Home", "NewShoppingList", "JoinShoppingList", "Settings", "Tabs"];
     return tabBarRoutes.includes(currentRouteName);
   };
+
+  const { t } = useTranslation();
+
   return (
     <Tab2.Navigator
       screenOptions={({ route }) => ({
@@ -160,10 +164,10 @@ const TabNoMaterial2 = () => {
       })}
 
     >
-      <Tab2.Screen name="HomeStack" options={{ title: 'Inicio' }} component={HomeNavigation} />
-      <Tab2.Screen name="NewShoppingListStack" options={{ title: 'Nuevo' }} component={NewShoppingListStack} />
-      <Tab2.Screen name="JoinShoppingListStack" options={{ title: 'Unirse' }} component={JoinShoppingListNavigation} />
-      <Tab2.Screen name="SettingsStack" options={{ tabBarLabel: 'Ajustes'}} component={SettingsStack} />
+      <Tab2.Screen name="HomeStack" options={{ title: t('navigate:home') }} component={HomeNavigation} />
+      <Tab2.Screen name="NewShoppingListStack" options={{ title: t('navigate:new') }} component={NewShoppingListStack} />
+      <Tab2.Screen name="JoinShoppingListStack" options={{ title: t('navigate:join') }} component={JoinShoppingListNavigation} />
+      <Tab2.Screen name="SettingsStack" options={{ tabBarLabel: t('navigate:settings')}} component={SettingsStack} />
     </Tab2.Navigator>
   )
 
