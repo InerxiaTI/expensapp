@@ -47,7 +47,7 @@ const App = () => {
       <AppState>
         <ShoppingProvider>
           <TabBarProvider>
-            <StatusBar animated={true} translucent backgroundColor="transparent" barStyle="dark-content" />
+            <StatusBar animated={true} translucent backgroundColor="transparent" barStyle="default" />
             <MainStackNavigator />
           </TabBarProvider>
         </ShoppingProvider>
