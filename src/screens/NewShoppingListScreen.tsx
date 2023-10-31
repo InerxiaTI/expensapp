@@ -9,6 +9,7 @@ import InputV1Component from '../components/inputs/InputV1Component';
 import { ButtonV2Component } from '../components/buttons/ButtonV2Component';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNewShoppingLists } from '../hooks/shoppingList/useNewShoppingList';
+import { errorLog } from '../utils/HandlerError';
 
 
 const NewShoppingListScreen = () => {
@@ -41,19 +42,19 @@ const NewShoppingListScreen = () => {
     setHabilitarBoton(false)
 
     try {
-      await createShoppingList(textValue, 0);
-      ToastAndroid.show("Lista creada con exito", ToastAndroid.LONG)
+      await createShoppingList(textValue, user!.id);
+      ToastAndroid.show("Lista creada con exito", ToastAndroid.SHORT)
       setIsDisabled(false);
       setIsLoading(false);
 
     } catch (error) {
-      //console.error("Falla al guardar: " + error);
-      //ToastAndroid.showWithGravity("No se pudo guardar la lista de compras", ToastAndroid.LONG, 1)
+      errorLog("Falla al guardar lista", error)
+      ToastAndroid.showWithGravity("No se pudo guardar la lista de compras", ToastAndroid.LONG, 1)
+      setCodigo('')
       
     } finally {
       setIsLoading(false)
       setIsDisabled(false)
-
     }
   }
 

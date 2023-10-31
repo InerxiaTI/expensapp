@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState } from 'react'
 import BaseScreenComponent from '../components/BaseScreenComponent'
-import { Image, TextInput, ToastAndroid, View } from 'react-native'
+import { Image, StyleSheet, TextInput, ToastAndroid, View } from 'react-native'
 import { GenericHeaderComponent } from '../components/GenericHeaderComponent'
 import expenseBanner from '../../assets/expenseBanner.png';
 import InputV1Component from '../components/inputs/InputV1Component';
@@ -8,7 +8,6 @@ import { AuthContext } from '../context/AuthContext';
 import { ButtonV2Component } from '../components/buttons/ButtonV2Component';
 import { useJoinShoppingList } from '../hooks/shoppingList/useJoinShoppingList';
 import { errorLog } from '../utils/HandlerError';
-
 
 const JoinShoppingListScreen = () => {
 
@@ -24,7 +23,7 @@ const JoinShoppingListScreen = () => {
 
   const handleOnTextChange = (textValue: string) => {
     setTextValue(textValue)
-    if (textValue.length >= 5) {
+    if (textValue.length >= 4) {
       setHabilitarBoton(true)
     } else {
       setHabilitarBoton(false)
@@ -37,42 +36,30 @@ const JoinShoppingListScreen = () => {
     setIsDisabled(true);
     setIsLoading(true)
     setHabilitarBoton(false)
-    setTimeout(async () => {
-      try {
-        await saveJoinShoppingList(textValue, user!.id);
-        setIsDisabled(false);
-        setIsLoading(false);
+    try {
+      await saveJoinShoppingList(textValue, user!.id);
+      ToastAndroid.show("Solicitud enviada con exito", ToastAndroid.LONG)
 
-      } catch (error) {
-        errorLog(error.response.data.message, "Error saving join");
-        ToastAndroid.show(error.response.data.message, ToastAndroid.LONG)
-        /*Snackbar.show({
-          marginBottom: 50,
-          textColor: 'white',
-          text: error.response.data.message,
-          duration: Snackbar.LENGTH_LONG,
-          action: {
-            text: 'UNDO',
-            textColor: 'green',
-            onPress: () => {  },
-          },
-        });*/
+      setIsDisabled(false);
+      setIsLoading(false);
 
-      } finally {
-        setIsLoading(false)
-        setIsDisabled(false)
-        setHabilitarBoton(true)
+    } catch (error) {
+      errorLog(error.response.data.message, "Error saving join");
+      ToastAndroid.show(error.response.data.message, ToastAndroid.LONG)
 
+    } finally {
+      setIsLoading(false)
+      setIsDisabled(false)
+    }
 
-      }
-    }, 5000)
 
   }
 
-
   return (
     <BaseScreenComponent>
-      <GenericHeaderComponent title='Unirse' />
+
+
+      <GenericHeaderComponent title='Unirse' showArrowBack/>
 
       {/* Imagen */}
 
@@ -82,6 +69,9 @@ const JoinShoppingListScreen = () => {
         borderWidth: 0,
         borderColor: 'red'
       }}>
+
+
+
         <Image
           source={expenseBanner}
           style={{ width: 100, height: 100 }}
@@ -115,9 +105,12 @@ const JoinShoppingListScreen = () => {
           isLoading={isLoading}
         />
       </View>
+    
 
     </BaseScreenComponent>
   )
 }
+
+
 
 export default JoinShoppingListScreen
