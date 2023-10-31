@@ -42,8 +42,8 @@ export interface Collaborator {
     id:               number;
     porcentaje:       number;
     estado:           string;
-    nombresUsuario:   string;
-    apellidosUsuario: string;
+    nombres:          string;
+    apellidos:        string;
     idListaCompra:    number;
     idUsuario:        number;
     esCreador:        boolean;

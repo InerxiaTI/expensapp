@@ -12,6 +12,7 @@ const expenseMateApi = axios.create({
 
 
 const redirect = () => {
+    infoLog("Redirecting to ErrorScreen...")
     infoLog(`Route: ${JSON.stringify(getCurrentRoute())}`)
 
     infoLog("Antes navi")
@@ -25,14 +26,14 @@ const requestHandler = (request) => {
 
     try {
 
-        console.log("LOGF9 request detail");
-        console.log("LOGF9 Method: " + request.method);
-        console.log("LOGF9 More: ", JSON.stringify(request));
+        infoLog("Request detail");
+        infoLog("Method: " + request.method);
+        infoLog("Endpoint: " +JSON.stringify(request.url));
 
         return request;
 
     } catch (error) {
-        console.log("LOGF9 interceptor error , reportar error, error: " + error);
+        infoLog("interceptor error , reportar error, error: " + error);
         throw error;
     }
 
@@ -54,7 +55,7 @@ expenseMateApi.interceptors.request.use(requestHandler, requestErrorHandler)
 
 const responseHandler = (response) => {
     try {
-        console.log("LOGF9 EN INTERCEPTOR RESPONSE SUCCESS: " + JSON.stringify(response));
+        infoLog("EN INTERCEPTOR RESPONSE SUCCESS: " + JSON.stringify(response.data.status));
 
         // Si la respuesta es exitosa la devolvemos o podemos 
         // tener mecanismo de encriptación y por tanto querer desencriptar la respuesta
@@ -68,6 +69,9 @@ const responseHandler = (response) => {
 
 const responseErrorHandler = (error) => {
 
+    infoLog(`ANALIZANDO ERROR: ${JSON.stringify(error)}`)
+    infoLog(`ANALIZANDO ERROR2: ${JSON.stringify(error.response)}`)
+
     infoLog("====================================");
     infoLog("==== INTERCEPTOR RESPONSE ERROR ====");
     infoLog("====================================");
@@ -79,29 +83,31 @@ const responseErrorHandler = (error) => {
 
     // Aquí puedes manejar los errores de respuesta
     if (error.response) {
-        const errorMate = error.response.data;
+        const errorMate = error?.response?.data;
 
         infoLog(`STATUS: ${errorMate.status}`)
         infoLog(`Message: ${errorMate.message}`)
 
         if (error.response.status === 500) {
-            console.log("LOGF9 ES JODIDO");
+            infoLog("ES JODIDO");
             redirect()
+
             // Acciones necesarias para llamar pantalla de error, o para mostrar modal de error.
             //throw new Error('Ha ocurrido un error inesperado. Por favor, inténtelo de nuevo más tarde.');
         } else {
-            console.log("LOGF9 AQUI EN NO 500S");
+           infoLog("NO ES 500S");
 
             throw error;
         }
     } else if (error.request) {
         // Si la solicitud no pudo ser realizada (por ejemplo, problemas de red)
         errorLog('Error de solicitud:', error.message);
-        errorLog('Error de solicitud:', JSON.stringify(error));
 
     } else {
         // Error inesperado
         errorLog('Error inesperado:', error);
+        redirect()
+
     }
 
     infoLog("antes del REJECT del RESPONSE ERROR");

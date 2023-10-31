@@ -2,6 +2,7 @@ import { ShoppingState } from "./ShoppingContext"
 
 type ShoppingAction = 
     | {type: 'setIsFocusFetchShoppingLists', payload: boolean}
+    | {type: 'setRefreshHome', payload: boolean}
 
 export const shoppingReducer = (state: ShoppingState, action: ShoppingAction): ShoppingState => {
 
@@ -10,6 +11,11 @@ export const shoppingReducer = (state: ShoppingState, action: ShoppingAction): S
             return {
                 ...state,
                 isFocusFetchShoppingLists: action.payload
+            }
+        case 'setRefreshHome':
+            return {
+                ...state,
+                refreshHome: action.payload
             }
     }
 

@@ -9,8 +9,8 @@ const HomeScreen = () => {
   const {authState} = useContext(AuthContext);
   const user = authState.user
   
-  const { isLoading, shoppingLists, onRefresh, refreshing} = useFetchShoppingLists(user!);
-
+  const { isLoading, shoppingLists, 
+    onRefresh, refreshing, onInfiniteScroll, totalElements, isLoadingInfinite} = useFetchShoppingLists(user!);
 
   if (isLoading) {
     return (
@@ -48,7 +48,7 @@ const HomeScreen = () => {
         fontWeight: 'bold',
         letterSpacing: 1,
         marginVertical: 10
-      }}>Listas de compras</Text>
+      }}>Listas de compras ({totalElements})</Text>
 
       <View
         style={{
@@ -68,6 +68,29 @@ const HomeScreen = () => {
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
+          onEndReachedThreshold={0.35}
+          onEndReached={onInfiniteScroll}
+          ListFooterComponent={
+            
+            isLoadingInfinite
+            ?
+              <View
+                style={{
+                  height: 60,
+                  width: '100%',
+                  justifyContent: 'center'
+
+                }}
+              >
+                <ActivityIndicator 
+                  color={"#7600D3"}
+                  size={30}
+                />
+              </View>
+            : <></>
+            
+          }
+
         />
       </View>
 

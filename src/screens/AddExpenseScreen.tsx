@@ -81,6 +81,7 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 		console.log("createShoppingRequest: " + JSON.stringify(createShoppingRequest));
 
 		setIsLoading(true);
+		setHabilitarBoton(false)
 
 		try {
 			await saveShopping(createShoppingRequest);
@@ -91,6 +92,10 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 
 		} catch (error) {
 			console.error("Falla al guardar: " + error);
+		} finally {
+			setIsLoading(false);
+			setHabilitarBoton(true)
+
 		}
 
 	}

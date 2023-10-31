@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { View, Text, TextInput, StyleSheet, KeyboardType } from 'react-native'
+import { View, Text, TextInput, StyleSheet, KeyboardType, KeyboardTypeOptions } from 'react-native'
 
 interface InputV1Props {
     title?: string,
@@ -7,7 +7,7 @@ interface InputV1Props {
     onChangeText?: (text: string) => void, // Función que maneja el cambio de texto
     value?: string, // Valor del input
     editable?: boolean,
-    keyboardType?: KeyboardType,
+    keyboardType?: KeyboardType | KeyboardTypeOptions ,
     refOwn?:React.Ref<TextInput>,
     autoFocus?: boolean
     autoCorrect?: boolean,

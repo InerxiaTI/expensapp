@@ -16,14 +16,9 @@ interface AssignPercentageCollaboratorScreenProps extends StackScreenProps<RootS
 
 const AssignPercentageCollaboratorScreen = ({ route, navigation }: AssignPercentageCollaboratorScreenProps) => {
 
-	console.log("route.params: " + JSON.stringify(route.params));
-
-
+	const [habilitarBoton, setHabilitarBoton] = useState(true)
 
 	const assignPercentage: AssignPercentageParams = route.params as AssignPercentageParams
-
-
-	console.log("########## porcentaje: " + JSON.stringify(assignPercentage));
 
 	const { isLoading,
 		setIsLoading,
@@ -63,6 +58,8 @@ const AssignPercentageCollaboratorScreen = ({ route, navigation }: AssignPercent
 		}
 
 		setIsLoading(true);
+		setHabilitarBoton(false)
+
 
 		try {
 			await saveAssignPercentageCollaborator(assignRequest);
@@ -83,6 +80,9 @@ const AssignPercentageCollaboratorScreen = ({ route, navigation }: AssignPercent
 
 		} catch (error) {
 			console.error("Falla al guardar: " + error);
+		} finally {
+			setHabilitarBoton(true)
+
 		}
 
 
@@ -117,7 +117,7 @@ const AssignPercentageCollaboratorScreen = ({ route, navigation }: AssignPercent
 
 				<InputV1Component
 					title='Colaborador'
-					value={assignPercentage.collaborator.nombresUsuario}
+					value={assignPercentage.collaborator.nombres}
 					editable={false}
 				/>
 
@@ -129,10 +129,11 @@ const AssignPercentageCollaboratorScreen = ({ route, navigation }: AssignPercent
 					value={percentage}
 				/>
 
-
 				<ButtonV2Component
 					onPress={() => saveNewPercentage()}
 					title='Guardar'
+					habilitarBoton={habilitarBoton}
+					isLoading={isLoading}
 				/>
 
 			</View>

@@ -143,7 +143,7 @@ const CollaboratorCardComponent = ({
                 marginVertical: 5
             }}
         >
-            <Text style={styles.mainText} >{collaborator.nombresUsuario} {collaborator.apellidosUsuario}</Text>
+            <Text style={styles.mainText} >{collaborator.nombres} {collaborator.apellidos}</Text>
             {
                 collaborator.estado === 'APROBADO' ?
                     <Text style={styles.mainText} >{collaborator.porcentaje}%</Text>

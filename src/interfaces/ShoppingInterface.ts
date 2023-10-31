@@ -4,8 +4,7 @@ import { Collaborator } from "./UserInterface";
 
 export interface ShoppingListsResponse {
     status: number;
-    body:   ShoppingList[];
-    message?: string;
+    body:   ShoppingListsBodyResponse;
 }
 
 export interface CreateShoppingListResponse {
@@ -21,7 +20,7 @@ export interface ShoppingList {
     fechaCreacion:   string;
     fechaFinalizado?: string;
     totalCompras:    string;
-    usuarioCreador:  number;
+    idUsuarioCreador:  number;
     codigoGenerado:  string;
 }
 
@@ -136,6 +135,18 @@ export interface JoinShoppingList {
     porcentaje?:    number;
     id:            number;
 }
+
+export interface ShoppingListsBodyResponse {
+    page:          string;
+    size:          string;
+    content:       ShoppingList[];
+    totalElements: number;
+    totalPages:    number;
+    totalContent:  number;
+}
+
+
+
 
 
 

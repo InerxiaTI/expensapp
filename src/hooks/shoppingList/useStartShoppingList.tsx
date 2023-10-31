@@ -1,9 +1,12 @@
-import { useState } from "react"
+import { useState, useContext } from "react"
 import { ShoppingList } from "../../interfaces/ShoppingInterface"
 import { startShoppingList } from "../../services/shoppingListsService"
+import { ShoppingContext } from "../../context/ShoppingContext";
 
 
 export const useStartShoppingList = () => {
+    const { setRefreshHome } = useContext(ShoppingContext);
+
     const [isLoading, setIsLoading] = useState(false)
     const [shoppingList, setShoppingList] = useState<ShoppingList>()
 
@@ -15,6 +18,7 @@ export const useStartShoppingList = () => {
             console.log("88888888888888888888888888888888\n response: "+JSON.stringify(response));
             
             setShoppingList(response)
+            setRefreshHome(true)
         } catch (error) {
             console.error(error);
             throw error;
