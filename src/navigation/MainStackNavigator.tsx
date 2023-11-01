@@ -10,6 +10,7 @@ import { AddCollaboratorAsShopperParams } from '../screens/AddCollaboratorAsShop
 import { CollaboratorsParams } from '../interfaces/UserInterface';
 import ErrorInesperadoScreen from '../screens/error/ErrorGeneralScreen';
 import { infoLog } from '../utils/HandlerError';
+import LanguageScreen from '../screens/LanguageScreen';
 
 export type RootStackParams = {
   Auth: undefined,
@@ -21,6 +22,7 @@ export type RootStackParams = {
   NewShoppingList: undefined,
   JoinShoppingList: undefined,
   Settings: undefined,
+  Language: undefined,
   AddCollaboratorAsShopper: AddCollaboratorAsShopperParams,
   Collaborators: CollaboratorsParams,
   AssignPercentageCollaborator: any,
@@ -57,6 +59,7 @@ export const SettingsStack = () => {
         }
       }}>
       <Stack.Screen name="Settings" component={SettingsScreen} />
+      <Stack.Screen name="Language" component={LanguageScreen} />
     </Stack.Navigator>
   )
 }

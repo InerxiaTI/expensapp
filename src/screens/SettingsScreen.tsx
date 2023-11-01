@@ -7,9 +7,14 @@ import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import SettingsCardComponent from '../components/SettingsCardComponent';
 import { infoLog } from '../utils/HandlerError';
+import { useNavigation } from '@react-navigation/native';
+import { useTranslation } from 'react-i18next';
 
 
 const SettingsScreen = () => {
+  const navigator = useNavigation();
+  const { t } = useTranslation();
+
 
   const { logOut } = useContext(AuthContext);
 
@@ -39,66 +44,12 @@ const SettingsScreen = () => {
       >
         {/* Card settings */}
 
-        <SettingsCardComponent onPress={()=>{infoLog("Desde settings")}} title='Categorías' icon='shape'/>
-        <SettingsCardComponent onPress={()=>{infoLog("Desde settings")}} title='Notificaciones' icon='shape'/>
-        <SettingsCardComponent onPress={()=>{infoLog("Desde settings")}} title='Privacidad y seguridad' icon='shape'/>
-        <SettingsCardComponent onPress={()=>{infoLog("Desde settings")}} title='Datos y almacenamiento' icon='shape'/>
-        <SettingsCardComponent onPress={()=>{infoLog("Desde settings")}} title='Idioma' icon='shape'/>
-
-        <TouchableOpacity
-          onPress={handleLogOut}
-          style={{
-            backgroundColor: '#262626',
-            flex: 1,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            height: 50,
-            borderBottomColor: 'black',
-            borderBottomWidth: 1,
-          }}
-        >
-          <View
-            style={{
-              borderColor: 'red',
-              borderWidth: 0,
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginLeft: 15,
-              gap: 24
-            }}
-          >
-            {/* Icon */}
-            <View>
-              <Icon name="logout" size={25} color="white"/>
-
-            </View>
-
-            {/* Texto */}
-            <View>
-              <Text
-                style={{
-                  fontSize: 14,
-                  color: 'white',
-                  fontStyle: 'normal',
-                  fontWeight: '400'
-                }}
-              >Cerrar sesión</Text>
-
-            </View>
-          </View>
-
-          {/* Common icon */}
-          <View
-            style={{
-              marginRight: 12
-            }}
-          >
-              <Icon name="chevron-right" size={25} color="white"/>
-          </View>
-
-        </TouchableOpacity>
-
+        <SettingsCardComponent onPress={()=>{infoLog("Desde settings")}} title={t('settings:categories')} icon='shape'/>
+        <SettingsCardComponent onPress={()=>{infoLog("Desde settings")}} title={t('settings:notifications')} icon='shape'/>
+        <SettingsCardComponent onPress={()=>{infoLog("Desde settings")}} title={t('settings:privacity')} icon='shape'/>
+        <SettingsCardComponent onPress={()=>{infoLog("Desde settings")}} title={t('settings:storage')} icon='shape'/>
+        <SettingsCardComponent onPress={()=>{navigator.navigate('Language')}} title={t('settings:lang')} icon='shape'/>
+        <SettingsCardComponent onPress={()=>{handleLogOut()}} title={t('settings:logout')} icon='logout'/>
 
       </ScrollView>
 
