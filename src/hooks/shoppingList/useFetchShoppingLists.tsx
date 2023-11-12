@@ -5,10 +5,16 @@ import { ShoppingList, ShoppingListsResponse } from "../../interfaces/ShoppingIn
 import { User } from "../../interfaces/UserInterface";
 import { getShoppingLists } from "../../services/shoppingListsService";
 import { errorLog } from "../../utils/HandlerError";
+import container from "../../IOCContainer";
+import { ShoppingListRepository } from "../../domain/repositories/ShoppingListRepository";
+import { GetShoppingListUseCase } from "../../application/useCases/getShoppingList";
+import { User as UserEntity } from "../../domain/entities/User";
 
+const getShoppingListUseCase = container.resolve<GetShoppingListUseCase>('getShoppingListUseCase');
 
 
 export const useFetchShoppingLists = (user: User) => {
+    const userE = UserEntity.fromInterface(user)
     const {shoppingState, setRefreshHome} = useContext(ShoppingContext);
 
     const [isLoading, setIsLoading] = useState(true)
@@ -49,7 +55,7 @@ export const useFetchShoppingLists = (user: User) => {
                 })
 
                 setIsLoadingInfinite(true)
-                const response: ShoppingListsResponse = await getShoppingLists(user!, pageable)
+                const response: ShoppingListsResponse = await  getShoppingLists(user!, pageable)
                 const dataShowed = response.body.content 
                 
                 setTotalElements(response.body.totalElements)
@@ -75,7 +81,8 @@ export const useFetchShoppingLists = (user: User) => {
 
     const fetchShoppingLists = async (user: User) => {
         try {
-            const response: ShoppingListsResponse = await getShoppingLists(user!, {
+            
+            const response: ShoppingListsResponse = await getShoppingLists(userE!, {
                 currentPage: 1,
                 size: 10,
                 totalPages: 0
