@@ -8,6 +8,7 @@ import { Collaborator, CollaboratorsFilterRequest } from '../interfaces/UserInte
 import { useFetchCollaborators } from '../hooks/collaborators/useFetchCollaborators'
 import CollaboratorCardComponent from '../components/CollaboratorCardComponent'
 import { GenericHeaderComponent } from '../components/GenericHeaderComponent'
+import { infoLog } from '../utils/HandlerError'
 
 export interface AddCollaboratorAsShopperParams {
     createShoppingRequest: CreateShoppingRequest,
@@ -28,6 +29,7 @@ const AddCollaboratorAsShopperScreen = ({ route, navigation }: AddCollaboratorAs
     const { reloadCollaborators, isLoading, collaborators } = useFetchCollaborators(request)
 
     const handleCollaboratorPress = (collaborator: Collaborator) => {
+        infoLog("QQQQQQQQQQQQ: "+JSON.stringify(collaborator))
         navigation.navigate('AddExpense', { createShoppingRequest: createShopping, collaborator: collaborator });
     };
 

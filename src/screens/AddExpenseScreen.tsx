@@ -11,9 +11,9 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../navigation/MainStackNavigator';
 import { CreateShoppingRequest, AddExpenseParams } from '../interfaces/ShoppingInterface';
-import { Collaborator } from '../interfaces/UserInterface';
 import { ButtonV2Component } from '../components/buttons/ButtonV2Component';
 import { useNewShopping } from '../hooks/shoppingList/useNewShopping';
+import { Collaborator } from '../interfaces/UserInterface';
 
 
 interface AddExpenseScreenProps extends StackScreenProps<RootStackParams, 'AddExpense'> { }
@@ -210,7 +210,7 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 										letterSpacing: 1,
 										fontWeight: '500',
 										color: 'lightgrey',
-									}}>{selectedCollaborator.nombresUsuario !== undefined ? selectedCollaborator.nombresUsuario : 'Yo'}</Text>
+									}}>{selectedCollaborator.nombres !== undefined ? selectedCollaborator.nombres : 'Yo'}</Text>
 									<MaterialCommunityIcons name="chevron-down" size={20} color='white' />
 								</View>
 							</TouchableWithoutFeedback>
