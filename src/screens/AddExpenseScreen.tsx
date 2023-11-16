@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Image, StyleSheet, Text,  TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import expenseBanner from '../../assets/expenseBanner.png';
 import { getFormatedDate } from 'react-native-modern-datepicker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -27,6 +27,7 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 
 	const [compra, setCompra] = useState("");
 	const [valorCompra, setValorCompra] = useState("");
+	const [valorCompraVisible, setValorCompraVisible] = useState("");
 	const [habilitarBoton, setHabilitarBoton] = useState(false)
 
 
@@ -39,14 +40,34 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 		validateForm(valorCompra, text);
 	};
 	const handleValorCompraChange = (text: string) => {
-		setValorCompra(text);
+		const numericValue = text.replace(/[^0-9,]/g, ''); // Eliminar caracteres no numéricos y permitir solo comas
+		console.log("numeric 1: " + numericValue);
+		
+		const parts = numericValue.split(',');
+
+		// Formatear la parte entera con separadores de miles
+		const formattedInteger = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+		// Si hay parte decimal, agregarla con una coma
+		const formattedValue = parts.length > 1
+			? `${formattedInteger},${parts[1]}`
+			: formattedInteger;
+
+		setValorCompraVisible(formattedValue)
+		console.log("numeric 2: " + numericValue);
+
+		setValorCompra(numericValue.replace(',', '.'));
+
+		console.log("text: " + text);
+		console.log("valorcompra: " + valorCompra);
+
 		validateForm(compra, text);
 	};
 
 	const validateForm = (compra: string, valor: string) => {
-    const formIsValid = compra.trim() !== '' && valor.trim() !== '';
-    setHabilitarBoton(formIsValid);
-  };
+		const formIsValid = compra.trim() !== '' && valor.trim() !== '';
+		setHabilitarBoton(formIsValid);
+	};
 
 	const today = new Date();
 
@@ -113,9 +134,9 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 				containerStyle={styles.container}
 				contentContainerStyle={styles.content}
 				stickyFooter={
-					<ButtonV2Component 
-						title='Agregar gasto' 
-						onPress={handleOnPress} 
+					<ButtonV2Component
+						title='Agregar gasto'
+						onPress={handleOnPress}
 						isLoading={isLoading}
 						habilitarBoton={habilitarBoton}
 
@@ -186,11 +207,13 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 						<Text style={{ ...styles.textInfoInput, fontSize: 20 }}>Comprador</Text>
 						<View style={styles.searchContainer}>
 							<TouchableWithoutFeedback
-								onPress={() => { navigation.navigate('AddCollaboratorAsShopper', {
-									createShoppingRequest: addExpenseParams?.createShoppingRequest!,
-									estadoLista: addExpenseParams.estadoLista!,
-									idUsuarioCreador: addExpenseParams.idUsuarioCreador!
-								}) }}
+								onPress={() => {
+									navigation.navigate('AddCollaboratorAsShopper', {
+										createShoppingRequest: addExpenseParams?.createShoppingRequest!,
+										estadoLista: addExpenseParams.estadoLista!,
+										idUsuarioCreador: addExpenseParams.idUsuarioCreador!
+									})
+								}}
 							>
 								<View
 									style={{
@@ -245,7 +268,7 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 					title='Valor'
 					placeholder='Valor'
 					onChangeText={handleValorCompraChange}
-					value={valorCompra}
+					value={valorCompraVisible}
 					keyboardType='numeric'
 					autoCorrect={false}
 				/>

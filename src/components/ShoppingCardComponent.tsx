@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, Vibration, View } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import currencyFormatter from 'currency-formatter'
 import { sliceText } from '../utils/textUtil';
 import { Shopping } from '../interfaces/ShoppingInterface';
 import { infoLog } from '../utils/HandlerError';
@@ -57,7 +57,7 @@ const ShoppingCardComponent = ({ shopping }: ShoppingCardProps) => {
             <Text style={{
               ...styles.shoppingText,
               color: 'white'
-            }}>{sliceText(shopping.nombreCategoria + ". " + shopping.id, 23)}</Text>
+            }}>{sliceText(shopping.nombreCategoria + ". " + shopping.descripcion, 23)}</Text>
 
           </View>
 
@@ -78,7 +78,7 @@ const ShoppingCardComponent = ({ shopping }: ShoppingCardProps) => {
             <View style={styles.containerPerColumn}>
               {/* <Icon name='trending-down' size={14} color='white' /> */}
               <Text style={{ fontSize: 16, fontWeight: '700', color: '#fff' }}>
-                $ {shopping.valor}
+                {currencyFormatter.format(parseFloat(shopping.valor), { code: 'COP', precision: 2 })} 
               </Text>
             </View>
 

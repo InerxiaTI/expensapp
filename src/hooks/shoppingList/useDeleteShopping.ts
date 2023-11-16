@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { CreateShopping, CreateShoppingRequest } from "../../interfaces/ShoppingInterface"
 import { deleteShopping } from "../../infrastructure/services/shopping.service"
 
 export const useDeleteShopping = () => {

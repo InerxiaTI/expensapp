@@ -91,14 +91,11 @@ const HeaderShoppingDetailComponent = ({ title, code, idListaCompras, idUsuarioC
   };
 
   const removeShoppingById = async () => {
-    // setIsDisabled(true);
     setIsLoadingOnRemove(true);
-    // setHabilitarBoton(false)
 
     try {
       await removeShopping(shoppingState.idShoppingCardSelected)
       ToastAndroid.show("Lista eliminada con exito", ToastAndroid.SHORT)
-      // setIsDisabled(false);
       setIsLoadingOnRemove(false);
       setRefreshShoppings(true)
 
@@ -108,7 +105,6 @@ const HeaderShoppingDetailComponent = ({ title, code, idListaCompras, idUsuarioC
 
     } finally {
       setIsLoadingOnRemove(false)
-      // setIsDisabled(false)
     }
   }
 
@@ -209,6 +205,10 @@ const HeaderShoppingDetailComponent = ({ title, code, idListaCompras, idUsuarioC
                     onPress={showConfirmationDialog}
                     icon='delete'
                   />
+                  <ToolItemComponent
+                    onPress={()=>{console.log("Nothing to edit");}}
+                    icon='pencil'
+                  />
                 </>
               )
 
@@ -221,7 +221,7 @@ const HeaderShoppingDetailComponent = ({ title, code, idListaCompras, idUsuarioC
         visible={confirmationVisible}
         onRequestClose={hideConfirmationDialog}
         onConfirm={handleConfirmAction}
-        question='¿Desea crear una nueva lista de compras?'
+        question={`¿Desea eliminar la compra ${shoppingState.idShoppingCardSelected}?`}
       />
 
       <Modal
