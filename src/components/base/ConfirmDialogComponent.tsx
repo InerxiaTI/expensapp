@@ -27,7 +27,7 @@ const ConfirmDialogComponent = ({ visible, onRequestClose, onConfirm, question }
 			>
 				<View
 					style={{
-						backgroundColor: '#262626',
+						backgroundColor: '#3d3d3d',
 						padding: 20,
 						borderRadius: 10,
 						elevation: 5,

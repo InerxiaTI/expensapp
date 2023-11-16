@@ -3,6 +3,9 @@ import { ShoppingState } from "./ShoppingContext"
 type ShoppingAction = 
     | {type: 'setIsFocusFetchShoppingLists', payload: boolean}
     | {type: 'setRefreshHome', payload: boolean}
+    | {type: 'setShoppingCardSelected', payload: boolean}
+    | {type: 'setRefreshShoppings', payload: boolean}
+    | {type: 'setIdShoppingCardSelected', payload: number}
 
 export const shoppingReducer = (state: ShoppingState, action: ShoppingAction): ShoppingState => {
 
@@ -16,6 +19,21 @@ export const shoppingReducer = (state: ShoppingState, action: ShoppingAction): S
             return {
                 ...state,
                 refreshHome: action.payload
+            }
+        case 'setShoppingCardSelected':
+            return {
+                ...state,
+                shoppingCardSelected: action.payload
+            }
+        case 'setIdShoppingCardSelected':
+            return {
+                ...state,
+                idShoppingCardSelected: action.payload
+            }
+        case 'setRefreshShoppings':
+            return {
+                ...state,
+                refreshShoppings: action.payload
             }
     }
 

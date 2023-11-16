@@ -5,18 +5,27 @@ import { shoppingReducer } from "./ShoppingReducer";
 export interface ShoppingState {
     isFocusFetchShoppingLists: boolean;
     refreshHome: boolean;
+    shoppingCardSelected: boolean;
+    idShoppingCardSelected: number;
+    refreshShoppings: boolean;
 }
 
 
 export const shoppingInitialState: ShoppingState = {
     isFocusFetchShoppingLists: false,
-    refreshHome: false
+    refreshHome: false,
+    shoppingCardSelected: false,
+    idShoppingCardSelected: 0,
+    refreshShoppings: false
 }
 
 export interface ShoppingContextProps {
     shoppingState: ShoppingState;
     setIsFocusFetchShoppingLists: (value: boolean) => void;
     setRefreshHome: (value: boolean) => void;
+    setShoppingCardSelected: (value: boolean) => void;
+    setRefreshShoppings: (value: boolean) => void;
+    setIdShoppingCardSelected: (value: number) => void;
 }
 
 export const ShoppingContext = createContext({} as ShoppingContextProps)
@@ -33,13 +42,27 @@ export const ShoppingProvider = ({ children }: any) => {
         dispatch({type: 'setRefreshHome', payload: value})
     }
 
+    const setShoppingCardSelected = (value: boolean) => {
+        dispatch({type: 'setShoppingCardSelected', payload: value})
+    }
+
+    const setIdShoppingCardSelected = (value: number) => {
+        dispatch({type: 'setIdShoppingCardSelected', payload: value})
+    }
+
+    const setRefreshShoppings = (value: boolean) => {
+        dispatch({type: 'setRefreshShoppings', payload: value})
+    }
 
     return (
         <ShoppingContext.Provider 
             value={{ 
                 shoppingState,
                 setIsFocusFetchShoppingLists,
-                setRefreshHome
+                setRefreshHome,
+                setShoppingCardSelected,
+                setIdShoppingCardSelected,
+                setRefreshShoppings
             }}
         >
             {children}

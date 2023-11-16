@@ -1,7 +1,7 @@
 import React, { createContext, useReducer } from 'react'
 import { authReducer } from './AuthReducer';
-import { User } from '../interfaces/UserInterface';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { User } from '../interfaces/UserInterface';
 
 export interface AuthState {
     isLoggedIn: boolean,
