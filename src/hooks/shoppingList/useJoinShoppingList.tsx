@@ -21,9 +21,10 @@ export const useJoinShoppingList = () => {
             setJoinShoppingList(response)
         } catch (error) {
             throw error;
+        } finally {
+            setIsLoading(false)
         }
 
-        setIsLoading(false)
     }
 
 
