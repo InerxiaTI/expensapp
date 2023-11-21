@@ -13,6 +13,7 @@ import { errorLog, infoLog } from '../utils/HandlerError';
 import { ShoppingContext } from '../context/ShoppingContext';
 import { useDeleteShopping } from '../hooks/shoppingList/useDeleteShopping';
 import ConfirmDialogComponent from './base/ConfirmDialogComponent';
+import { AddExpenseParams } from '../interfaces/ShoppingInterface';
 
 interface HeaderShoppingDetailProps {
   idListaCompras: number;
@@ -72,6 +73,19 @@ const HeaderShoppingDetailComponent = ({ title, code, idListaCompras, idUsuarioC
     saveStartShoppingList } = useStartShoppingList()
 
   const { removeShopping, setIsLoading: setIsLoadingOnRemove, isLoading: isLoadingOnRemove } = useDeleteShopping()
+
+  const handleEdit = () => {
+
+    const createShopping = {idListaCompras: idListaCompras}
+    const editShoppingParams: AddExpenseParams = {
+      editShoppingRequest: shoppingState.shoppingToEdit,
+      createShoppingRequest: createShopping,
+      estadoLista: estado,
+      idUsuarioCreador: idUsuarioCreador
+    }
+    navigator.navigate('AddExpense', editShoppingParams)
+
+  }
 
   const [confirmationVisible, setConfirmationVisible] = useState(false);
 
@@ -206,7 +220,7 @@ const HeaderShoppingDetailComponent = ({ title, code, idListaCompras, idUsuarioC
                     icon='delete'
                   />
                   <ToolItemComponent
-                    onPress={()=>{console.log("Nothing to edit");}}
+                    onPress={()=>{handleEdit()}}
                     icon='pencil'
                   />
                 </>

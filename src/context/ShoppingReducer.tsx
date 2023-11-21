@@ -1,3 +1,4 @@
+import { EditShoppingRequest } from "../interfaces/ShoppingInterface"
 import { ShoppingState } from "./ShoppingContext"
 
 type ShoppingAction = 
@@ -6,6 +7,7 @@ type ShoppingAction =
     | {type: 'setShoppingCardSelected', payload: boolean}
     | {type: 'setRefreshShoppings', payload: boolean}
     | {type: 'setIdShoppingCardSelected', payload: number}
+    | {type: 'setShoppingToEdit', payload: EditShoppingRequest}
 
 export const shoppingReducer = (state: ShoppingState, action: ShoppingAction): ShoppingState => {
 
@@ -34,6 +36,11 @@ export const shoppingReducer = (state: ShoppingState, action: ShoppingAction): S
             return {
                 ...state,
                 refreshShoppings: action.payload
+            }
+        case 'setShoppingToEdit':
+            return {
+                ...state,
+                shoppingToEdit: action.payload
             }
     }
 

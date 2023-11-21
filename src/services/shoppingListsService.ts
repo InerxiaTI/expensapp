@@ -1,5 +1,5 @@
 import expenseMateApi from "../api/expenseMateApi";
-import { CreateShoppingListRequest, CreateShoppingListResponse, CreateShoppingRequest, CreateShoppingResponse, JoinShoppingListRequest, JoinsShoppingListResponse, ShoppingListsResponse, ShoppingRequest, ShoppingResponse } from "../interfaces/ShoppingInterface";
+import { CreateShoppingListRequest, CreateShoppingListResponse, CreateShoppingRequest, CreateShoppingResponse, EditShoppingRequest, JoinShoppingListRequest, JoinsShoppingListResponse, ShoppingListsResponse, ShoppingRequest, ShoppingResponse } from "../interfaces/ShoppingInterface";
 import { User } from "../interfaces/UserInterface";
 import { errorLog, infoLog } from "../utils/HandlerError";
 
@@ -69,6 +69,22 @@ const createShopping = async (shopping: CreateShoppingRequest) => {
 
 }
 
+const editShopping = async (shopping: EditShoppingRequest) => {
+	console.log("LLamando a la API para editar una compra");
+	try {
+		const response = await expenseMateApi.put<CreateShoppingResponse>(
+			'/api/compra/editar-compra',
+			shopping
+		)
+
+		return response.data.body
+
+	} catch (error) {
+		throw error;
+	}
+
+}
+
 
 const startShoppingList = async (idListaCompras: number) => {
 
@@ -109,6 +125,7 @@ export {
 	getShoppingListDetail,
 	createShopping,
 	startShoppingList,
-	sendRequestAddCollaborator
+	sendRequestAddCollaborator,
+	editShopping
 
 }

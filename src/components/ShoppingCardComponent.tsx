@@ -4,9 +4,10 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import currencyFormatter from 'currency-formatter'
 import { sliceText } from '../utils/textUtil';
-import { Shopping } from '../interfaces/ShoppingInterface';
+import { Shopping, EditShoppingRequest } from '../interfaces/ShoppingInterface';
 import { infoLog } from '../utils/HandlerError';
 import { ShoppingContext } from '../context/ShoppingContext';
+import { getFormatedDate } from 'react-native-modern-datepicker';
 
 interface ShoppingCardProps {
   shopping: Shopping,
@@ -16,12 +17,26 @@ interface ShoppingCardProps {
 const ShoppingCardComponent = ({ shopping }: ShoppingCardProps) => {
   const [isPressed, setIsPressed] = useState(false);
   const [background, setBackground] = useState('#262626')
-  const { setShoppingCardSelected, setIdShoppingCardSelected, shoppingState } = useContext(ShoppingContext);
+  const { setShoppingCardSelected, setIdShoppingCardSelected, shoppingState, setShoppingToEdit } = useContext(ShoppingContext);
 
 
+  function parseShoppingToEdit(){
+    const shoppingToEdit: EditShoppingRequest = {
+      idCompra: shopping.id,
+      idCategoria: shopping.idCategoria,
+      idUsuarioCompra: shopping.idUsuarioCompra,
+      idUsuarioRegistro: shopping.idUsuarioRegistro,
+      fechaCompra: shopping.fechaCompra,
+      valor: parseFloat(shopping.valor),
+      descripcion: shopping.descripcion
+    }
+    setShoppingToEdit(shoppingToEdit)
+
+  }
 
   const handleLongPress = () => {
     Vibration.vibrate(100); // Vibra durante 100 milisegundos
+    parseShoppingToEdit()
     setBackground('#d9a2ff')
     setIsPressed(true);
     setShoppingCardSelected(true)
@@ -40,6 +55,10 @@ const ShoppingCardComponent = ({ shopping }: ShoppingCardProps) => {
 
   };
 
+  const handleShoppingEdit = () => {
+    infoLog(`SHOPPING TO EDIT: ${JSON.stringify(shopping)}`)
+  }
+
 
 
   return (
@@ -57,7 +76,7 @@ const ShoppingCardComponent = ({ shopping }: ShoppingCardProps) => {
             <Text style={{
               ...styles.shoppingText,
               color: 'white'
-            }}>{sliceText(shopping.nombreCategoria + ". " + shopping.descripcion, 23)}</Text>
+            }}>{sliceText(shopping.id+" - "+shopping.nombreCategoria + ". " + shopping.descripcion, 23)}</Text>
 
           </View>
 
@@ -65,7 +84,7 @@ const ShoppingCardComponent = ({ shopping }: ShoppingCardProps) => {
 
           <View style={styles.containerPerColumn}>
             <Icon name='calendar' size={12} color='white' />
-            <Text style={styles.textGrey}>{shopping.fechaCreacion}</Text>
+            <Text style={styles.textGrey}>{getFormatedDate(new Date(shopping.fechaCompra), "YYYY-MM-DD")}</Text>
 
           </View>
 
