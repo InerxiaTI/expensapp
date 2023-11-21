@@ -35,7 +35,6 @@ const ShoppingCardComponent = ({ shopping }: ShoppingCardProps) => {
   }
 
   const handleLongPress = () => {
-    Vibration.vibrate(100); // Vibra durante 100 milisegundos
     parseShoppingToEdit()
     setBackground('#d9a2ff')
     setIsPressed(true);
@@ -46,7 +45,6 @@ const ShoppingCardComponent = ({ shopping }: ShoppingCardProps) => {
   };
 
   const handlePressOut = () => {
-    console.log("+++++++++++++++++++");
     setIdShoppingCardSelected(0)
     setShoppingCardSelected(false)
     setBackground('#262626')
@@ -54,11 +52,6 @@ const ShoppingCardComponent = ({ shopping }: ShoppingCardProps) => {
     infoLog("++++++++++++ LONGPRESS_2: " + isPressed +" / " +background)
 
   };
-
-  const handleShoppingEdit = () => {
-    infoLog(`SHOPPING TO EDIT: ${JSON.stringify(shopping)}`)
-  }
-
 
 
   return (

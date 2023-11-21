@@ -14,6 +14,7 @@ import { useFetchShoppingListDetail } from '../hooks/useFetchShoppingListDetail'
 import { useFetchCollaborators } from '../../../hooks/collaborators/useFetchCollaborators';
 import { CollaboratorsFilterRequest } from '../../../interfaces/UserInterface';
 import { ShoppingContext } from '../../../context/ShoppingContext';
+import { infoLog } from '../../../utils/HandlerError';
 
 interface ShoppingDetailsScreenProps extends StackScreenProps<RootStackParams, 'ShoppingDetails'> { }
 
@@ -69,13 +70,20 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
   },[])
 
   useEffect(() => {
-    getShoppingDetail(shoppingList.id, user!)
-    setRefreshShoppings(false)
-    setIdShoppingCardSelected(0)
+    infoLog("En el useEffect dependiente del refreshShopping")
+
+    if(shoppingState.refreshShoppings){
+      infoLog("REFRESCANDO CON REFESH_SHOPPING"+JSON.stringify(shoppingState));
+      getShoppingDetail(shoppingList.id, user!) 
+      setRefreshShoppings(false)
+      setIdShoppingCardSelected(0)
+    }
+
   }, [shoppingState.refreshShoppings])
 
   useEffect(() => {
-    getShoppingDetail(shoppingList.id, user!)
+    infoLog("ShoppingDetailsScreen 1")
+      getShoppingDetail(shoppingList.id, user!)
   }, [user])
 
 

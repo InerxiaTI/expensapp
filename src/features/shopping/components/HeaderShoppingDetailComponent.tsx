@@ -76,7 +76,7 @@ const HeaderShoppingDetailComponent = ({ title, code, idListaCompras, idUsuarioC
 
   const handleEdit = () => {
 
-    const createShopping = {idListaCompras: idListaCompras}
+    const createShopping = { idListaCompras: idListaCompras }
     const editShoppingParams: AddExpenseParams = {
       editShoppingRequest: shoppingState.shoppingToEdit,
       createShoppingRequest: createShopping,
@@ -119,6 +119,8 @@ const HeaderShoppingDetailComponent = ({ title, code, idListaCompras, idUsuarioC
 
     } finally {
       setIsLoadingOnRemove(false)
+      setRefreshShoppings(true)
+
     }
   }
 
@@ -184,7 +186,6 @@ const HeaderShoppingDetailComponent = ({ title, code, idListaCompras, idUsuarioC
 
 
   return (
-    // <BaseHeaderComponent>
     <>
       <HeaderContainerComponent
         title={sliceText(title!, 25)}
@@ -220,7 +221,7 @@ const HeaderShoppingDetailComponent = ({ title, code, idListaCompras, idUsuarioC
                     icon='delete'
                   />
                   <ToolItemComponent
-                    onPress={()=>{handleEdit()}}
+                    onPress={() => { handleEdit() }}
                     icon='pencil'
                   />
                 </>
@@ -304,7 +305,6 @@ const HeaderShoppingDetailComponent = ({ title, code, idListaCompras, idUsuarioC
         </TouchableWithoutFeedback>
       </Modal>
     </>
-    // </BaseHeaderComponent >
   )
 }
 

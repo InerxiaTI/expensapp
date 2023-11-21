@@ -98,8 +98,6 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 		setShow(true);
 	};
 
-	const { setRefreshShoppings } = useContext(ShoppingContext);
-
 	const handleEdit = async () => {
 
 
@@ -115,7 +113,6 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 		try {
 			await updateShopping(editShopping!);
 			setIsLoadingEdit(false);
-			setRefreshShoppings(true)
 
 			// navigation.dispatch() se quiere llamar la función para actualizar las listas de compras
 			navigation.goBack() // Volver a la pantalla anterior

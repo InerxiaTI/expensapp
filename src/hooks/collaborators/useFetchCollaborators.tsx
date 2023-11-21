@@ -7,7 +7,7 @@ import { ShoppingContext } from "../../context/ShoppingContext";
 
 export const useFetchCollaborators = (request: CollaboratorsFilterRequest) => {
   const { authState } = useContext(AuthContext);
-  const { shoppingState, setIsFocusFetchShoppingLists } = useContext(ShoppingContext);
+  const { shoppingState, setIsFocusFetchShoppings } = useContext(ShoppingContext);
 
   const userLogged = authState.user
 
@@ -16,10 +16,10 @@ export const useFetchCollaborators = (request: CollaboratorsFilterRequest) => {
 
   useFocusEffect(
     useCallback(() => {
-      if (!shoppingState.isFocusFetchShoppingLists) {
+      if (!shoppingState.isFocusFetchShoppings) {
         fetchCollaborators(request)
       }
-      setIsFocusFetchShoppingLists(false)
+      setIsFocusFetchShoppings(false)
     }, [])
   )
 
