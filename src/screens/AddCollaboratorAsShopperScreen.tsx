@@ -8,58 +8,60 @@ import { Collaborator, CollaboratorsFilterRequest } from '../interfaces/UserInte
 import { useFetchCollaborators } from '../hooks/collaborators/useFetchCollaborators'
 import CollaboratorCardComponent from '../components/CollaboratorCardComponent'
 import { GenericHeaderComponent } from '../components/GenericHeaderComponent'
+import { infoLog } from '../utils/HandlerError'
 
 export interface AddCollaboratorAsShopperParams {
-    createShoppingRequest: CreateShoppingRequest,
-    idUsuarioCreador: number,
-    estadoLista: string
+	createShoppingRequest: CreateShoppingRequest,
+	idUsuarioCreador: number,
+	estadoLista: string
 }
 
 interface AddCollaboratorAsShopperProps extends StackScreenProps<RootStackParams, 'AddCollaboratorAsShopper'> { }
 
 const AddCollaboratorAsShopperScreen = ({ route, navigation }: AddCollaboratorAsShopperProps) => {
-    const addCollaboratorsAsShopper: AddCollaboratorAsShopperParams = route.params
-    const createShopping: CreateShoppingRequest = addCollaboratorsAsShopper.createShoppingRequest
+	const addCollaboratorsAsShopper: AddCollaboratorAsShopperParams = route.params
+	const createShopping: CreateShoppingRequest = addCollaboratorsAsShopper.createShoppingRequest
 
-    const request: CollaboratorsFilterRequest = {
-        idListaCompras: createShopping.idListaCompras
-    }
+	const request: CollaboratorsFilterRequest = {
+		idListaCompras: createShopping.idListaCompras
+	}
 
-    const { reloadCollaborators, isLoading, collaborators } = useFetchCollaborators(request)
+	const { reloadCollaborators, isLoading, collaborators } = useFetchCollaborators(request)
 
-    const handleCollaboratorPress = (collaborator: Collaborator) => {
-        navigation.navigate('AddExpense', { createShoppingRequest: createShopping, collaborator: collaborator });
-    };
+	const handleCollaboratorPress = (collaborator: Collaborator) => {
+		infoLog("QQQQQQQQQQQQ: " + JSON.stringify(collaborator))
+		navigation.navigate('AddExpense', { createShoppingRequest: createShopping, collaborator: collaborator });
+	};
 
-    return (
-        <BaseScreenComponent>
-          <GenericHeaderComponent title='Comprador' showArrowBack />
+	return (
+		<BaseScreenComponent>
+			<GenericHeaderComponent title='Comprador' showArrowBack />
 
-            <View
-                style={{
-                    flex: 1,
-                    paddingHorizontal: 15
-                }}
-            >
-                <ScrollView>
-                    {collaborators.map((collaborator, index) => (
-                        <CollaboratorCardComponent
-                            key={index}
-                            collaborator={collaborator}
-                            idUsuarioCreador={addCollaboratorsAsShopper.idUsuarioCreador}
-                            estadoLista={addCollaboratorsAsShopper.estadoLista}
-                            updateCollaboratorsList={() => { }}
-                            actionButtom={() => { handleCollaboratorPress(collaborator) }}
+			<View
+				style={{
+					flex: 1,
+					paddingHorizontal: 15
+				}}
+			>
+				<ScrollView>
+					{collaborators.map((collaborator, index) => (
+						<CollaboratorCardComponent
+							key={index}
+							collaborator={collaborator}
+							idUsuarioCreador={addCollaboratorsAsShopper.idUsuarioCreador}
+							estadoLista={addCollaboratorsAsShopper.estadoLista}
+							updateCollaboratorsList={() => { }}
+							actionButtom={() => { handleCollaboratorPress(collaborator) }}
 
-                        />
-                    ))}
-                </ScrollView>
+						/>
+					))}
+				</ScrollView>
 
-            </View>
+			</View>
 
 
-        </BaseScreenComponent>
-    )
+		</BaseScreenComponent>
+	)
 }
 
 export default AddCollaboratorAsShopperScreen

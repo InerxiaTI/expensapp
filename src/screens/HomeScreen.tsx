@@ -13,7 +13,6 @@ const HomeScreen = () => {
   const { isLoading, shoppingLists, 
     onRefresh, refreshing, onInfiniteScroll, totalElements, isLoadingInfinite} = useFetchShoppingLists(user!);
 
-
   useEffect(() => {
     if(Platform.OS === 'android'){
       SplashScreen.hide()
@@ -66,6 +65,10 @@ const HomeScreen = () => {
 
         }}
       >
+
+        {
+          totalElements === 0?<Text style={{color: 'white'}}>Oops! No hay nada para mostrar.</Text>:<></>
+        }
         <FlatList
           showsVerticalScrollIndicator={false}
           data={shoppingLists}
@@ -76,7 +79,7 @@ const HomeScreen = () => {
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
-          onEndReachedThreshold={0.35}
+          onEndReachedThreshold={0.45}
           onEndReached={onInfiniteScroll}
           ListFooterComponent={
             

@@ -44,8 +44,8 @@ const JoinShoppingListScreen = () => {
       setIsLoading(false);
 
     } catch (error) {
-      errorLog(error.response.data.message, "Error saving join");
-      ToastAndroid.show(error.response.data.message, ToastAndroid.LONG)
+      errorLog("Falla al solicitar unirse a lista", error)
+      ToastAndroid.show("No se pudo enviar la solicitud", ToastAndroid.LONG)
 
     } finally {
       setIsLoading(false)

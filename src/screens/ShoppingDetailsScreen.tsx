@@ -13,6 +13,7 @@ import { AddExpenseParams, CreateShoppingRequest } from '../interfaces/ShoppingI
 import { useFetchShoppingListDetail } from '../hooks/shoppingList/useFetchShoppingListDetail';
 import { useFetchCollaborators } from '../hooks/collaborators/useFetchCollaborators';
 import { CollaboratorsFilterRequest } from '../interfaces/UserInterface';
+import { ShoppingContext } from '../context/ShoppingContext';
 
 interface ShoppingDetailsScreenProps extends StackScreenProps<RootStackParams, 'ShoppingDetails'> { }
 
@@ -20,6 +21,8 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
 
   const { authState } = useContext(AuthContext);
   const userLogged = authState.user
+  const { setShoppingCardSelected, setIdShoppingCardSelected, shoppingState, setRefreshShoppings } = useContext(ShoppingContext);
+
 
   const shoppingList = route.params  
   const [user, setUser] = useState(userLogged!.id);
@@ -28,6 +31,7 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
     estados: ['APROBADO']
   }
 
+  
   const { 
     isLoading, 
     shoppingDetailList, 
@@ -41,6 +45,8 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
   const changeList = (userId: number) => {
     console.log("#############3 user: " + user);
     setUser(userId)
+    setShoppingCardSelected(false)
+    setIdShoppingCardSelected(0)
 
   }
 
@@ -57,6 +63,16 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
     idUsuarioCreador: shoppingList.idUsuarioCreador
 
   })
+
+  useEffect(() => {
+    setIdShoppingCardSelected(0)
+  },[])
+
+  useEffect(() => {
+    getShoppingDetail(shoppingList.id, user!)
+    setRefreshShoppings(false)
+    setIdShoppingCardSelected(0)
+  }, [shoppingState.refreshShoppings])
 
   useEffect(() => {
     getShoppingDetail(shoppingList.id, user!)
@@ -164,7 +180,7 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
           data={shoppingDetailList}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <ShoppingCardComponent shopping={item} />
+            <ShoppingCardComponent shopping={item}/>
           )}
           showsVerticalScrollIndicator={false}
 

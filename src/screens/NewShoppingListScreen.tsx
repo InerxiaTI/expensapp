@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect, useContext } from 'react'
-import { Image, StyleSheet, Text, TextInput, ToastAndroid, View } from 'react-native'
+import { Alert, Image, StyleSheet, Text, TextInput, ToastAndroid, View } from 'react-native'
 import expenseBanner from '../../assets/expenseBanner.png';
 import BaseScreenComponent from '../components/BaseScreenComponent';
 import { GenericHeaderComponent } from '../components/GenericHeaderComponent';
@@ -10,6 +10,7 @@ import { ButtonV2Component } from '../components/buttons/ButtonV2Component';
 import { useNewShoppingLists } from '../hooks/shoppingList/useNewShoppingList';
 import { errorLog } from '../utils/HandlerError';
 import ToolItemComponent from '../components/base/ToolItemComponent';
+import ConfirmDialogComponent from '../components/base/ConfirmDialogComponent';
 
 
 const NewShoppingListScreen = () => {
@@ -35,6 +36,44 @@ const NewShoppingListScreen = () => {
       setHabilitarBoton(false)
     }
   }
+
+  const [confirmationVisible, setConfirmationVisible] = useState(false);
+
+  const showConfirmationDialog = () => {
+    setConfirmationVisible(true);
+  };
+
+  const hideConfirmationDialog = () => {
+    setConfirmationVisible(false);
+  };
+
+  const handleConfirmAction = () => {
+    // Lógica a ejecutar cuando se presiona el botón "Aceptar"
+    console.log('Acción confirmada');
+    newShoppingList()
+    hideConfirmationDialog();
+  };
+
+  // const showConfirmationDialog = () => {
+  //   Alert.alert(
+  //     'Confirmación',
+  //     '¿Estás seguro de que quieres realizar esta acción?',
+  //     [
+  //       {
+  //         text: 'Cancelar',
+  //         style: 'cancel',
+  //       },
+  //       {
+  //         text: 'Aceptar',
+  //         onPress: () => {
+  //           // Lógica a ejecutar cuando se presiona el botón "Aceptar"
+  //           console.log('Acción confirmada');
+  //         },
+  //       },
+  //     ],
+  //     { cancelable: false }
+  //   );
+  // }; 
 
   const newShoppingList = async () => {
     setIsDisabled(true);
@@ -154,15 +193,20 @@ const NewShoppingListScreen = () => {
 
         <ButtonV2Component
           title='Guardar'
-          onPress={() => newShoppingList()}
+          onPress={() => showConfirmationDialog()}
           habilitarBoton={habilitarBoton}
           isLoading={isLoading}
         />
-
+         
       </View>
 
 
-
+      <ConfirmDialogComponent
+        visible={confirmationVisible}
+        onRequestClose={hideConfirmationDialog}
+        onConfirm={handleConfirmAction}
+        question='¿Desea crear una nueva lista de compras?'
+      />
     </BaseScreenComponent>
   )
 }

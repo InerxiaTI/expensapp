@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { View, TouchableOpacity, Modal, Text, TouchableWithoutFeedback, StyleSheet, Platform, ToastAndroid } from 'react-native'
+import { View, TouchableOpacity, Modal, Text, TouchableWithoutFeedback, StyleSheet, Platform, ToastAndroid, ActivityIndicator } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import Clipboard from '@react-native-clipboard/clipboard';
@@ -9,13 +9,18 @@ import { AuthContext } from '../context/AuthContext'
 import HeaderContainerComponent from './base/HeaderContainerComponent'
 import { useStartShoppingList } from '../hooks/shoppingList/useStartShoppingList'
 import ToolItemComponent from './base/ToolItemComponent'
+import { errorLog, infoLog } from '../utils/HandlerError';
+import { ShoppingContext } from '../context/ShoppingContext';
+import { useDeleteShopping } from '../hooks/shoppingList/useDeleteShopping';
+import ConfirmDialogComponent from './base/ConfirmDialogComponent';
+import { AddExpenseParams } from '../interfaces/ShoppingInterface';
 
 interface HeaderShoppingDetailProps {
   idListaCompras: number;
   title?: string,
   code: string,
   idUsuarioCreador: number,
-  estado: string
+  estado: string,
 }
 
 
@@ -23,6 +28,8 @@ const HeaderShoppingDetailComponent = ({ title, code, idListaCompras, idUsuarioC
   const navigator = useNavigation();
   const { authState } = useContext(AuthContext);
   const user = authState.user
+
+  const { shoppingState, setRefreshShoppings } = useContext(ShoppingContext);
 
 
   const collaboratorsParams: CollaboratorsParams = {
@@ -64,6 +71,56 @@ const HeaderShoppingDetailComponent = ({ title, code, idListaCompras, idUsuarioC
     setIsLoading,
     shoppingList,
     saveStartShoppingList } = useStartShoppingList()
+
+  const { removeShopping, setIsLoading: setIsLoadingOnRemove, isLoading: isLoadingOnRemove } = useDeleteShopping()
+
+  const handleEdit = () => {
+
+    const createShopping = {idListaCompras: idListaCompras}
+    const editShoppingParams: AddExpenseParams = {
+      editShoppingRequest: shoppingState.shoppingToEdit,
+      createShoppingRequest: createShopping,
+      estadoLista: estado,
+      idUsuarioCreador: idUsuarioCreador
+    }
+    navigator.navigate('AddExpense', editShoppingParams)
+
+  }
+
+  const [confirmationVisible, setConfirmationVisible] = useState(false);
+
+  const showConfirmationDialog = () => {
+    setConfirmationVisible(true);
+  };
+
+  const hideConfirmationDialog = () => {
+    setConfirmationVisible(false);
+  };
+
+  const handleConfirmAction = async () => {
+    // Lógica a ejecutar cuando se presiona el botón "Aceptar"
+    console.log('Acción confirmada');
+    await removeShoppingById();
+    hideConfirmationDialog();
+  };
+
+  const removeShoppingById = async () => {
+    setIsLoadingOnRemove(true);
+
+    try {
+      await removeShopping(shoppingState.idShoppingCardSelected)
+      ToastAndroid.show("Lista eliminada con exito", ToastAndroid.SHORT)
+      setIsLoadingOnRemove(false);
+      setRefreshShoppings(true)
+
+    } catch (error) {
+      errorLog("Falla al eliminar lista", error)
+      ToastAndroid.showWithGravity("No se pudo elimnar la lista de compras", ToastAndroid.LONG, 1)
+
+    } finally {
+      setIsLoadingOnRemove(false)
+    }
+  }
 
   const [iconActionButton, setIconActionButton] = useState('cart-arrow-right')
 
@@ -116,6 +173,9 @@ const HeaderShoppingDetailComponent = ({ title, code, idListaCompras, idUsuarioC
 
   useEffect(() => {
 
+    infoLog("ID SHOPPING TO EDIT OR DELETE: " + shoppingState.idShoppingCardSelected)
+
+
     if (estado === 'PENDIENTE') {
       setIconActionButton('cart-check')
     }
@@ -130,22 +190,53 @@ const HeaderShoppingDetailComponent = ({ title, code, idListaCompras, idUsuarioC
         title={sliceText(title!, 25)}
         showArrowBack
       >
-        <>
-          <ToolItemComponent
-            onPress={showContextMenu}
-            icon='dots-vertical'
-          />
-          {
-            user?.id === idUsuarioCreador ?
+        {
+          !shoppingState.shoppingCardSelected || shoppingState.idShoppingCardSelected === 0 ?
+
+            <>
               <ToolItemComponent
-                onPress={handleActionShoppingList}
-                icon={iconActionButton}
+                onPress={showContextMenu}
+                icon='dots-vertical'
               />
-              :
-              <></>
-          }
-        </>
+              {
+                user?.id === idUsuarioCreador ?
+                  <ToolItemComponent
+                    onPress={handleActionShoppingList}
+                    icon={iconActionButton}
+                  />
+                  :
+                  <></>
+              }
+            </>
+            :
+
+            isLoadingOnRemove ? (
+              <ActivityIndicator color={'white'} size={20} />
+            ) :
+              (
+                <>
+                  <ToolItemComponent
+                    onPress={showConfirmationDialog}
+                    icon='delete'
+                  />
+                  <ToolItemComponent
+                    onPress={()=>{handleEdit()}}
+                    icon='pencil'
+                  />
+                </>
+              )
+
+
+        }
+
       </HeaderContainerComponent>
+
+      <ConfirmDialogComponent
+        visible={confirmationVisible}
+        onRequestClose={hideConfirmationDialog}
+        onConfirm={handleConfirmAction}
+        question={`¿Desea eliminar la compra ${shoppingState.idShoppingCardSelected}?`}
+      />
 
       <Modal
         transparent={true}
