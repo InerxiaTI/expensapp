@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { JoinShoppingList, JoinShoppingListRequest } from "../../interfaces/ShoppingInterface"
-import { sendRequestAddCollaborator } from "../../infrastructure/services/shopping-lists.service"
+import { JoinShoppingList, JoinShoppingListRequest } from "../../../interfaces/ShoppingInterface"
+import { sendRequestAddCollaborator } from "../../../infrastructure/services/shopping-lists.service"
 
 
 

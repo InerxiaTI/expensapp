@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ProfileScreen from '../screens/SettingsScreen';
 import { COLORS } from '../theme/Theme';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import NewShoppingListScreen from '../screens/NewShoppingListScreen';
+import NewShoppingListScreen from '../features/create-shopping-list/screens/NewShoppingListScreen';
 import { NewShoppingListStack, SettingsStack } from './MainStackNavigator';
 import { AuthContext } from '../context/AuthContext';
 import { useTabBarVisibility } from '../context/TabBarContext';
@@ -100,7 +100,7 @@ const TabNoMaterial2 = () => {
   infoLog("current screen: " + currentRouteName, "TAB_BAR");
 
   const isRoutePartOfTabBar = () => {
-    const tabBarRoutes = ["HomeStack", "NewShoppingListStack", "JoinShoppingListStack", "SettingsStack", 
+    const tabBarRoutes = ["HomeStack", "NewShoppingListStack", "JoinShoppingListStack", "SettingsStack",
     "Home", "NewShoppingList", "JoinShoppingList", "Settings", "Tabs"];
     return tabBarRoutes.includes(currentRouteName);
   };

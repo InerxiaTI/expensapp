@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
-import BaseScreenComponent from '../components/BaseScreenComponent'
+import BaseScreenComponent from '../../../components/BaseScreenComponent'
 import { Image, View } from 'react-native'
-import { RootStackParams } from '../navigation/MainStackNavigator'
+import { RootStackParams } from '../../../navigation/MainStackNavigator'
 import { StackScreenProps } from '@react-navigation/stack'
-import { AssignPercentageCollaboratorRequest, AssignPercentageParams, CollaboratorsParams } from '../interfaces/UserInterface';
-import expenseBanner from '../../assets/expenseBanner.png';
-import { GenericHeaderComponent } from '../components/GenericHeaderComponent'
-import InputV1Component from '../components/inputs/InputV1Component'
-import { ButtonV2Component } from '../components/buttons/ButtonV2Component'
-import { useAssignPercentage } from '../hooks/collaborators/useAssignPercentage'
+import { AssignPercentageCollaboratorRequest, AssignPercentageParams, CollaboratorsParams } from '../../../interfaces/UserInterface';
+import expenseBanner from '../../../../assets/expenseBanner.png';
+import { GenericHeaderComponent } from '../../../components/GenericHeaderComponent'
+import InputV1Component from '../../../components/inputs/InputV1Component'
+import { ButtonV2Component } from '../../../components/buttons/ButtonV2Component'
+import { useAssignPercentage } from '../hooks/useAssignPercentage'
 
 
 interface AssignPercentageCollaboratorScreenProps extends StackScreenProps<RootStackParams, 'AssignPercentageCollaborator'> { }

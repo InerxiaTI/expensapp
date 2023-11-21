@@ -1,19 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react'
-import BaseScreenComponent from '../components/BaseScreenComponent'
+import BaseScreenComponent from '../../../components/BaseScreenComponent'
 import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { COLORS } from '../theme/Theme'
+import { COLORS } from '../../../theme/Theme'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import HeaderShoppingDetailComponent from '../components/HeaderShoppingDetailComponent';
 import ShoppingCardComponent from '../components/ShoppingCardComponent';
-import FloatingActionButton from '../components/FloatingActionButton';
+import FloatingActionButton from '../../../components/FloatingActionButton';
 import { StackScreenProps } from '@react-navigation/stack';
-import { RootStackParams } from '../navigation/MainStackNavigator';
-import { AuthContext } from '../context/AuthContext';
-import { AddExpenseParams, CreateShoppingRequest } from '../interfaces/ShoppingInterface';
-import { useFetchShoppingListDetail } from '../hooks/shoppingList/useFetchShoppingListDetail';
-import { useFetchCollaborators } from '../hooks/collaborators/useFetchCollaborators';
-import { CollaboratorsFilterRequest } from '../interfaces/UserInterface';
-import { ShoppingContext } from '../context/ShoppingContext';
+import { RootStackParams } from '../../../navigation/MainStackNavigator';
+import { AuthContext } from '../../../context/AuthContext';
+import { AddExpenseParams, CreateShoppingRequest } from '../../../interfaces/ShoppingInterface';
+import { useFetchShoppingListDetail } from '../hooks/useFetchShoppingListDetail';
+import { useFetchCollaborators } from '../../../hooks/collaborators/useFetchCollaborators';
+import { CollaboratorsFilterRequest } from '../../../interfaces/UserInterface';
+import { ShoppingContext } from '../../../context/ShoppingContext';
 
 interface ShoppingDetailsScreenProps extends StackScreenProps<RootStackParams, 'ShoppingDetails'> { }
 
@@ -24,21 +24,21 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
   const { setShoppingCardSelected, setIdShoppingCardSelected, shoppingState, setRefreshShoppings } = useContext(ShoppingContext);
 
 
-  const shoppingList = route.params  
+  const shoppingList = route.params
   const [user, setUser] = useState(userLogged!.id);
   const request: CollaboratorsFilterRequest = {
     idListaCompras: shoppingList.id,
     estados: ['APROBADO']
   }
 
-  
-  const { 
-    isLoading, 
-    shoppingDetailList, 
+
+  const {
+    isLoading,
+    shoppingDetailList,
     getShoppingDetail } = useFetchShoppingListDetail(shoppingList.id, user!);
 
-  const { 
-    collaborators, 
+  const {
+    collaborators,
     isLoading: isLoadingCollaborators } = useFetchCollaborators(request)
 
 
@@ -108,9 +108,9 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
       >
         {
           isLoadingCollaborators ?
-            <View style={{ 
-                justifyContent: 'center', 
-                alignItems: 'center', 
+            <View style={{
+                justifyContent: 'center',
+                alignItems: 'center',
                 height: 81,
               }}
             >

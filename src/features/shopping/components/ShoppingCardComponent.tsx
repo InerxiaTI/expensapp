@@ -3,15 +3,15 @@ import { StyleSheet, Text, TouchableOpacity, Vibration, View } from 'react-nativ
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import currencyFormatter from 'currency-formatter'
-import { sliceText } from '../utils/textUtil';
-import { Shopping, EditShoppingRequest } from '../interfaces/ShoppingInterface';
-import { infoLog } from '../utils/HandlerError';
-import { ShoppingContext } from '../context/ShoppingContext';
+import { sliceText } from '../../../utils/textUtil';
+import { Shopping, EditShoppingRequest } from '../../../interfaces/ShoppingInterface';
+import { infoLog } from '../../../utils/HandlerError';
+import { ShoppingContext } from '../../../context/ShoppingContext';
 import { getFormatedDate } from 'react-native-modern-datepicker';
 
 interface ShoppingCardProps {
   shopping: Shopping,
-  
+
 }
 
 const ShoppingCardComponent = ({ shopping }: ShoppingCardProps) => {
@@ -63,12 +63,12 @@ const ShoppingCardComponent = ({ shopping }: ShoppingCardProps) => {
 
   return (
 
-    <TouchableOpacity 
+    <TouchableOpacity
       // onPressOut={handlePressOut}
       onPress={handlePressOut}
       onLongPress={handleLongPress} >
       <View style={{
-          ...styles.card, 
+          ...styles.card,
           backgroundColor: shopping.id === shoppingState.idShoppingCardSelected && isPressed? '#d9a2ff': '#262626'}}>
         <View style={styles.containerShoppingInfo}>
           <View style={styles.containerPerColumn}>
@@ -97,7 +97,7 @@ const ShoppingCardComponent = ({ shopping }: ShoppingCardProps) => {
             <View style={styles.containerPerColumn}>
               {/* <Icon name='trending-down' size={14} color='white' /> */}
               <Text style={{ fontSize: 16, fontWeight: '700', color: '#fff' }}>
-                {currencyFormatter.format(parseFloat(shopping.valor), { code: 'COP', precision: 2 })} 
+                {currencyFormatter.format(parseFloat(shopping.valor), { code: 'COP', precision: 2 })}
               </Text>
             </View>
 

@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
-import BaseScreenComponent from '../components/BaseScreenComponent'
+import BaseScreenComponent from '../../../components/BaseScreenComponent'
 import { ScrollView, Text, View } from 'react-native'
 import { StackScreenProps } from '@react-navigation/stack'
-import { RootStackParams } from '../navigation/MainStackNavigator'
-import { CollaboratorsFilterRequest, CollaboratorsParams } from '../interfaces/UserInterface'
-import CollaboratorCardComponent from '../components/CollaboratorCardComponent'
-import {GenericHeaderComponent} from '../components/GenericHeaderComponent'
-import { useFetchCollaborators } from '../hooks/collaborators/useFetchCollaborators'
+import { RootStackParams } from '../../../navigation/MainStackNavigator'
+import { CollaboratorsFilterRequest, CollaboratorsParams } from '../../../interfaces/UserInterface'
+import CollaboratorCardComponent from '../../../components/CollaboratorCardComponent'
+import {GenericHeaderComponent} from '../../../components/GenericHeaderComponent'
+import { useFetchCollaborators } from '../../../hooks/collaborators/useFetchCollaborators'
 
 
 interface CollaboratorsScreenProps extends StackScreenProps<RootStackParams, 'Collaborators'> { }
@@ -29,7 +29,7 @@ const CollaboratorsScreen = ({ route, navigation }: CollaboratorsScreenProps) =>
     reloadCollaborators()
   };
 
-  useEffect(() => {   
+  useEffect(() => {
     updateCollaboratorsList()
   }, [route.params.porcentaje])
 

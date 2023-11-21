@@ -5,7 +5,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useNavigation } from '@react-navigation/native';
-import { useApproveRejectCollaborators } from '../hooks/collaborators/useApproveRejectCollaborators';
+import { useApproveRejectCollaborators } from '../features/shopping/hooks/useApproveRejectCollaborators';
 
 
 interface CollaboratorCardProps {

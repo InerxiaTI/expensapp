@@ -1,8 +1,8 @@
 import { useCallback, useContext, useState, } from 'react';
-import { Shopping, ShoppingRequest } from "../../interfaces/ShoppingInterface";
-import { getShoppingListDetail } from "../../infrastructure/services/shopping-lists.service";
+import { Shopping, ShoppingRequest } from "../../../interfaces/ShoppingInterface";
+import { getShoppingListDetail } from "../../../infrastructure/services/shopping-lists.service";
 import { useFocusEffect } from '@react-navigation/native';
-import { ShoppingContext } from '../../context/ShoppingContext';
+import { ShoppingContext } from '../../../context/ShoppingContext';
 
 export const useFetchShoppingListDetail = (idShoppingList: number, idUserCompra: number) => {
     const { shoppingState, setIsFocusFetchShoppingLists } = useContext(ShoppingContext);

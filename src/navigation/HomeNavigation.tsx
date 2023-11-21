@@ -1,11 +1,11 @@
 import { createStackNavigator } from "@react-navigation/stack";
-import AddExpenseScreen from "../screens/AddExpenseScreen";
-import HomeScreen from "../screens/HomeScreen";
-import ShoppingDetailsScreen from "../screens/ShoppingDetailsScreen";
+import AddExpenseScreen from "../features/add-shopping/screens/AddExpenseScreen";
+import HomeScreen from "../features/shopping-list/screens/HomeScreen";
+import ShoppingDetailsScreen from "../features/shopping/screens/ShoppingDetailsScreen";
 import { RootStackParams } from "./MainStackNavigator";
-import AddCollaboratorAsShopperScreen from "../screens/AddCollaboratorAsShopperScreen";
-import AssignPercentageCollaboratorScreen from "../screens/AssignPercentageCollaboratorScreen";
-import CollaboratorsScreen from "../screens/CollaboratorsScreen";
+import AddCollaboratorAsShopperScreen from "../features/add-shopping/screens/AddCollaboratorAsShopperScreen";
+import AssignPercentageCollaboratorScreen from "../features/shopping/screens/AssignPercentageCollaboratorScreen";
+import CollaboratorsScreen from "../features/shopping/screens/CollaboratorsScreen";
 
 const HomeStack = createStackNavigator<RootStackParams>();
 

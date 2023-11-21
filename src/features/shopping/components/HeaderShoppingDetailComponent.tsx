@@ -3,17 +3,17 @@ import { View, TouchableOpacity, Modal, Text, TouchableWithoutFeedback, StyleShe
 import { useNavigation } from '@react-navigation/native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import Clipboard from '@react-native-clipboard/clipboard';
-import { sliceText } from '../utils/textUtil'
-import { CollaboratorsParams } from '../interfaces/UserInterface'
-import { AuthContext } from '../context/AuthContext'
-import HeaderContainerComponent from './base/HeaderContainerComponent'
-import { useStartShoppingList } from '../hooks/shoppingList/useStartShoppingList'
-import ToolItemComponent from './base/ToolItemComponent'
-import { errorLog, infoLog } from '../utils/HandlerError';
-import { ShoppingContext } from '../context/ShoppingContext';
-import { useDeleteShopping } from '../hooks/shoppingList/useDeleteShopping';
-import ConfirmDialogComponent from './base/ConfirmDialogComponent';
-import { AddExpenseParams } from '../interfaces/ShoppingInterface';
+import { sliceText } from '../../../utils/textUtil'
+import { CollaboratorsParams } from '../../../interfaces/UserInterface'
+import { AuthContext } from '../../../context/AuthContext'
+import HeaderContainerComponent from '../../../components/base/HeaderContainerComponent'
+import { useStartShoppingList } from '../hooks/useStartShoppingList'
+import ToolItemComponent from '../../../components/base/ToolItemComponent'
+import { errorLog, infoLog } from '../../../utils/HandlerError';
+import { ShoppingContext } from '../../../context/ShoppingContext';
+import { useDeleteShopping } from '../hooks/useDeleteShopping';
+import ConfirmDialogComponent from '../../../components/base/ConfirmDialogComponent';
+import { AddExpenseParams } from '../../../interfaces/ShoppingInterface';
 
 interface HeaderShoppingDetailProps {
   idListaCompras: number;
@@ -151,7 +151,7 @@ const HeaderShoppingDetailComponent = ({ title, code, idListaCompras, idUsuarioC
       }
       case 'PENDIENTE': {
         // Se cambia a cerrado - icono de bolsa de compra check
-        // se muestra boton para volver a estado PENDIENTE O reabrir la lista 
+        // se muestra boton para volver a estado PENDIENTE O reabrir la lista
         // para corregir algun valor de una compra o alguna otra cosa
         console.log("cambiando a estado CERRADO");
         break

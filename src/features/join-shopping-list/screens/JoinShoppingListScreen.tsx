@@ -1,13 +1,13 @@
 import React, { useContext, useRef, useState } from 'react'
-import BaseScreenComponent from '../components/BaseScreenComponent'
+import BaseScreenComponent from '../../../components/BaseScreenComponent'
 import { Image, StyleSheet, TextInput, ToastAndroid, View } from 'react-native'
-import { GenericHeaderComponent } from '../components/GenericHeaderComponent'
-import expenseBanner from '../../assets/expenseBanner.png';
-import InputV1Component from '../components/inputs/InputV1Component';
-import { AuthContext } from '../context/AuthContext';
-import { ButtonV2Component } from '../components/buttons/ButtonV2Component';
-import { useJoinShoppingList } from '../hooks/shoppingList/useJoinShoppingList';
-import { errorLog } from '../utils/HandlerError';
+import { GenericHeaderComponent } from '../../../components/GenericHeaderComponent'
+import expenseBanner from '../../../../assets/expenseBanner.png';
+import InputV1Component from '../../../components/inputs/InputV1Component';
+import { AuthContext } from '../../../context/AuthContext';
+import { ButtonV2Component } from '../../../components/buttons/ButtonV2Component';
+import { useJoinShoppingList } from '../hooks/useJoinShoppingList';
+import { errorLog } from '../../../utils/HandlerError';
 
 const JoinShoppingListScreen = () => {
 
@@ -105,7 +105,7 @@ const JoinShoppingListScreen = () => {
           isLoading={isLoading}
         />
       </View>
-    
+
 
     </BaseScreenComponent>
   )

@@ -1,14 +1,14 @@
 import React from 'react'
-import BaseScreenComponent from '../components/BaseScreenComponent'
+import BaseScreenComponent from '../../../components/BaseScreenComponent'
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import { StackScreenProps } from '@react-navigation/stack'
-import { RootStackParams } from '../navigation/MainStackNavigator'
-import { CreateShoppingRequest } from '../interfaces/ShoppingInterface'
-import { Collaborator, CollaboratorsFilterRequest } from '../interfaces/UserInterface'
-import { useFetchCollaborators } from '../hooks/collaborators/useFetchCollaborators'
-import CollaboratorCardComponent from '../components/CollaboratorCardComponent'
-import { GenericHeaderComponent } from '../components/GenericHeaderComponent'
-import { infoLog } from '../utils/HandlerError'
+import { RootStackParams } from '../../../navigation/MainStackNavigator'
+import { CreateShoppingRequest } from '../../../interfaces/ShoppingInterface'
+import { Collaborator, CollaboratorsFilterRequest } from '../../../interfaces/UserInterface'
+import { useFetchCollaborators } from '../../../hooks/collaborators/useFetchCollaborators'
+import CollaboratorCardComponent from '../../../components/CollaboratorCardComponent'
+import { GenericHeaderComponent } from '../../../components/GenericHeaderComponent'
+import { infoLog } from '../../../utils/HandlerError'
 
 export interface AddCollaboratorAsShopperParams {
 	createShoppingRequest: CreateShoppingRequest,

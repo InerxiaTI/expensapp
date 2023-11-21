@@ -1,9 +1,9 @@
 import React from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import { ShoppingList } from '../interfaces/ShoppingInterface'
+import { ShoppingList } from '../../../interfaces/ShoppingInterface'
 import currencyFormatter from 'currency-formatter'
-import { sliceText } from '../utils/textUtil'
+import { sliceText } from '../../../utils/textUtil'
 
 interface ShoppingListCardProps {
     buysList: ShoppingList

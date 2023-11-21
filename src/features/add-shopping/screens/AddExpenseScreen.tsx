@@ -1,22 +1,22 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
-import expenseBanner from '../../assets/expenseBanner.png';
+import expenseBanner from '../../../../assets/expenseBanner.png';
 import { getFormatedDate } from 'react-native-modern-datepicker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { KeyboardAvoidingScrollView } from '@cassianosch/react-native-keyboard-sticky-footer-avoiding-scroll-view';
 
-import InputV1Component from '../components/inputs/InputV1Component';
+import InputV1Component from '../../../components/inputs/InputV1Component';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { StackScreenProps } from '@react-navigation/stack';
-import { RootStackParams } from '../navigation/MainStackNavigator';
-import { CreateShoppingRequest, AddExpenseParams } from '../interfaces/ShoppingInterface';
-import { ButtonV2Component } from '../components/buttons/ButtonV2Component';
-import { useNewShopping } from '../hooks/shoppingList/useNewShopping';
-import { Collaborator } from '../interfaces/UserInterface';
-import { useEditShopping } from '../hooks/shoppingList/useEditShopping';
-import { infoLog } from '../utils/HandlerError';
-import { ShoppingContext } from '../context/ShoppingContext';
+import { RootStackParams } from '../../../navigation/MainStackNavigator';
+import { CreateShoppingRequest, AddExpenseParams } from '../../../interfaces/ShoppingInterface';
+import { ButtonV2Component } from '../../../components/buttons/ButtonV2Component';
+import { useNewShopping } from '../hooks/useNewShopping';
+import { Collaborator } from '../../../interfaces/UserInterface';
+import { useEditShopping } from '../hooks/useEditShopping';
+import { infoLog } from '../../../utils/HandlerError';
+import { ShoppingContext } from '../../../context/ShoppingContext';
 
 
 interface AddExpenseScreenProps extends StackScreenProps<RootStackParams, 'AddExpense'> { }
@@ -50,7 +50,7 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 	const formatValorVisible = (text: string) => {
 		const numericValue = text.replace(/[^0-9,]/g, ''); // Eliminar caracteres no numéricos y permitir solo comas
 		console.log("numeric 1: " + numericValue);
-		
+
 		const parts = numericValue.split(',');
 
 		// Formatear la parte entera con separadores de miles

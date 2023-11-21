@@ -1,16 +1,16 @@
 import React, { useContext, useEffect} from 'react'
 import { ActivityIndicator, FlatList, Platform, RefreshControl, Text, View } from 'react-native'
 import ShoppingListCardComponent from '../components/ShoppingListCardComponent'
-import BaseScreenComponent from '../components/BaseScreenComponent'
-import { AuthContext } from '../context/AuthContext'
-import { useFetchShoppingLists } from '../hooks/shoppingList/useFetchShoppingLists'
+import BaseScreenComponent from '../../../components/BaseScreenComponent'
+import { AuthContext } from '../../../context/AuthContext'
+import { useFetchShoppingLists } from '../hooks/useFetchShoppingLists'
 import SplashScreen from 'react-native-splash-screen'
 
 const HomeScreen = () => {
   const {authState} = useContext(AuthContext);
   const user = authState.user
-  
-  const { isLoading, shoppingLists, 
+
+  const { isLoading, shoppingLists,
     onRefresh, refreshing, onInfiniteScroll, totalElements, isLoadingInfinite} = useFetchShoppingLists(user!);
 
   useEffect(() => {
@@ -82,7 +82,7 @@ const HomeScreen = () => {
           onEndReachedThreshold={0.45}
           onEndReached={onInfiniteScroll}
           ListFooterComponent={
-            
+
             isLoadingInfinite
             ?
               <View
@@ -93,13 +93,13 @@ const HomeScreen = () => {
 
                 }}
               >
-                <ActivityIndicator 
+                <ActivityIndicator
                   color={"#7600D3"}
                   size={30}
                 />
               </View>
             : <></>
-            
+
           }
 
         />

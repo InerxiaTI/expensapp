@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { deleteShopping } from "../../infrastructure/services/shopping.service"
+import { deleteShopping } from "../../../infrastructure/services/shopping.service"
 
 export const useDeleteShopping = () => {
     const [isLoading, setIsLoading] = useState(false)
@@ -15,7 +15,7 @@ export const useDeleteShopping = () => {
             if(response.status === 200) {
                 setShoppingDeleted(true);
             }
-           
+
         } catch (error) {
             console.log("ERROR °°°°°°°°°°°° ", error.response.data);
             throw error;

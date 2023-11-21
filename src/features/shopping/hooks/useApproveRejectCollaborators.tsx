@@ -1,7 +1,7 @@
 import { useState } from "react"
-import { JoinShoppingList } from "../../interfaces/ShoppingInterface"
-import { ApproveRejectCollaboratorRequest } from "../../interfaces/UserInterface"
-import { approveRejectCollaboratorRequest } from "../../infrastructure/services/collaborator.service"
+import { JoinShoppingList } from "../../../interfaces/ShoppingInterface"
+import { ApproveRejectCollaboratorRequest } from "../../../interfaces/UserInterface"
+import { approveRejectCollaboratorRequest } from "../../../infrastructure/services/collaborator.service"
 
 
 export const useApproveRejectCollaborators = () => {

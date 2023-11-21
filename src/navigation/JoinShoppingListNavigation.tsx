@@ -1,5 +1,5 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import JoinShoppingListScreen from '../screens/JoinShoppingListScreen';
+import JoinShoppingListScreen from '../features/join-shopping-list/screens/JoinShoppingListScreen';
 import { RootStackParams } from './MainStackNavigator';
 
 

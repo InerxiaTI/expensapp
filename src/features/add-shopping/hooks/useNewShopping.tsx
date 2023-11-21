@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { CreateShopping, CreateShoppingRequest } from "../../interfaces/ShoppingInterface"
-import { createShopping } from "../../infrastructure/services/shopping-lists.service"
+import { CreateShopping, CreateShoppingRequest } from "../../../interfaces/ShoppingInterface"
+import { createShopping } from "../../../infrastructure/services/shopping-lists.service"
 
 export const useNewShopping = () => {
     const [isLoading, setIsLoading] = useState(false)

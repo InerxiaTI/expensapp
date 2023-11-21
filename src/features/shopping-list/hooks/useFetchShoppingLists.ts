@@ -1,10 +1,10 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { useContext, useState, useCallback, useEffect } from "react";
-import { ShoppingContext } from "../../context/ShoppingContext";
-import { ShoppingList, ShoppingListsResponse } from "../../interfaces/ShoppingInterface";
-import { User } from "../../interfaces/UserInterface";
-import { getShoppingLists } from "../../infrastructure/services/shopping-lists.service";
-import { errorLog } from "../../utils/HandlerError";
+import { ShoppingContext } from "../../../context/ShoppingContext";
+import { ShoppingList, ShoppingListsResponse } from "../../../interfaces/ShoppingInterface";
+import { User } from "../../../interfaces/UserInterface";
+import { getShoppingLists } from "../../../infrastructure/services/shopping-lists.service";
+import { errorLog } from "../../../utils/HandlerError";
 
 
 

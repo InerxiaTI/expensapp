@@ -1,7 +1,7 @@
 import { useState, useContext } from "react"
-import { ShoppingList } from "../../interfaces/ShoppingInterface"
-import { startShoppingList } from "../../infrastructure/services/shopping-lists.service"
-import { ShoppingContext } from "../../context/ShoppingContext";
+import { ShoppingList } from "../../../interfaces/ShoppingInterface"
+import { startShoppingList } from "../../../infrastructure/services/shopping-lists.service"
+import { ShoppingContext } from "../../../context/ShoppingContext";
 
 
 export const useStartShoppingList = () => {

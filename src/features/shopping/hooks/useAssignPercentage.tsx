@@ -1,7 +1,7 @@
 import { useState } from "react"
-import { JoinShoppingList } from "../../interfaces/ShoppingInterface"
-import { AssignPercentageCollaboratorRequest } from "../../interfaces/UserInterface"
-import { updatePercentage } from "../../infrastructure/services/collaborator.service"
+import { JoinShoppingList } from "../../../interfaces/ShoppingInterface"
+import { AssignPercentageCollaboratorRequest } from "../../../interfaces/UserInterface"
+import { updatePercentage } from "../../../infrastructure/services/collaborator.service"
 
 
 export const useAssignPercentage = () => {

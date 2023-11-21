@@ -1,16 +1,16 @@
 import React, { useRef, useState, useEffect, useContext } from 'react'
-import { Alert, Image, StyleSheet, Text, TextInput, ToastAndroid, View } from 'react-native'
-import expenseBanner from '../../assets/expenseBanner.png';
-import BaseScreenComponent from '../components/BaseScreenComponent';
-import { GenericHeaderComponent } from '../components/GenericHeaderComponent';
+import {  Image, StyleSheet, Text, TextInput, ToastAndroid, View } from 'react-native'
+import expenseBanner from '../../../../assets/expenseBanner.png';
+import BaseScreenComponent from '../../../components/BaseScreenComponent';
+import { GenericHeaderComponent } from '../../../components/GenericHeaderComponent';
 import { useIsFocused } from '@react-navigation/native';
-import { AuthContext } from '../context/AuthContext';
-import InputV1Component from '../components/inputs/InputV1Component';
-import { ButtonV2Component } from '../components/buttons/ButtonV2Component';
-import { useNewShoppingLists } from '../hooks/shoppingList/useNewShoppingList';
-import { errorLog } from '../utils/HandlerError';
-import ToolItemComponent from '../components/base/ToolItemComponent';
-import ConfirmDialogComponent from '../components/base/ConfirmDialogComponent';
+import { AuthContext } from '../../../context/AuthContext';
+import InputV1Component from '../../../components/inputs/InputV1Component';
+import { ButtonV2Component } from '../../../components/buttons/ButtonV2Component';
+import { useNewShoppingLists } from '../hooks/useNewShoppingList';
+import { errorLog } from '../../../utils/HandlerError';
+import ToolItemComponent from '../../../components/base/ToolItemComponent';
+import ConfirmDialogComponent from '../../../components/base/ConfirmDialogComponent';
 
 
 const NewShoppingListScreen = () => {
@@ -73,7 +73,7 @@ const NewShoppingListScreen = () => {
   //     ],
   //     { cancelable: false }
   //   );
-  // }; 
+  // };
 
   const newShoppingList = async () => {
     setIsDisabled(true);
@@ -197,7 +197,7 @@ const NewShoppingListScreen = () => {
           habilitarBoton={habilitarBoton}
           isLoading={isLoading}
         />
-         
+
       </View>
 
 

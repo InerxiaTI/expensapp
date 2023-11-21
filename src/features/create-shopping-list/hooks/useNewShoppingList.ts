@@ -1,7 +1,7 @@
 import { useContext, useState } from "react"
-import { CreateShoppingListRequest, ShoppingList } from "../../interfaces/ShoppingInterface"
-import { saveShoppingList } from "../../infrastructure/services/shopping-lists.service"
-import { ShoppingContext } from "../../context/ShoppingContext";
+import { CreateShoppingListRequest, ShoppingList } from "../../../interfaces/ShoppingInterface"
+import { saveShoppingList } from "../../../infrastructure/services/shopping-lists.service"
+import { ShoppingContext } from "../../../context/ShoppingContext";
 
 export const useNewShoppingLists = () => {
     const {shoppingState, setRefreshHome} = useContext(ShoppingContext);
