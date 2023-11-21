@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { JoinShoppingList } from "../../interfaces/ShoppingInterface"
 import { AssignPercentageCollaboratorRequest } from "../../interfaces/UserInterface"
-import { updatePercentage } from "../../services/collaboratorService"
+import { updatePercentage } from "../../infrastructure/services/collaborator.service"
 
 
 export const useAssignPercentage = () => {
@@ -14,7 +14,7 @@ export const useAssignPercentage = () => {
         try {
             const response = await updatePercentage(assignRequest)
             console.log("response: "+JSON.stringify(response));
-            
+
             setAssignPercentageCollaborator(response)
         } catch (error) {
             console.error("ERROR °°°°°°°°°°°° ", error.response.data);

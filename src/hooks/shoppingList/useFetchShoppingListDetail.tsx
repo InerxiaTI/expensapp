@@ -1,6 +1,6 @@
 import { useCallback, useContext, useState, } from 'react';
 import { Shopping, ShoppingRequest } from "../../interfaces/ShoppingInterface";
-import { getShoppingListDetail } from "../../services/shoppingListsService";
+import { getShoppingListDetail } from "../../infrastructure/services/shopping-lists.service";
 import { useFocusEffect } from '@react-navigation/native';
 import { ShoppingContext } from '../../context/ShoppingContext';
 
@@ -18,9 +18,9 @@ export const useFetchShoppingListDetail = (idShoppingList: number, idUserCompra:
           setIsFocusFetchShoppingLists(false)
         }, [])
       )
-    
 
-    const getShoppingDetail = async (idShoppingList: number, idUserCompra: number) => {      
+
+    const getShoppingDetail = async (idShoppingList: number, idUserCompra: number) => {
 
         const request: ShoppingRequest = {
             idListaCompras: idShoppingList,
@@ -32,7 +32,7 @@ export const useFetchShoppingListDetail = (idShoppingList: number, idUserCompra:
         try {
 
             const response = await getShoppingListDetail(request)
-           
+
             setShoppingDetailList(response)
         } catch (error) {
             console.error("ERROR °°°°°°°°°°°° ", error.response.data);

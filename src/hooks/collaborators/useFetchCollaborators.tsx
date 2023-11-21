@@ -1,7 +1,7 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import { Collaborator, CollaboratorsFilterRequest } from "../../interfaces/UserInterface";
 import { AuthContext } from "../../context/AuthContext";
-import { getCollaborators } from "../../services/collaboratorService";
+import { getCollaborators } from "../../infrastructure/services/collaborator.service";
 import { useFocusEffect } from "@react-navigation/native";
 import { ShoppingContext } from "../../context/ShoppingContext";
 

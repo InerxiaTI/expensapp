@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from "axios";
-import CONFIGS from "../config/config";
-import { errorLog, infoLog } from "../utils/HandlerError";
-import { getCurrentRoute, reset } from "../navigation/servicesUtil/NavigationService";
+import CONFIGS from "../../config/config";
+import { errorLog, infoLog } from "../../utils/HandlerError";
+import { getCurrentRoute, reset } from "../../navigation/servicesUtil/NavigationService";
 
 
 
@@ -18,10 +18,10 @@ const redirect = () => {
     infoLog("Antes navi")
 
     reset(1, 'ErrorInesperado', {'test': true})
-    
+
 }
 
-// Permite interceptar las request y hacer algo con ellas. 
+// Permite interceptar las request y hacer algo con ellas.
 const requestHandler = (request) => {
 
     try {
@@ -57,7 +57,7 @@ const responseHandler = (response) => {
     try {
         infoLog("EN INTERCEPTOR RESPONSE SUCCESS: " + JSON.stringify(response.data.status));
 
-        // Si la respuesta es exitosa la devolvemos o podemos 
+        // Si la respuesta es exitosa la devolvemos o podemos
         // tener mecanismo de encriptación y por tanto querer desencriptar la respuesta
         return response;
     } catch (error) {

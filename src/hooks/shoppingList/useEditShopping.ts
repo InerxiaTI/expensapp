@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { CreateShopping, EditShoppingRequest } from "../../interfaces/ShoppingInterface"
-import { editShopping } from "../../services/shoppingListsService"
+import { editShopping } from "../../infrastructure/services/shopping-lists.service"
 
 export const useEditShopping = () => {
     const [isLoading, setIsLoading] = useState(false)
@@ -12,7 +12,7 @@ export const useEditShopping = () => {
         try {
             const response = await editShopping(shopping);
             console.log("response: "+JSON.stringify(response));
-            
+
             setShopping(response)
         } catch (error) {
             console.error("ERROR °°°°°°°°°°°° ", error.response.data);

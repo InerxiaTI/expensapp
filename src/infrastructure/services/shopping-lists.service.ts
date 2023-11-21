@@ -1,7 +1,7 @@
 import expenseMateApi from "../api/expenseMateApi";
-import { CreateShoppingListRequest, CreateShoppingListResponse, CreateShoppingRequest, CreateShoppingResponse, EditShoppingRequest, JoinShoppingListRequest, JoinsShoppingListResponse, ShoppingListsResponse, ShoppingRequest, ShoppingResponse } from "../interfaces/ShoppingInterface";
-import { User } from "../interfaces/UserInterface";
-import { errorLog, infoLog } from "../utils/HandlerError";
+import { CreateShoppingListRequest, CreateShoppingListResponse, CreateShoppingRequest, CreateShoppingResponse, EditShoppingRequest, JoinShoppingListRequest, JoinsShoppingListResponse, ShoppingListsResponse, ShoppingRequest, ShoppingResponse } from "../../interfaces/ShoppingInterface";
+import { User } from "../../interfaces/UserInterface";
+import { errorLog, infoLog } from "../../utils/HandlerError";
 
 const getShoppingLists = async (user: User, pageable: any) => {
 	infoLog("LLamando a la API para traer listas de compras");

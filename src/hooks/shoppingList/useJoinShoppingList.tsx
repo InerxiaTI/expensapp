@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { JoinShoppingList, JoinShoppingListRequest } from "../../interfaces/ShoppingInterface"
-import { sendRequestAddCollaborator } from "../../services/shoppingListsService"
+import { sendRequestAddCollaborator } from "../../infrastructure/services/shopping-lists.service"
 
 
 
@@ -17,7 +17,7 @@ export const useJoinShoppingList = () => {
         }
 
         try {
-            const response = await sendRequestAddCollaborator(request)           
+            const response = await sendRequestAddCollaborator(request)
             setJoinShoppingList(response)
         } catch (error) {
             throw error;

@@ -1,4 +1,4 @@
-import expenseMateApi from "../../api/expenseMateApi";
+import expenseMateApi from "../api/expenseMateApi";
 
 
 const deleteShopping = async (idShopping: number) => {
@@ -13,7 +13,6 @@ const deleteShopping = async (idShopping: number) => {
 	} catch (error) {
 		throw error;
 	}
-
 }
 
 

@@ -3,7 +3,7 @@ import { useContext, useState, useCallback, useEffect } from "react";
 import { ShoppingContext } from "../../context/ShoppingContext";
 import { ShoppingList, ShoppingListsResponse } from "../../interfaces/ShoppingInterface";
 import { User } from "../../interfaces/UserInterface";
-import { getShoppingLists } from "../../services/shoppingListsService";
+import { getShoppingLists } from "../../infrastructure/services/shopping-lists.service";
 import { errorLog } from "../../utils/HandlerError";
 
 
@@ -23,10 +23,10 @@ export const useFetchShoppingLists = (user: User) => {
     const [shoppingLists, setShoppingListsResponse] = useState<ShoppingList[]>([])
 
     useFocusEffect(
-        useCallback(() => {    
-               
+        useCallback(() => {
+
             if(shoppingState.refreshHome) {
-                fetchShoppingLists(user!)          
+                fetchShoppingLists(user!)
             }
 
             setRefreshHome(false)
@@ -50,8 +50,8 @@ export const useFetchShoppingLists = (user: User) => {
 
                 setIsLoadingInfinite(true)
                 const response: ShoppingListsResponse = await getShoppingLists(user!, pageable)
-                const dataShowed = response.body.content 
-                
+                const dataShowed = response.body.content
+
                 setTotalElements(response.body.totalElements)
                 setPageable({
                     ...pageable,
@@ -62,12 +62,12 @@ export const useFetchShoppingLists = (user: User) => {
                 setShoppingListsResponse([...shoppingLists, ...dataShowed])
 
             }
-           
+
         } catch (error) {
             errorLog(error!.response.data.message);
             //throw error;
-            
-        } finally {            
+
+        } finally {
             setIsLoading(false);
             setIsLoadingInfinite(false);
         }
@@ -80,8 +80,8 @@ export const useFetchShoppingLists = (user: User) => {
                 size: 10,
                 totalPages: 0
             })
-            const dataShowed = response.body.content 
-            
+            const dataShowed = response.body.content
+
             setTotalElements(response.body.totalElements)
 
             setPageable({
@@ -94,17 +94,17 @@ export const useFetchShoppingLists = (user: User) => {
         } catch (error) {
             errorLog("Error fetching shopping lists", error);
             //throw error;
-            
-        } finally {            
+
+        } finally {
             setIsLoading(false);
         }
     }
 
-    const onRefresh = () => {        
+    const onRefresh = () => {
         setRefreshing(true)
         fetchShoppingLists(user!)
         setRefreshing(false);
-    
+
     };
 
     const onInfiniteScroll = () => {

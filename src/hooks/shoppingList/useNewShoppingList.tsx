@@ -1,6 +1,6 @@
 import { useContext, useState } from "react"
 import { CreateShoppingListRequest, ShoppingList } from "../../interfaces/ShoppingInterface"
-import { saveShoppingList } from "../../services/shoppingListsService"
+import { saveShoppingList } from "../../infrastructure/services/shopping-lists.service"
 import { ShoppingContext } from "../../context/ShoppingContext";
 
 export const useNewShoppingLists = () => {
@@ -24,10 +24,10 @@ export const useNewShoppingLists = () => {
             setCodigo(response.codigoGenerado)
             setShoppingList(response)
             setRefreshHome(true)
-            
+
         } catch (error) {
             throw error;
-            
+
         } finally {
             setIsLoading(false)
         }

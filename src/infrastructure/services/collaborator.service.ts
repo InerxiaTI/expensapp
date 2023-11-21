@@ -1,16 +1,16 @@
 import expenseMateApi from "../api/expenseMateApi";
-import { JoinsShoppingListResponse } from "../interfaces/ShoppingInterface";
-import { CollaboratorsFilterRequest, CollaboratorsFilterResponse, ApproveRejectCollaboratorRequest, AssignPercentageCollaboratorRequest } from '../interfaces/UserInterface';
+import { JoinsShoppingListResponse } from "../../interfaces/ShoppingInterface";
+import { CollaboratorsFilterRequest, CollaboratorsFilterResponse, ApproveRejectCollaboratorRequest, AssignPercentageCollaboratorRequest } from '../../interfaces/UserInterface';
 
 //TODO agregar nombre y apellido en la response (back)
 const getCollaborators = async (request: CollaboratorsFilterRequest) => {
     try {
         const response = await expenseMateApi.post<CollaboratorsFilterResponse>(
-            '/api/lista-compra/filter-integrantes-total-compras', 
+            '/api/lista-compra/filter-integrantes-total-compras',
             request
-        )        
+        )
        return response.data.body
-          
+
     } catch (error) {
         console.error("ERROR °°°°°°°°°°°° ", error.response.data);
         throw error;
@@ -20,12 +20,12 @@ const getCollaborators = async (request: CollaboratorsFilterRequest) => {
 const approveRejectCollaboratorRequest = async (approveRejectRequest: ApproveRejectCollaboratorRequest) => {
     try {
         const response = await expenseMateApi.post<JoinsShoppingListResponse>(
-            '/api/lista-compra/aprobar-rechazar-colaborador', 
+            '/api/lista-compra/aprobar-rechazar-colaborador',
             approveRejectRequest
         )
         console.log("response: "+JSON.stringify(response.data.body));
         return response.data.body
-        
+
     } catch (error) {
         console.error("ERROR °°°°°°°°°°°° ", error.response.data);
         throw error;
@@ -35,13 +35,13 @@ const approveRejectCollaboratorRequest = async (approveRejectRequest: ApproveRej
 const updatePercentage = async (assignRequest: AssignPercentageCollaboratorRequest) => {
     try {
         const response = await expenseMateApi.post<JoinsShoppingListResponse>(
-            '/api/lista-compra/asignar-porcentaje-colaborador', 
+            '/api/lista-compra/asignar-porcentaje-colaborador',
             assignRequest
         )
         console.log("response: "+JSON.stringify(response.data.body));
 
         return response.data.body
-        
+
     } catch (error) {
         console.error("ERROR °°°°°°°°°°°° ", error.response.data);
         throw error;
