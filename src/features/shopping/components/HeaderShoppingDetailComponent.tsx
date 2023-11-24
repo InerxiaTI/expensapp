@@ -14,6 +14,8 @@ import { ShoppingContext } from '../../../context/ShoppingContext';
 import { useDeleteShopping } from '../hooks/useDeleteShopping';
 import ConfirmDialogComponent from '../../../components/base/ConfirmDialogComponent';
 import { AddExpenseParams } from '../../../interfaces/ShoppingInterface';
+import { useContextMenu } from '../hooks/useContextMenu';
+import { useConfirmDialog } from '../../../hooks/useConfirmDialog';
 
 interface HeaderShoppingDetailProps {
   idListaCompras: number;
@@ -24,13 +26,21 @@ interface HeaderShoppingDetailProps {
 }
 
 
-const HeaderShoppingDetailComponent = ({ title, code, idListaCompras, idUsuarioCreador, estado }: HeaderShoppingDetailProps) => {
+const HeaderShoppingDetailComponent = ({
+  title, code, idListaCompras, idUsuarioCreador, estado }: HeaderShoppingDetailProps) => {
+
   const navigator = useNavigation();
   const { authState } = useContext(AuthContext);
-  const user = authState.user
-
   const { shoppingState, setRefreshShoppings } = useContext(ShoppingContext);
+  const { hideContextMenu, showContextMenu,isContextMenuVisible } = useContextMenu()
+  const { hideConfirmationDialog, showConfirmationDialog, confirmationVisible } = useConfirmDialog()
 
+  const { setIsLoading, saveStartShoppingList } = useStartShoppingList()
+  const { removeShopping, setIsLoading: setIsLoadingOnRemove, isLoading: isLoadingOnRemove } = useDeleteShopping()
+
+
+  const [iconActionButton, setIconActionButton] = useState('cart-arrow-right')
+  const user = authState.user
 
   const collaboratorsParams: CollaboratorsParams = {
     idListaCompras: idListaCompras,
@@ -38,19 +48,6 @@ const HeaderShoppingDetailComponent = ({ title, code, idListaCompras, idUsuarioC
     estadoLista: estado
   }
 
-  const [isContextMenuVisible, setContextMenuVisible] = useState(false);
-  const [textToCopy, setTextToCopy] = useState(code);
-
-
-  const showContextMenu = () => {
-    console.log("mostrando menu");
-
-    setContextMenuVisible(true);
-  };
-
-  const hideContextMenu = () => {
-    setContextMenuVisible(false);
-  };
 
   const goCollaboratorsScreen = () => {
     hideContextMenu();
@@ -58,7 +55,7 @@ const HeaderShoppingDetailComponent = ({ title, code, idListaCompras, idUsuarioC
   }
 
   const handleCopyToClipboard = () => {
-    Clipboard.setString("Hola! \nEste es el código para que te unas a mi lista de compras:\n" + textToCopy);
+    Clipboard.setString(code);
 
     if (Platform.OS === 'android') {
       ToastAndroid.show('Texto copiado al portapapeles', ToastAndroid.SHORT);
@@ -67,12 +64,6 @@ const HeaderShoppingDetailComponent = ({ title, code, idListaCompras, idUsuarioC
     }
   };
 
-  const { isLoading,
-    setIsLoading,
-    shoppingList,
-    saveStartShoppingList } = useStartShoppingList()
-
-  const { removeShopping, setIsLoading: setIsLoadingOnRemove, isLoading: isLoadingOnRemove } = useDeleteShopping()
 
   const handleEdit = () => {
 
@@ -87,19 +78,8 @@ const HeaderShoppingDetailComponent = ({ title, code, idListaCompras, idUsuarioC
 
   }
 
-  const [confirmationVisible, setConfirmationVisible] = useState(false);
-
-  const showConfirmationDialog = () => {
-    setConfirmationVisible(true);
-  };
-
-  const hideConfirmationDialog = () => {
-    setConfirmationVisible(false);
-  };
-
   const handleConfirmAction = async () => {
     // Lógica a ejecutar cuando se presiona el botón "Aceptar"
-    console.log('Acción confirmada');
     await removeShoppingById();
     hideConfirmationDialog();
   };
@@ -124,9 +104,10 @@ const HeaderShoppingDetailComponent = ({ title, code, idListaCompras, idUsuarioC
     }
   }
 
-  const [iconActionButton, setIconActionButton] = useState('cart-arrow-right')
 
   const handleActionShoppingList = async () => {
+
+    infoLog("Handle Action")
 
     switch (estado) {
       case 'CONFIGURANDO': {
@@ -137,10 +118,6 @@ const HeaderShoppingDetailComponent = ({ title, code, idListaCompras, idUsuarioC
         try {
           await saveStartShoppingList(idListaCompras);
           setIsLoading(false);
-          // TODO aqui debemos hacer algo para que se actualice el estado de la lista de compras
-          // y evitar ir hasta el home, y que el icono cambié
-          // getShoppingLists(user!)
-          // // navigation.dispatch() se quiere llamar la función para actualizar las listas de compras
           navigator.goBack() // Volver a la pantalla anterior
 
         } catch (error) {
@@ -168,22 +145,16 @@ const HeaderShoppingDetailComponent = ({ title, code, idListaCompras, idUsuarioC
       }
 
     }
-
-
-
   }
 
   useEffect(() => {
 
     infoLog("ID SHOPPING TO EDIT OR DELETE: " + shoppingState.idShoppingCardSelected)
-
-
     if (estado === 'PENDIENTE') {
       setIconActionButton('cart-check')
     }
 
-  })
-
+  }, [])
 
   return (
     <>
