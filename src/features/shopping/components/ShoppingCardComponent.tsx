@@ -57,12 +57,13 @@ const ShoppingCardComponent = ({ shopping }: ShoppingCardProps) => {
   return (
 
     <TouchableOpacity
-      // onPressOut={handlePressOut}
       onPress={handlePressOut}
-      onLongPress={handleLongPress} >
+      onLongPress={handleLongPress}
+      delayLongPress={300}
+      >
       <View style={{
           ...styles.card,
-          backgroundColor: shopping.id === shoppingState.idShoppingCardSelected && isPressed? '#d9a2ff': '#262626'}}>
+          backgroundColor: shopping.id === shoppingState.idShoppingCardSelected && isPressed? '#4f4f4f': '#262626'}}>
         <View style={styles.containerShoppingInfo}>
           <View style={styles.containerPerColumn}>
             <MaterialCommunityIcons name='shopping' size={14} color='white' />
@@ -102,6 +103,9 @@ const ShoppingCardComponent = ({ shopping }: ShoppingCardProps) => {
                         </View> */}
 
           </View>
+        </View>
+        <View>
+  
         </View>
 
       </View>

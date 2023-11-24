@@ -15,12 +15,14 @@ import { useFetchCollaborators } from '../../../hooks/collaborators/useFetchColl
 import { CollaboratorsFilterRequest } from '../../../interfaces/UserInterface';
 import { ShoppingContext } from '../../../context/ShoppingContext';
 import { infoLog } from '../../../utils/HandlerError';
+import { ShoppingV2Context } from '../context/ShoppingV2Context';
 
 interface ShoppingDetailsScreenProps extends StackScreenProps<RootStackParams, 'ShoppingDetails'> { }
 
 const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps) => {
 
   const { authState } = useContext(AuthContext);
+  const { shoppingCardState, setIsCardLongPressed, setIsCardPressed } = useContext(ShoppingV2Context);
   const userLogged = authState.user
   const { setShoppingCardSelected, setIdShoppingCardSelected, shoppingState, setRefreshShoppings } = useContext(ShoppingContext);
 
@@ -67,6 +69,9 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
 
   useEffect(() => {
     setIdShoppingCardSelected(0)
+    setIsCardLongPressed(false)
+    setIsCardLongPressed(false)
+    
   },[])
 
   useEffect(() => {
@@ -105,6 +110,8 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
         idUsuarioCreador={shoppingList.idUsuarioCreador}
         estado={shoppingList.estado}
       />
+      <Text style={{color: 'white'}}>{JSON.stringify(shoppingCardState)}</Text>
+
 
       {/* Shoppers */}
       <View
@@ -178,7 +185,7 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
       <View
         style={{
           flex: 1,
-          borderWidth: 0,
+          borderWidth: 1,
           borderColor: 'red',
           paddingVertical: 0,
           paddingHorizontal: 10
