@@ -7,7 +7,7 @@ const getShoppingLists = async (user: User, pageable: any) => {
 	infoLog("LLamando a la API para traer listas de compras");
 	try {
 		const response = await expenseMateApi.post<ShoppingListsResponse>(
-			'/api/lista-compra/filter',{usuario: user.id},
+			'/lista-compra/filter',{usuario: user.id},
 			{
 				params: {
 					page: pageable.currentPage,

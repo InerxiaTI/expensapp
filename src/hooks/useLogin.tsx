@@ -11,7 +11,7 @@ export const useLogin = () => {
     const validateUser = async (correo: string, pass: string) => {
 
         const request: UserLoginRequest = {
-            correo,
+            email:correo,
             pass
         }
 
@@ -22,7 +22,7 @@ export const useLogin = () => {
             console.log("4.");
 
             const response = await expenseMateApi.post<UserLoggedResponse>(
-                '/api/usuario/login',
+                '/usuario/login',
                 request
             )
             console.log("5.");

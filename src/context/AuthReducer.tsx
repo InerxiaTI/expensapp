@@ -4,6 +4,7 @@ import { AuthState } from "./AuthContext";
 type AuthAction = 
     | {type: 'signIn', payload: User}
     | {type: 'logOut'}
+    | {type: 'notAuthenticated'}
 
 export const authReducer = (state: AuthState, action: AuthAction): AuthState => {
 
@@ -12,13 +13,16 @@ export const authReducer = (state: AuthState, action: AuthAction): AuthState => 
             return {
                 ...state,
                 isLoggedIn: true,
+                status: 'authenticated',
                 user: action.payload
                 
             }
+        case "notAuthenticated":
         case "logOut":
             return {
                 ...state,
                 isLoggedIn: false,
+                status: 'notAuthenticated',
                 user: undefined
             }
     }

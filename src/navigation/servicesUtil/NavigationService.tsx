@@ -1,5 +1,5 @@
 
-import { CommonActions } from '@react-navigation/native'
+import { CommonActions, createNavigationContainerRef } from '@react-navigation/native'
 import React from 'react'
 import { infoLog } from '../../utils/HandlerError'
 

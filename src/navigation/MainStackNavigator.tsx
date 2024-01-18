@@ -11,6 +11,7 @@ import { CollaboratorsParams } from '../interfaces/UserInterface';
 import ErrorInesperadoScreen from '../screens/error/ErrorGeneralScreen';
 import { infoLog } from '../utils/HandlerError';
 import LanguageScreen from '../screens/LanguageScreen';
+import LoadingComponent from '../components/LoadingComponent';
 
 export type RootStackParams = {
   Auth: undefined,
@@ -109,7 +110,9 @@ export const ErrorGeneralStack = () => {
 export const MainStackNavigator = () => {
 
   const { authState } = useContext(AuthContext);
-  console.log("MAINS STACK NAVI logueado: " + authState.isLoggedIn);
+  console.log("MAINS STACK NAVI logueado: " + JSON.stringify(authState));
+
+  if (authState.status === 'checking') return <LoadingComponent />
 
   return (
     <Stack.Navigator
@@ -121,9 +124,20 @@ export const MainStackNavigator = () => {
         }
       }}
     >
-      <Stack.Screen name="Auth" component={AuthNavigation} />
-      <Stack.Screen name="Tabs" component={TabsNavigator} />
-      <Stack.Screen name="ErrorInesperado" component={ErrorInesperadoScreen} />
+      {
+        (authState.status !== 'authenticated')
+        ?(
+          <Stack.Screen name="Auth" component={AuthNavigation} />
+        )
+        : (
+         <>
+            <Stack.Screen name="Tabs" component={TabsNavigator} />
+            <Stack.Screen name="ErrorInesperado" component={ErrorInesperadoScreen} />
+         </>
+        )
+      }
+    
+     
     </Stack.Navigator>
   );
 
