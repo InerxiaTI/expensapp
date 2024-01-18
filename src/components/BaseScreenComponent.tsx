@@ -9,9 +9,10 @@ interface BaseScreenProps {
   screen?: string
   statusBarColor?: string, 
   style?: StyleProp<ViewStyle>,
+  headerShown?: boolean
 }
 
-const BaseScreenComponent = ({ children, style, screen, statusBarColor }: BaseScreenProps) => {
+const BaseScreenComponent = ({ children, style, screen, statusBarColor='transparent', headerShown=false}: BaseScreenProps) => {
 
   const { top } = useSafeAreaInsets();
 
@@ -20,7 +21,7 @@ const BaseScreenComponent = ({ children, style, screen, statusBarColor }: BaseSc
       if (screen == 'Settings' && statusBarColor) {
         StatusBar.setBackgroundColor(statusBarColor);
       } else {
-        StatusBar.setBackgroundColor('transparent')
+        StatusBar.setBackgroundColor(statusBarColor)
       }
     }, [])
   );
@@ -29,7 +30,7 @@ const BaseScreenComponent = ({ children, style, screen, statusBarColor }: BaseSc
     <View
       style={{
         flex: 1,
-        paddingTop: top,
+        paddingTop: headerShown? 0:top,
         borderWidth: 0,
         borderColor: 'yellow',
         ...style as any

@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import BaseScreenComponent from '../../../components/BaseScreenComponent'
-import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, Button, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { COLORS } from '../../../theme/Theme'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import HeaderShoppingDetailComponent from '../components/HeaderShoppingDetailComponent';
@@ -20,6 +20,27 @@ import { ShoppingV2Context } from '../context/ShoppingV2Context';
 interface ShoppingDetailsScreenProps extends StackScreenProps<RootStackParams, 'ShoppingDetails'> { }
 
 const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps) => {
+
+  React.useEffect(() => {
+    // Use `setOptions` to update the button that we previously specified
+    // Now the button includes an `onPress` handler to update the count
+    navigation.setOptions({
+      headerStyle: {
+        backgroundColor: 'red'
+      },
+      headerShown: true,
+      header: () => (
+        <HeaderShoppingDetailComponent
+          title={shoppingList.nombre}
+          code={shoppingList.codigoGenerado}
+          idListaCompras={shoppingList.id}
+          idUsuarioCreador={shoppingList.idUsuarioCreador}
+          estado={shoppingList.estado}
+        />
+      ),
+
+    });
+  }, [navigation]);
 
   const { authState } = useContext(AuthContext);
   const { shoppingCardState, setIsCardLongPressed, setIsCardPressed } = useContext(ShoppingV2Context);
@@ -101,16 +122,15 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
   }
 
   return (
-    <BaseScreenComponent>
+    <BaseScreenComponent headerShown={true}>
       {/* Header */}
-      <HeaderShoppingDetailComponent
+      {/* <HeaderShoppingDetailComponent
         title={shoppingList.nombre}
         code={shoppingList.codigoGenerado}
         idListaCompras={shoppingList.id}
         idUsuarioCreador={shoppingList.idUsuarioCreador}
         estado={shoppingList.estado}
-      />
-      <Text style={{color: 'white'}}>{JSON.stringify(shoppingCardState)}</Text>
+      /> */}
 
 
       {/* Shoppers */}
@@ -185,7 +205,7 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
       <View
         style={{
           flex: 1,
-          borderWidth: 1,
+          borderWidth: 0,
           borderColor: 'red',
           paddingVertical: 0,
           paddingHorizontal: 10
@@ -243,12 +263,12 @@ const styles = StyleSheet.create({
     color: '#6B7280'
   },
   porcentaje: {
-    opacity: 0.1,
+    opacity: 0.5,
     color: 'grey',
-    fontSize: 35,
+    fontSize: 20,
     position: 'absolute',
-    left: 60,
-    top: 35
+    left: 90,
+    top: 45
   }
 
 });

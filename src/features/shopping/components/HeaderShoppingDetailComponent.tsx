@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { View, TouchableOpacity, Modal, Text, TouchableWithoutFeedback, StyleSheet, Platform, ToastAndroid, ActivityIndicator } from 'react-native'
+import { View, TouchableOpacity, Modal, Text, TouchableWithoutFeedback, StyleSheet, Platform, ToastAndroid, ActivityIndicator, SafeAreaView } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import Clipboard from '@react-native-clipboard/clipboard';
@@ -208,14 +208,18 @@ const HeaderShoppingDetailComponent = ({
         onRequestClose={hideConfirmationDialog}
         onConfirm={handleConfirmAction}
         question={`¿Desea eliminar la compra ${shoppingState.idShoppingCardSelected}?`}
+        description='No podrá deshacer esta acción.'
       />
 
       <Modal
-        transparent={true}
+        animationType='fade'
+        presentationStyle='fullScreen'
+        transparent={false}
         visible={isContextMenuVisible}
         onRequestClose={hideContextMenu}
       >
-
+        <SafeAreaView style={{ flex: 0, backgroundColor: 'green' }}/>
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'transparent' }}>
         <TouchableWithoutFeedback onPress={hideContextMenu}>
           <View
             style={{
@@ -274,6 +278,9 @@ const HeaderShoppingDetailComponent = ({
 
           </View>
         </TouchableWithoutFeedback>
+  </SafeAreaView>
+
+       
       </Modal>
     </>
   )
