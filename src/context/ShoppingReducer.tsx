@@ -2,7 +2,7 @@ import { EditShoppingRequest } from "../interfaces/ShoppingInterface"
 import { ShoppingState } from "./ShoppingContext"
 
 type ShoppingAction = 
-    | {type: 'setIsFocusFetchShoppingLists', payload: boolean}
+    | {type: 'setIsFocusFetchShoppings', payload: boolean}
     | {type: 'setRefreshHome', payload: boolean}
     | {type: 'setShoppingCardSelected', payload: boolean}
     | {type: 'setRefreshShoppings', payload: boolean}
@@ -12,10 +12,10 @@ type ShoppingAction =
 export const shoppingReducer = (state: ShoppingState, action: ShoppingAction): ShoppingState => {
 
     switch (action.type) {
-        case 'setIsFocusFetchShoppingLists':
+        case 'setIsFocusFetchShoppings':
             return {
                 ...state,
-                isFocusFetchShoppingLists: action.payload
+                isFocusFetchShoppings: action.payload
             }
         case 'setRefreshHome':
             return {

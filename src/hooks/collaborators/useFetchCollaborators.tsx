@@ -1,13 +1,13 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import { Collaborator, CollaboratorsFilterRequest } from "../../interfaces/UserInterface";
 import { AuthContext } from "../../context/AuthContext";
-import { getCollaborators } from "../../services/collaboratorService";
+import { getCollaborators } from "../../infrastructure/services/collaborator.service";
 import { useFocusEffect } from "@react-navigation/native";
 import { ShoppingContext } from "../../context/ShoppingContext";
 
 export const useFetchCollaborators = (request: CollaboratorsFilterRequest) => {
   const { authState } = useContext(AuthContext);
-  const { shoppingState, setIsFocusFetchShoppingLists } = useContext(ShoppingContext);
+  const { shoppingState, setIsFocusFetchShoppings } = useContext(ShoppingContext);
 
   const userLogged = authState.user
 
@@ -16,10 +16,10 @@ export const useFetchCollaborators = (request: CollaboratorsFilterRequest) => {
 
   useFocusEffect(
     useCallback(() => {
-      if (!shoppingState.isFocusFetchShoppingLists) {
+      if (!shoppingState.isFocusFetchShoppings) {
         fetchCollaborators(request)
       }
-      setIsFocusFetchShoppingLists(false)
+      setIsFocusFetchShoppings(false)
     }, [])
   )
 

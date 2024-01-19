@@ -5,12 +5,13 @@ import LoginScreen from '../screens/LoginScreen';
 import { TabsNavigator } from './TabsNavigator';
 import { AddExpenseParams, ShoppingList } from '../interfaces/ShoppingInterface';
 import SettingsScreen from '../screens/SettingsScreen';
-import NewShoppingListScreen from '../screens/NewShoppingListScreen';
-import { AddCollaboratorAsShopperParams } from '../screens/AddCollaboratorAsShopperScreen';
+import NewShoppingListScreen from '../features/create-shopping-list/screens/NewShoppingListScreen';
+import { AddCollaboratorAsShopperParams } from '../features/add-shopping/screens/AddCollaboratorAsShopperScreen';
 import { CollaboratorsParams } from '../interfaces/UserInterface';
 import ErrorInesperadoScreen from '../screens/error/ErrorGeneralScreen';
 import { infoLog } from '../utils/HandlerError';
 import LanguageScreen from '../screens/LanguageScreen';
+import LoadingComponent from '../components/LoadingComponent';
 
 export type RootStackParams = {
   Auth: undefined,
@@ -51,6 +52,7 @@ export const NewShoppingListStack = () => {
 export const SettingsStack = () => {
   return (
     <Stack.Navigator
+    initialRouteName='Settings'
       screenOptions={{
         headerShown: false,
         headerStyle: {
@@ -109,7 +111,9 @@ export const ErrorGeneralStack = () => {
 export const MainStackNavigator = () => {
 
   const { authState } = useContext(AuthContext);
-  console.log("MAINS STACK NAVI logueado: " + authState.isLoggedIn);
+  console.log("MAINS STACK NAVI logueado: " + JSON.stringify(authState));
+
+  if (authState.status === 'checking') return <LoadingComponent />
 
   return (
     <Stack.Navigator
@@ -121,9 +125,20 @@ export const MainStackNavigator = () => {
         }
       }}
     >
-      <Stack.Screen name="Auth" component={AuthNavigation} />
-      <Stack.Screen name="Tabs" component={TabsNavigator} />
-      <Stack.Screen name="ErrorInesperado" component={ErrorInesperadoScreen} />
+      {
+        (authState.status !== 'authenticated')
+        ?(
+          <Stack.Screen name="Auth" component={AuthNavigation} />
+        )
+        : (
+         <>
+            <Stack.Screen name="Tabs" component={TabsNavigator} />
+            <Stack.Screen name="ErrorInesperado" component={ErrorInesperadoScreen} />
+         </>
+        )
+      }
+    
+     
     </Stack.Navigator>
   );
 

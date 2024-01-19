@@ -20,7 +20,7 @@ const SettingsScreen = () => {
 
   const handleLogOut = () => {
     logOut()
-    reset(0, 'Auth', {})
+    
 
   }
 

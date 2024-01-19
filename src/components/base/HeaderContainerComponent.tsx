@@ -3,6 +3,7 @@ import BaseHeaderComponent from './BaseHeaderComponent'
 import { Text, TouchableOpacity, View } from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useNavigation } from '@react-navigation/native'
+import { COLORS } from '../../theme/Theme'
 
 interface HeaderContainerProps {
 	title?: string,
@@ -24,8 +25,16 @@ const HeaderContainerComponent = ({ title = '', showArrowBack = false, children 
 
 
 	return (
-		<BaseHeaderComponent>
+		<View style={{
+			flexDirection: 'row',
+			justifyContent: 'space-between',
+			borderWidth: 1,
+			borderColor: 'red',
+			width: '100%',
+			//backgroundColor: '#3f007b',
+		}}>
 			<>
+				{/* Header Left */}
 				<View
 					style={{
 						flexDirection: 'row',
@@ -68,18 +77,17 @@ const HeaderContainerComponent = ({ title = '', showArrowBack = false, children 
 						<Text style={{
 							fontSize: 18,
 							fontWeight: '700',
-							color: '#6B7280'
+							color: '#fff'
 						}}>{title}</Text>
 					</View>
 				</View>
 
 				{/* Header Right */}
-
 				<View
 					style={{
+						height: 50,
 						borderWidth: 0,
 						borderColor: 'blue',
-						height: '100%',
 						flexDirection: 'row-reverse',
 						gap: 10,
 						paddingHorizontal: 1
@@ -90,7 +98,7 @@ const HeaderContainerComponent = ({ title = '', showArrowBack = false, children 
 				</View>
 			</>
 
-		</BaseHeaderComponent>
+		</View>
 
 	)
 }
