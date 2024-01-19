@@ -1,12 +1,13 @@
 import React from 'react'
-import { StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
 interface BaseSimpleCardProps {
 	visibleText: string
 	objectToManipulated: any
+	children: JSX.Element
 }
 
-const BaseSimpleCardComponent = ({visibleText, objectToManipulated}:BaseSimpleCardProps) => {
+const BaseSimpleCardComponent = ({visibleText, objectToManipulated, children}:BaseSimpleCardProps) => {
 
 	
 	return (
@@ -24,7 +25,14 @@ const BaseSimpleCardComponent = ({visibleText, objectToManipulated}:BaseSimpleCa
 				marginVertical: 5
 			}}
 		>
-			<Text style={styles.mainText} >{visibleText}</Text>
+			<Text style={{...styles.mainText, borderWidth: 0, borderColor: 'red'}} >{visibleText}</Text>
+
+			{children && (
+				<View>
+					{children}
+				</View>
+			)
+			}
 
 
 		</TouchableOpacity>
@@ -34,7 +42,7 @@ const BaseSimpleCardComponent = ({visibleText, objectToManipulated}:BaseSimpleCa
 
 const styles = StyleSheet.create({
 	mainText: {
-		color: '#6B7280'
+		color: '#e7e7e7'
 	}
 
 });
