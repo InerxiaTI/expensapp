@@ -57,7 +57,7 @@ const ErrorInesperadoScreen = ({ route, navigation }: ErrorInesperadoProps) => {
           buttonColor='#F972CB'
           textColor='#000'
           title='Volver al inicio'
-          onPress={() => { navigation.navigate('Auth') }}
+          onPress={() => { navigation.navigate('Tabs') }}
         />
       </View>
 

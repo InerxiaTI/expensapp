@@ -44,7 +44,7 @@ const SettingsScreen = () => {
       >
         {/* Card settings */}
 
-        <SettingsCardComponent onPress={()=>{infoLog("Desde settings")}} title={t('settings:categories')} icon='shape'/>
+        <SettingsCardComponent onPress={()=>{navigator.navigate('Categories')}} title={t('settings:categories')} icon='shape'/>
         <SettingsCardComponent onPress={()=>{infoLog("Desde settings")}} title={t('settings:notifications')} icon='shape'/>
         <SettingsCardComponent onPress={()=>{infoLog("Desde settings")}} title={t('settings:privacity')} icon='shape'/>
         <SettingsCardComponent onPress={()=>{infoLog("Desde settings")}} title={t('settings:storage')} icon='shape'/>

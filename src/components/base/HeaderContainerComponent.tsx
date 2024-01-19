@@ -28,10 +28,10 @@ const HeaderContainerComponent = ({ title = '', showArrowBack = false, children 
 		<View style={{
 			flexDirection: 'row',
 			justifyContent: 'space-between',
-			borderWidth: 1,
+			borderWidth: 0,
 			borderColor: 'red',
 			width: '100%',
-			//backgroundColor: '#3f007b',
+			backgroundColor: '#3f007b',
 		}}>
 			<>
 				{/* Header Left */}
