@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { StatusBar, StyleProp, View, ViewStyle } from 'react-native';
+import { Platform, StatusBar, StyleProp, View, ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useFocusEffect } from '@react-navigation/native';
 import { useCallback } from 'react';
@@ -18,10 +18,12 @@ const BaseScreenComponent = ({ children, style, screen, statusBarColor='transpar
 
   useFocusEffect(
     useCallback(() => {
-      if (screen == 'Settings' && statusBarColor) {
-        StatusBar.setBackgroundColor(statusBarColor);
-      } else {
-        StatusBar.setBackgroundColor(statusBarColor)
+      if(Platform.OS === 'android'){
+        if (screen == 'Settings' && statusBarColor) {
+          StatusBar.setBackgroundColor(statusBarColor);
+        } else {
+          StatusBar.setBackgroundColor(statusBarColor)
+        }
       }
     }, [])
   );
@@ -30,7 +32,7 @@ const BaseScreenComponent = ({ children, style, screen, statusBarColor='transpar
     <View
       style={{
         flex: 1,
-        paddingTop: headerShown? 0:top,
+        paddingTop: top,
         borderWidth: 0,
         borderColor: 'yellow',
         ...style as any

@@ -15,7 +15,7 @@ export const useFetchShoppingLists = (user: User) => {
     const [isLoadingInfinite, setIsLoadingInfinite] = useState(false)
     const [refreshing, setRefreshing] = useState(false);
     const [pageable, setPageable] = useState({
-        currentPage: 1,
+        currentPage: 0,
         size: 10,
         totalPages: 0
     })
@@ -76,7 +76,7 @@ export const useFetchShoppingLists = (user: User) => {
     const fetchShoppingLists = async (user: User) => {
         try {
             const response: ShoppingListsResponse = await getShoppingLists(user!, {
-                currentPage: 1,
+                currentPage: 0,
                 size: 10,
                 totalPages: 0
             })

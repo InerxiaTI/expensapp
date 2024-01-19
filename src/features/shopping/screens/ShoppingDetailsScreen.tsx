@@ -21,26 +21,26 @@ interface ShoppingDetailsScreenProps extends StackScreenProps<RootStackParams, '
 
 const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps) => {
 
-  React.useEffect(() => {
-    // Use `setOptions` to update the button that we previously specified
-    // Now the button includes an `onPress` handler to update the count
-    navigation.setOptions({
-      headerStyle: {
-        backgroundColor: 'red'
-      },
-      headerShown: true,
-      header: () => (
-        <HeaderShoppingDetailComponent
-          title={shoppingList.nombre}
-          code={shoppingList.codigoGenerado}
-          idListaCompras={shoppingList.id}
-          idUsuarioCreador={shoppingList.idUsuarioCreador}
-          estado={shoppingList.estado}
-        />
-      ),
+  // React.useEffect(() => {
+  //   // Use `setOptions` to update the button that we previously specified
+  //   // Now the button includes an `onPress` handler to update the count
+  //   navigation.setOptions({
+  //     headerStyle: {
+  //       backgroundColor: 'red'
+  //     },
+  //     headerShown: true,
+  //     header: () => (
+  //       <HeaderShoppingDetailComponent
+  //         title={shoppingList.nombre}
+  //         code={shoppingList.codigoGenerado}
+  //         idListaCompras={shoppingList.id}
+  //         idUsuarioCreador={shoppingList.idUsuarioCreador}
+  //         estado={shoppingList.estado}
+  //       />
+  //     ),
 
-    });
-  }, [navigation]);
+  //   });
+  // }, [navigation]);
 
   const { authState } = useContext(AuthContext);
   const { shoppingCardState, setIsCardLongPressed, setIsCardPressed } = useContext(ShoppingV2Context);
@@ -122,15 +122,15 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
   }
 
   return (
-    <BaseScreenComponent headerShown={true}>
+    <BaseScreenComponent headerShown={false}>
       {/* Header */}
-      {/* <HeaderShoppingDetailComponent
+      <HeaderShoppingDetailComponent
         title={shoppingList.nombre}
         code={shoppingList.codigoGenerado}
         idListaCompras={shoppingList.id}
         idUsuarioCreador={shoppingList.idUsuarioCreador}
         estado={shoppingList.estado}
-      /> */}
+      />
 
 
       {/* Shoppers */}

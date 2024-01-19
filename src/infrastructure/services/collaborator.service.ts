@@ -6,7 +6,7 @@ import { CollaboratorsFilterRequest, CollaboratorsFilterResponse, ApproveRejectC
 const getCollaborators = async (request: CollaboratorsFilterRequest) => {
     try {
         const response = await expenseMateApi.post<CollaboratorsFilterResponse>(
-            '/api/lista-compra/filter-integrantes-total-compras',
+            '/integrante/filter-integrantes-total-compras',
             request
         )
        return response.data.body
@@ -20,7 +20,7 @@ const getCollaborators = async (request: CollaboratorsFilterRequest) => {
 const approveRejectCollaboratorRequest = async (approveRejectRequest: ApproveRejectCollaboratorRequest) => {
     try {
         const response = await expenseMateApi.post<JoinsShoppingListResponse>(
-            '/api/lista-compra/aprobar-rechazar-colaborador',
+            '/lista-compra/aprobar-rechazar-colaborador',
             approveRejectRequest
         )
         console.log("response: "+JSON.stringify(response.data.body));
@@ -35,7 +35,7 @@ const approveRejectCollaboratorRequest = async (approveRejectRequest: ApproveRej
 const updatePercentage = async (assignRequest: AssignPercentageCollaboratorRequest) => {
     try {
         const response = await expenseMateApi.post<JoinsShoppingListResponse>(
-            '/api/lista-compra/asignar-porcentaje-colaborador',
+            '/lista-compra/asignar-porcentaje-colaborador',
             assignRequest
         )
         console.log("response: "+JSON.stringify(response.data.body));

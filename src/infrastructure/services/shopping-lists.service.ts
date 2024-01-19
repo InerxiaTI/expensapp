@@ -27,7 +27,7 @@ const saveShoppingList = async (request: CreateShoppingListRequest) => {
 	console.log("LLamando a la API para crear lista de compras");
 	try {
 		const response = await expenseMateApi.post<CreateShoppingListResponse>(
-			'/api/lista-compra/crear-lista-compra',
+			'/lista-compra/crear-lista-compra',
 			request
 		)
 		console.log("response NEW SHOPPING LIST: " + JSON.stringify(response.data.body));
@@ -44,7 +44,7 @@ const getShoppingListDetail = async (request: ShoppingRequest) => {
 	console.log("LLamando a la API para traer compras de una lista de compras: ", JSON.stringify(request));
 	try {
 		const response = await expenseMateApi.post<ShoppingResponse>(
-			'/api/compra/filter',
+			'/compra/filter',
 			request
 		)
 		return response.data.body
@@ -57,7 +57,7 @@ const createShopping = async (shopping: CreateShoppingRequest) => {
 	console.log("LLamando a la API para crear una compra");
 	try {
 		const response = await expenseMateApi.post<CreateShoppingResponse>(
-			'/api/compra/crear-compra',
+			'/compra/crear-compra',
 			shopping
 		)
 
@@ -73,7 +73,7 @@ const editShopping = async (shopping: EditShoppingRequest) => {
 	console.log("LLamando a la API para editar una compra");
 	try {
 		const response = await expenseMateApi.put<CreateShoppingResponse>(
-			'/api/compra/editar-compra',
+			'/compra/editar-compra',
 			shopping
 		)
 
@@ -90,7 +90,7 @@ const startShoppingList = async (idListaCompras: number) => {
 
 	try {
 		const response = await expenseMateApi.put<CreateShoppingListResponse>(
-			`/api/lista-compra/inicializar-lista-compras?idListaCompras=${idListaCompras}`
+			`/lista-compra/inicializar-lista-compras?idListaCompras=${idListaCompras}`
 		)
 		console.log("88888888888888888888888888888888\n response: " + JSON.stringify(response.data.body));
 
@@ -107,7 +107,7 @@ const sendRequestAddCollaborator = async (request: JoinShoppingListRequest) => {
 
 	try {
 		const response = await expenseMateApi.post<JoinsShoppingListResponse>(
-			'/api/lista-compra/solicitud-agregar-colaborador',
+			'/lista-compra/solicitud-agregar-colaborador',
 			request
 		)
 		console.log("response: " + JSON.stringify(response.data.body));
