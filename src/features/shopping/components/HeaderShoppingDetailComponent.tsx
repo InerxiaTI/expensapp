@@ -121,7 +121,14 @@ const HeaderShoppingDetailComponent = ({
           navigator.goBack() // Volver a la pantalla anterior
 
         } catch (error) {
-          console.error("Falla al guardar: " + error);
+          //console.error("Falla al guardar: " + error);
+          errorLog("No se pudo iniciar lista de compras", error)
+          if (error!.response.data.message === 'TOTAL_PERCENTAGES_MUST_BE_100_PERCENT'){
+            ToastAndroid.showWithGravity("Total porcentaje debe ser 100", ToastAndroid.LONG, 1)
+          } else {
+            ToastAndroid.showWithGravity("No se pudo iniciar lista de compras", ToastAndroid.LONG, 1)
+          }
+
         }
 
 

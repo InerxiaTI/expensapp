@@ -23,7 +23,8 @@ const AddCollaboratorAsShopperScreen = ({ route, navigation }: AddCollaboratorAs
 	const createShopping: CreateShoppingRequest = addCollaboratorsAsShopper.createShoppingRequest
 
 	const request: CollaboratorsFilterRequest = {
-		idListaCompras: createShopping.idListaCompras
+		idListaCompras: createShopping.idListaCompras,
+		estados: ['APROBADO']
 	}
 
 	const { reloadCollaborators, isLoading, collaborators } = useFetchCollaborators(request)
