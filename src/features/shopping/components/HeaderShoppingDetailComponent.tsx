@@ -213,13 +213,13 @@ const HeaderShoppingDetailComponent = ({
 
       <Modal
         animationType='fade'
-        presentationStyle='fullScreen'
-        transparent={false}
+        presentationStyle='overFullScreen'
+        transparent={true}
         visible={isContextMenuVisible}
         onRequestClose={hideContextMenu}
       >
-        <SafeAreaView style={{ flex: 0, backgroundColor: 'green' }}/>
-        <SafeAreaView style={{ flex: 1, backgroundColor: 'transparent' }}>
+        <SafeAreaView style={{ flex: 0, backgroundColor: 'transparent' }}/>
+        <SafeAreaView style={{ flex: 1, backgroundColor: 'trasnparent' }}>
         <TouchableWithoutFeedback onPress={hideContextMenu}>
           <View
             style={{

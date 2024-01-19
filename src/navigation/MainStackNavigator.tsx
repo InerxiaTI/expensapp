@@ -52,6 +52,7 @@ export const NewShoppingListStack = () => {
 export const SettingsStack = () => {
   return (
     <Stack.Navigator
+    initialRouteName='Settings'
       screenOptions={{
         headerShown: false,
         headerStyle: {

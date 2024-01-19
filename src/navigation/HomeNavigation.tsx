@@ -24,6 +24,7 @@ export const HomeNavigation = () => {
             <HomeStack.Screen  name="Home" component={HomeScreen} />
             <HomeStack.Screen name="ShoppingDetails" component={ShoppingDetailsScreen} 
             options={{
+                title: 'ShoppingDetails',
                 cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS ,
              }}
             />

@@ -37,14 +37,14 @@ const CollaboratorsScreen = ({ route, navigation }: CollaboratorsScreenProps) =>
   return (
     <BaseScreenComponent>
 
-      <GenericHeaderComponent title='Colaboradores' showArrowBack />
+      <GenericHeaderComponent title='Colaboradores s' showArrowBack />
 
       <View
         style={{
           flex: 1,
-          borderWidth: 0,
+          borderWidth: 1,
           borderColor: 'red',
-          marginTop: 50,
+          marginTop: 0,
           paddingHorizontal: 15
         }}
       >

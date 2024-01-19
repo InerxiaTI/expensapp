@@ -28,7 +28,7 @@ const HeaderContainerComponent = ({ title = '', showArrowBack = false, children 
 		<View style={{
 			flexDirection: 'row',
 			justifyContent: 'space-between',
-			borderWidth: 0,
+			borderWidth: 1,
 			borderColor: 'red',
 			width: '100%',
 			//backgroundColor: '#3f007b',
