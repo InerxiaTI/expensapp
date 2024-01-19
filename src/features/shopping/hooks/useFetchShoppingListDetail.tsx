@@ -27,8 +27,8 @@ export const useFetchShoppingListDetail = (idShoppingList: number, idUserCompra:
 
         const request: ShoppingRequest = {
             idListaCompras: idShoppingList,
-            idUsuarioCompra: idUserCompra
-            // categoria: "ER",
+            idUsuarioCompra: idUserCompra,
+            categoria: "",
             // descripcion: "ab"
         }
 
@@ -36,7 +36,7 @@ export const useFetchShoppingListDetail = (idShoppingList: number, idUserCompra:
 
             const response = await getShoppingListDetail(request)
 
-            setShoppingDetailList(response)
+            setShoppingDetailList(response.content)
         } catch (error) {
             console.error("ERROR °°°°°°°°°°°° ", error.response.data);
             throw error;

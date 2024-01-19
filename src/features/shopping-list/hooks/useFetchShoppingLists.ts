@@ -1,7 +1,7 @@
 import { useFocusEffect } from "@react-navigation/native";
 import { useContext, useState, useCallback, useEffect } from "react";
 import { ShoppingContext } from "../../../context/ShoppingContext";
-import { ShoppingList, ShoppingListsResponse } from "../../../interfaces/ShoppingInterface";
+import { GenericResponse, ShoppingList } from "../../../interfaces/ShoppingInterface";
 import { User } from "../../../interfaces/UserInterface";
 import { getShoppingLists } from "../../../infrastructure/services/shopping-lists.service";
 import { errorLog } from "../../../utils/HandlerError";
@@ -49,13 +49,13 @@ export const useFetchShoppingLists = (user: User) => {
                 })
 
                 setIsLoadingInfinite(true)
-                const response: ShoppingListsResponse = await getShoppingLists(user!, pageable)
+                const response: GenericResponse<ShoppingList> = await getShoppingLists(user!, pageable)
                 const dataShowed = response.body.content
 
                 setTotalElements(response.body.totalElements)
                 setPageable({
                     ...pageable,
-                    currentPage: parseInt(response.body.page),
+                    currentPage: (response.body.pageable.pageNumber),
                     totalPages: response.body.totalPages
                 })
 
@@ -75,7 +75,7 @@ export const useFetchShoppingLists = (user: User) => {
 
     const fetchShoppingLists = async (user: User) => {
         try {
-            const response: ShoppingListsResponse = await getShoppingLists(user!, {
+            const response: GenericResponse<ShoppingList> = await getShoppingLists(user!, {
                 currentPage: 0,
                 size: 10,
                 totalPages: 0

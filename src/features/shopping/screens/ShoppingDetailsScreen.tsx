@@ -107,7 +107,7 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
         title={shoppingList.nombre}
         code={shoppingList.codigoGenerado}
         idListaCompras={shoppingList.id}
-        idUsuarioCreador={shoppingList.idUsuarioCreador}
+        idUsuarioCreador={shoppingList.usuarioCreadorId}
         estado={shoppingList.estado}
       />
 
