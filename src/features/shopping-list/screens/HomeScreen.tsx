@@ -85,7 +85,8 @@ const HomeScreen = () => {
             <ShoppingListCardComponent buysList={item} />
           )}
           refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} 
+            colors={["#3c3b3f"]}  progressBackgroundColor={"#eacbff"} />
           }
           onEndReachedThreshold={0.45}
           onEndReached={onInfiniteScroll}
