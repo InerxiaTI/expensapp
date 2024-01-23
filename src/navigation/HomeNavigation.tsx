@@ -1,4 +1,4 @@
-import { CardStyleInterpolators, createStackNavigator } from "@react-navigation/stack";
+import { CardStyleInterpolators, HeaderStyleInterpolators, createStackNavigator } from "@react-navigation/stack";
 import AddExpenseScreen from "../features/add-shopping/screens/AddExpenseScreen";
 import HomeScreen from "../features/shopping-list/screens/HomeScreen";
 import ShoppingDetailsScreen from "../features/shopping/screens/ShoppingDetailsScreen";
@@ -26,26 +26,40 @@ export const HomeNavigation = () => {
             <HomeStack.Screen name="ShoppingDetails" component={ShoppingDetailsScreen} 
             options={{
                 title: 'ShoppingDetails',
-                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS ,
+                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+                headerStyleInterpolator: HeaderStyleInterpolators.forSlideLeft ,
+                presentation: "card",
              }}
             />
-            <HomeStack.Screen name="AddExpense" component={AddExpenseScreen} options={{ presentation: "modal"}} />
+            <HomeStack.Screen name="AddExpense" component={AddExpenseScreen} 
+                options={{ 
+                    presentation: "modal",
+                    cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
+
+                }} 
+            />
             <HomeStack.Screen name="AddCollaboratorAsShopper" component={AddCollaboratorAsShopperScreen} 
             options={{
-                title: 'ShoppingDetails',
-                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS ,
+                title: 'AddCollaboratorAsShopper',
+                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+                presentation: "card",
+
              }}
             />
             <HomeStack.Screen name="Collaborators" component={CollaboratorsScreen} 
                 options={{
-                    title: 'ShoppingDetails',
-                    cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS ,
+                    title: 'Collaborators',
+                    cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+                    presentation: "card"
+
                  }}
             />
             <HomeStack.Screen name="AssignPercentageCollaborator" component={AssignPercentageCollaboratorScreen} 
             options={{
-                title: 'ShoppingDetails',
+                title: 'AssignPercentageCollaborator',
                 cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS ,
+                presentation: "card",
+
              }}
             />
         </HomeStack.Navigator>
