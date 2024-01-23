@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Dimensions, KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableOpacity, View, ToastAndroid, ActivityIndicator, BackHandler } from 'react-native';
+import { Dimensions, Platform, StyleSheet, Text, TouchableOpacity, View, ToastAndroid, BackHandler } from 'react-native';
 import { ScrollView, TextInput } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { AuthContext } from '../context/AuthContext'
@@ -35,9 +35,6 @@ const LoginScreen = () => {
     }
 
   })
-
-
-
 
   const handleAuth = async () => {
     setIsDisabled(true)
