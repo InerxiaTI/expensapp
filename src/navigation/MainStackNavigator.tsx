@@ -13,6 +13,7 @@ import { infoLog } from '../utils/HandlerError';
 import LanguageScreen from '../screens/LanguageScreen';
 import LoadingComponent from '../components/LoadingComponent';
 import CategoriesScreen from '../features/categories/screens/CategoriesScreen';
+import AddCategoriesScreen from '../features/categories/screens/AddCategoriesScreen';
 
 export type RootStackParams = {
   Auth: undefined,
@@ -30,7 +31,8 @@ export type RootStackParams = {
   AssignPercentageCollaborator: any,
   ErrorInesperado: any,
   Categories: any,
-  CategoriesList: any
+  CategoriesList: any,
+  AddCategories: any
 
 }
 
@@ -65,6 +67,7 @@ export const CategoriesStack = () => {
         }
       }}>
       <Stack.Screen name="CategoriesList" component={CategoriesScreen} />
+      <Stack.Screen name="AddCategories" component={AddCategoriesScreen} />
     </Stack.Navigator>
   )
 }

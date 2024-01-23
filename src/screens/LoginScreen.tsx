@@ -131,7 +131,7 @@ const LoginScreen = () => {
 
 
   return (
-    <BaseScreenComponent>
+    <BaseScreenComponent statusBarColor='transparent'>
 
       <ScrollView
         contentContainerStyle={{

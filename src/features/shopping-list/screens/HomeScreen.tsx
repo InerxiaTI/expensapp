@@ -28,23 +28,29 @@ const HomeScreen = () => {
   }
 
   return (
-    <BaseScreenComponent style={{ paddingHorizontal: 10 }}>
+    <BaseScreenComponent noHeaderShown={true}>
 
-      <Text style={{
-        color: '#6B7280',
-        fontSize: 18,
-        fontWeight: 'normal',
-        letterSpacing: 3,
-        opacity: 0.7
-      }}>Hola,</Text>
+      <View
+        style={{
+          paddingHorizontal: 10,
+        }}
+      >
+        <Text style={{
+          color: '#6B7280',
+          fontSize: 18,
+          fontWeight: 'normal',
+          letterSpacing: 3,
+          opacity: 0.7
+        }}>Hola,</Text>
 
-      <Text style={{
-        color: '#6B7280',
-        fontSize: 24,
-        fontWeight: 'bold',
-        letterSpacing: 1,
-        marginBottom: 10
-      }}>   {user?.nombres}</Text>
+        <Text style={{
+          color: '#6B7280',
+          fontSize: 24,
+          fontWeight: 'bold',
+          letterSpacing: 1,
+          marginBottom: 10
+        }}>   {user?.nombres}</Text>
+      </View>
       {/* Header Home */}
       {/* <HeaderHomeComponent /> */}
 
@@ -54,7 +60,8 @@ const HomeScreen = () => {
         fontSize: 24,
         fontWeight: 'bold',
         letterSpacing: 1,
-        marginVertical: 10
+        marginVertical: 10,
+        paddingHorizontal: 10,
       }}>Listas de compras ({totalElements})</Text>
 
       <View
@@ -62,6 +69,7 @@ const HomeScreen = () => {
           flex: 1,
           borderColor: 'blue',
           borderWidth: 0,
+          paddingHorizontal: 10
 
         }}
       >

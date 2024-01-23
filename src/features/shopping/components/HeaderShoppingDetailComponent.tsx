@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { View, TouchableOpacity, Modal, Text, TouchableWithoutFeedback, StyleSheet, Platform, ToastAndroid, ActivityIndicator, SafeAreaView } from 'react-native'
+import { View, TouchableOpacity, Modal, Text, TouchableWithoutFeedback, StyleSheet, Platform, ToastAndroid, ActivityIndicator } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import Clipboard from '@react-native-clipboard/clipboard';
@@ -32,7 +32,7 @@ const HeaderShoppingDetailComponent = ({
   const navigator = useNavigation();
   const { authState } = useContext(AuthContext);
   const { shoppingState, setRefreshShoppings } = useContext(ShoppingContext);
-  const { hideContextMenu, showContextMenu,isContextMenuVisible } = useContextMenu()
+  const { hideContextMenu, showContextMenu, isContextMenuVisible } = useContextMenu()
   const { hideConfirmationDialog, showConfirmationDialog, confirmationVisible } = useConfirmDialog()
 
   const { setIsLoading, saveStartShoppingList } = useStartShoppingList()
@@ -123,7 +123,7 @@ const HeaderShoppingDetailComponent = ({
         } catch (error) {
           //console.error("Falla al guardar: " + error);
           errorLog("No se pudo iniciar lista de compras", error)
-          if (error!.response.data.message === 'TOTAL_PERCENTAGES_MUST_BE_100_PERCENT'){
+          if (error!.response.data.message === 'TOTAL_PERCENTAGES_MUST_BE_100_PERCENT') {
             ToastAndroid.showWithGravity("Total porcentaje debe ser 100", ToastAndroid.LONG, 1)
           } else {
             ToastAndroid.showWithGravity("No se pudo iniciar lista de compras", ToastAndroid.LONG, 1)
@@ -225,69 +225,69 @@ const HeaderShoppingDetailComponent = ({
         visible={isContextMenuVisible}
         onRequestClose={hideContextMenu}
       >
-        <SafeAreaView style={{ flex: 0, backgroundColor: 'transparent' }}/>
-        <SafeAreaView style={{ flex: 1, backgroundColor: 'trasnparent' }}>
-        <TouchableWithoutFeedback onPress={hideContextMenu}>
-          <View
-            style={{
-              borderColor: 'red',
-              borderWidth: 0,
-              flex: 1,
-              justifyContent: 'flex-start',
-              alignItems: 'flex-end',
-              backgroundColor: 'transparent'
-            }}
-          >
+        <View style={{flex: 2}}>
 
+          {/* <StatusBar barStyle="dark-content" backgroundColor={'red'} /> */}
+          <TouchableWithoutFeedback onPress={hideContextMenu}>
             <View
               style={{
-                width: 150,
-                backgroundColor: '#262626',
-                borderRadius: 8,
-                marginEnd: 10,
-                marginTop: 10,
-                paddingVertical: 15,
-                paddingLeft: 10,
-                paddingTop: 10,
-                gap: 10
+                borderColor: 'red',
+                borderWidth: 0,
+                flex: 1,
+                justifyContent: 'flex-start',
+                alignItems: 'flex-end',
+                backgroundColor: 'transparent'
               }}
             >
-              <TouchableOpacity
-                onPress={handleCopyToClipboard}
+
+              <View
                 style={{
-                  flexDirection: 'row',
-                  borderColor: 'red',
-                  borderWidth: 0,
-                  gap: 5
+                  width: 150,
+                  backgroundColor: '#262626',
+                  borderRadius: 8,
+                  marginEnd: 10,
+                  marginTop: 10,
+                  paddingVertical: 15,
+                  paddingLeft: 10,
+                  paddingTop: 10,
+                  gap: 10
                 }}
-
               >
-                <Icon name='content-copy' size={20} color={'white'} />
-                <Text style={styles.contextMenu}>{code}</Text>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={handleCopyToClipboard}
+                  style={{
+                    flexDirection: 'row',
+                    borderColor: 'red',
+                    borderWidth: 0,
+                    gap: 5
+                  }}
+
+                >
+                  <Icon name='content-copy' size={20} color={'white'} />
+                  <Text style={styles.contextMenu}>{code}</Text>
+                </TouchableOpacity>
 
 
-              <TouchableOpacity
-                onPress={() => goCollaboratorsScreen()}
-                style={{
-                  flexDirection: 'row',
-                  borderColor: 'red',
-                  borderWidth: 0,
-                  gap: 5
-                }}
+                <TouchableOpacity
+                  onPress={() => goCollaboratorsScreen()}
+                  style={{
+                    flexDirection: 'row',
+                    borderColor: 'red',
+                    borderWidth: 0,
+                    gap: 5
+                  }}
 
-              >
-                <Icon name='account-group-outline' size={20} color={'white'} />
-                <Text style={styles.contextMenu}>Colaboradores</Text>
-              </TouchableOpacity>
+                >
+                  <Icon name='account-group-outline' size={20} color={'white'} />
+                  <Text style={styles.contextMenu}>Colaboradores</Text>
+                </TouchableOpacity>
+
+              </View>
 
             </View>
+          </TouchableWithoutFeedback>
 
-          </View>
-        </TouchableWithoutFeedback>
-  </SafeAreaView>
-
-       
+        </View>
       </Modal>
     </>
   )

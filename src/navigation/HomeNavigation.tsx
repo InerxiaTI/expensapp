@@ -1,4 +1,4 @@
-import { CardStyleInterpolators, TransitionSpecs, createStackNavigator } from "@react-navigation/stack";
+import { CardStyleInterpolators, createStackNavigator } from "@react-navigation/stack";
 import AddExpenseScreen from "../features/add-shopping/screens/AddExpenseScreen";
 import HomeScreen from "../features/shopping-list/screens/HomeScreen";
 import ShoppingDetailsScreen from "../features/shopping/screens/ShoppingDetailsScreen";
@@ -12,12 +12,13 @@ const HomeStack = createStackNavigator<RootStackParams>();
 export const HomeNavigation = () => {
     return (
         <HomeStack.Navigator
+            
             initialRouteName='Home'
             screenOptions={{
                 headerShown: false,
                 headerStyle: {
                     elevation: 0,
-                    shadowColor: 'transparent',
+                    shadowColor: '#3f007b',
                     }
             }}
         >
@@ -29,9 +30,24 @@ export const HomeNavigation = () => {
              }}
             />
             <HomeStack.Screen name="AddExpense" component={AddExpenseScreen} options={{ presentation: "modal"}} />
-            <HomeStack.Screen name="AddCollaboratorAsShopper" component={AddCollaboratorAsShopperScreen} />
-            <HomeStack.Screen name="Collaborators" component={CollaboratorsScreen} />
-            <HomeStack.Screen name="AssignPercentageCollaborator" component={AssignPercentageCollaboratorScreen} />
+            <HomeStack.Screen name="AddCollaboratorAsShopper" component={AddCollaboratorAsShopperScreen} 
+            options={{
+                title: 'ShoppingDetails',
+                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS ,
+             }}
+            />
+            <HomeStack.Screen name="Collaborators" component={CollaboratorsScreen} 
+                options={{
+                    title: 'ShoppingDetails',
+                    cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS ,
+                 }}
+            />
+            <HomeStack.Screen name="AssignPercentageCollaborator" component={AssignPercentageCollaboratorScreen} 
+            options={{
+                title: 'ShoppingDetails',
+                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS ,
+             }}
+            />
         </HomeStack.Navigator>
     )
 }

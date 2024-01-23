@@ -1,9 +1,9 @@
 import React, { useRef, useState, useEffect, useContext } from 'react'
-import {  Image, StyleSheet, Text, TextInput, ToastAndroid, View } from 'react-native'
+import { Image, StyleSheet, Text, TextInput, ToastAndroid, View } from 'react-native'
 import expenseBanner from '../../../../assets/expenseBanner.png';
 import BaseScreenComponent from '../../../components/BaseScreenComponent';
 import { GenericHeaderComponent } from '../../../components/GenericHeaderComponent';
-import { useIsFocused } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { AuthContext } from '../../../context/AuthContext';
 import InputV1Component from '../../../components/inputs/InputV1Component';
 import { ButtonV2Component } from '../../../components/buttons/ButtonV2Component';
@@ -16,6 +16,8 @@ import ConfirmDialogComponent from '../../../components/base/ConfirmDialogCompon
 const NewShoppingListScreen = () => {
 
   const { authState } = useContext(AuthContext);
+  const navigator = useNavigation();
+
   const user = authState.user
 
   const isFocused = useIsFocused();
@@ -27,6 +29,27 @@ const NewShoppingListScreen = () => {
   const [habilitarBoton, setHabilitarBoton] = useState(false)
   const inputRef = useRef<TextInput>(null);
 
+  React.useEffect(() => {
+    // Use `setOptions` to update the button that we previously specified
+    // Now the button includes an `onPress` handler to update the count
+    navigator.setOptions({
+      headerStyle: {
+        backgroundColor: 'white',
+      },
+      headerShown: true,
+      header: () => (
+        <GenericHeaderComponent title='Crear lista'>
+          <>
+            <ToolItemComponent
+              onPress={resetFields}
+              icon='reload'
+            />
+          </>
+        </GenericHeaderComponent>
+      ),
+
+    });
+  }, [navigator]);
 
   const handleOnTextChange = (textValue: string) => {
     setTextValue(textValue)
@@ -123,16 +146,6 @@ const NewShoppingListScreen = () => {
 
   return (
     <BaseScreenComponent>
-
-      <GenericHeaderComponent title='Crear lista' showArrowBack>
-        <>
-          <ToolItemComponent
-            onPress={resetFields}
-            icon='reload'
-          />
-
-        </>
-      </GenericHeaderComponent>
 
       {/* Imagen */}
 

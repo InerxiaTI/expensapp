@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import BaseHeaderComponent from './BaseHeaderComponent'
 import { Text, TouchableOpacity, View } from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useNavigation } from '@react-navigation/native'
-import { COLORS } from '../../theme/Theme'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 interface HeaderContainerProps {
 	title?: string,
@@ -15,6 +14,7 @@ const HeaderContainerComponent = ({ title = '', showArrowBack = false, children 
 	const navigator = useNavigation();
 	const [paddingOnlyText, setPaddingOnlyText] = useState(0)
 
+
 	useEffect(() => {
 
 		if (!showArrowBack) {
@@ -25,13 +25,13 @@ const HeaderContainerComponent = ({ title = '', showArrowBack = false, children 
 
 
 	return (
-		<View style={{
+		<SafeAreaView style={{
 			flexDirection: 'row',
 			justifyContent: 'space-between',
 			borderWidth: 0,
 			borderColor: 'red',
 			width: '100%',
-			backgroundColor: '#3f007b',
+			backgroundColor: '#3c3b3f',
 		}}>
 			<>
 				{/* Header Left */}
@@ -98,7 +98,7 @@ const HeaderContainerComponent = ({ title = '', showArrowBack = false, children 
 				</View>
 			</>
 
-		</View>
+		</SafeAreaView>
 
 	)
 }

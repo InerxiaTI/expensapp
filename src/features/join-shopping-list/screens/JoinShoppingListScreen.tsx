@@ -1,6 +1,6 @@
 import React, { useContext, useRef, useState } from 'react'
 import BaseScreenComponent from '../../../components/BaseScreenComponent'
-import { Image, StyleSheet, TextInput, ToastAndroid, View } from 'react-native'
+import { Image, TextInput, ToastAndroid, View } from 'react-native'
 import { GenericHeaderComponent } from '../../../components/GenericHeaderComponent'
 import expenseBanner from '../../../../assets/expenseBanner.png';
 import InputV1Component from '../../../components/inputs/InputV1Component';
@@ -8,10 +8,12 @@ import { AuthContext } from '../../../context/AuthContext';
 import { ButtonV2Component } from '../../../components/buttons/ButtonV2Component';
 import { useJoinShoppingList } from '../hooks/useJoinShoppingList';
 import { errorLog } from '../../../utils/HandlerError';
+import { useNavigation } from '@react-navigation/native';
 
 const JoinShoppingListScreen = () => {
 
   const { authState } = useContext(AuthContext);
+  const navigator = useNavigation();
   console.log("auth: ", authState);
   const user = authState.user
 
@@ -20,6 +22,21 @@ const JoinShoppingListScreen = () => {
   const [habilitarBoton, setHabilitarBoton] = useState(false)
   const inputRef = useRef<TextInput>(null);
 
+  
+  React.useEffect(() => {
+    // Use `setOptions` to update the button that we previously specified
+    // Now the button includes an `onPress` handler to update the count
+    navigator.setOptions({
+      headerStyle: {
+        backgroundColor: 'white',
+      },
+      headerShown: true,
+      header: () => (
+        <GenericHeaderComponent title='Unirse'/>
+      ),
+
+    });
+  }, [navigator]);
 
   const handleOnTextChange = (textValue: string) => {
     setTextValue(textValue)
@@ -58,9 +75,6 @@ const JoinShoppingListScreen = () => {
   return (
     <BaseScreenComponent>
 
-
-      <GenericHeaderComponent title='Unirse' showArrowBack/>
-
       {/* Imagen */}
 
       <View style={{
@@ -69,8 +83,6 @@ const JoinShoppingListScreen = () => {
         borderWidth: 0,
         borderColor: 'red'
       }}>
-
-
 
         <Image
           source={expenseBanner}

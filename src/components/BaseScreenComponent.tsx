@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Platform, StatusBar, StyleProp, View, ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useFocusEffect } from '@react-navigation/native';
@@ -9,18 +9,18 @@ interface BaseScreenProps {
   screen?: string
   statusBarColor?: string, 
   style?: StyleProp<ViewStyle>,
-  headerShown?: boolean
+  noHeaderShown?: boolean
 }
 
-const BaseScreenComponent = ({ children, style, screen, statusBarColor='transparent', headerShown=false}: BaseScreenProps) => {
+const BaseScreenComponent = ({ children, style, screen, statusBarColor='#3c3b3f', noHeaderShown=false}: BaseScreenProps) => {
 
   const { top } = useSafeAreaInsets();
 
   useFocusEffect(
     useCallback(() => {
       if(Platform.OS === 'android'){
-        if (screen == 'Settings' && statusBarColor) {
-          StatusBar.setBackgroundColor(statusBarColor);
+        if (screen == 'Settings') {
+          StatusBar.setBackgroundColor("#3f007b");
         } else {
           StatusBar.setBackgroundColor(statusBarColor)
         }
@@ -32,12 +32,14 @@ const BaseScreenComponent = ({ children, style, screen, statusBarColor='transpar
     <View
       style={{
         flex: 1,
-        paddingTop: top,
+        paddingTop: noHeaderShown?top:0,
         borderWidth: 0,
         borderColor: 'yellow',
         ...style as any
       }}
     >
+
+
       {children}
     </View>
   )

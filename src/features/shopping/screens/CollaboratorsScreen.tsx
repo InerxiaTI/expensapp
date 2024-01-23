@@ -25,6 +25,22 @@ const CollaboratorsScreen = ({ route, navigation }: CollaboratorsScreenProps) =>
   const approvedCollaborators = collaborators.filter(collaborator => collaborator.estado === 'APROBADO');
   const pendingCollaborators = collaborators.filter(collaborator => collaborator.estado === 'PENDIENTE');
 
+  React.useEffect(() => {
+    // Use `setOptions` to update the button that we previously specified
+    // Now the button includes an `onPress` handler to update the count
+    navigation.setOptions({
+      headerStyle: {
+        backgroundColor: 'white',
+      },
+      headerShown: true,
+      header: () => (
+        <GenericHeaderComponent title='Colaboradores' showArrowBack />
+
+      ),
+
+    });
+  }, [navigation]);
+
   const updateCollaboratorsList = async () => {
     reloadCollaborators()
   };
@@ -36,8 +52,6 @@ const CollaboratorsScreen = ({ route, navigation }: CollaboratorsScreenProps) =>
 
   return (
     <BaseScreenComponent>
-
-      <GenericHeaderComponent title='Colaboradores' showArrowBack />
 
       <View
         style={{
@@ -105,9 +119,6 @@ const CollaboratorsScreen = ({ route, navigation }: CollaboratorsScreenProps) =>
           )
 
         }
-
-
-
 
       </View>
     </BaseScreenComponent>

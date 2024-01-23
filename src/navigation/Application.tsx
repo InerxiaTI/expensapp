@@ -48,7 +48,7 @@ const Application = () => {
         <ShoppingProvider>
           <ShoppingV2Provider>
           <TabBarProvider>
-            <StatusBar animated={true} translucent backgroundColor="transparent" barStyle="default" />
+            <StatusBar animated={true} translucent backgroundColor="#3c3b3f" barStyle="default" />
             <MainStackNavigator />
           </TabBarProvider>
           </ShoppingV2Provider>

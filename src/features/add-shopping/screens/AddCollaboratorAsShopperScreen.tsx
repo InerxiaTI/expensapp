@@ -1,6 +1,6 @@
 import React from 'react'
 import BaseScreenComponent from '../../../components/BaseScreenComponent'
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { ScrollView, View } from 'react-native'
 import { StackScreenProps } from '@react-navigation/stack'
 import { RootStackParams } from '../../../navigation/MainStackNavigator'
 import { CreateShoppingRequest } from '../../../interfaces/ShoppingInterface'
@@ -29,6 +29,24 @@ const AddCollaboratorAsShopperScreen = ({ route, navigation }: AddCollaboratorAs
 
 	const { reloadCollaborators, isLoading, collaborators } = useFetchCollaborators(request)
 
+
+	React.useEffect(() => {
+    // Use `setOptions` to update the button that we previously specified
+    // Now the button includes an `onPress` handler to update the count
+    navigation.setOptions({
+      headerStyle: {
+        backgroundColor: 'white',
+      },
+      headerShown: true,
+      header: () => (
+				<GenericHeaderComponent title='Comprador' showArrowBack />
+
+      ),
+
+    });
+  }, [navigation]);
+
+
 	const handleCollaboratorPress = (collaborator: Collaborator) => {
 		infoLog("QQQQQQQQQQQQ: " + JSON.stringify(collaborator))
 		navigation.navigate('AddExpense', { createShoppingRequest: createShopping, collaborator: collaborator });
@@ -36,8 +54,6 @@ const AddCollaboratorAsShopperScreen = ({ route, navigation }: AddCollaboratorAs
 
 	return (
 		<BaseScreenComponent>
-			<GenericHeaderComponent title='Comprador' showArrowBack />
-
 			<View
 				style={{
 					flex: 1,

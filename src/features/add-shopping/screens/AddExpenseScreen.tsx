@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import expenseBanner from '../../../../assets/expenseBanner.png';
 import { getFormatedDate } from 'react-native-modern-datepicker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { KeyboardAvoidingScrollView } from '@cassianosch/react-native-keyboard-sticky-footer-avoiding-scroll-view';
 
 import InputV1Component from '../../../components/inputs/InputV1Component';
@@ -16,7 +15,7 @@ import { useNewShopping } from '../hooks/useNewShopping';
 import { Collaborator } from '../../../interfaces/UserInterface';
 import { useEditShopping } from '../hooks/useEditShopping';
 import { infoLog } from '../../../utils/HandlerError';
-import { ShoppingContext } from '../../../context/ShoppingContext';
+import { GenericHeaderComponent } from '../../../components/GenericHeaderComponent';
 
 
 interface AddExpenseScreenProps extends StackScreenProps<RootStackParams, 'AddExpense'> { }
@@ -40,6 +39,21 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 	const addExpenseParams: AddExpenseParams = route.params
 
 	console.log("createShopping: " + JSON.stringify(addExpenseParams));
+	
+	React.useEffect(() => {
+    // Use `setOptions` to update the button that we previously specified
+    // Now the button includes an `onPress` handler to update the count
+    navigation.setOptions({
+      headerStyle: {
+        backgroundColor: 'white',
+      },
+      headerShown: true,
+      header: () => (
+				<GenericHeaderComponent title='Agregar compra' />
+      ),
+
+    });
+  }, [navigation]);
 
 	const handleCompraChange = (text: string) => {
 		setCompra(text);
@@ -189,7 +203,7 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 
 	return (
 
-		<SafeAreaView style={styles.container}>
+		<View style={styles.container}>
 			<KeyboardAvoidingScrollView
 				containerStyle={styles.container}
 				contentContainerStyle={styles.content}
@@ -334,7 +348,7 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 				/>
 
 			</KeyboardAvoidingScrollView>
-		</SafeAreaView>
+		</View>
 
 	)
 }
@@ -360,6 +374,8 @@ const styles = StyleSheet.create({
 	},
 	container: {
 		flex: 1,
+		borderWidth: 1,
+		borderColor: 'red'
 	},
 	content: {
 		padding: 16,
