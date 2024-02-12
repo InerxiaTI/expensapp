@@ -6,7 +6,7 @@ import { ShoppingContext } from "../../../context/ShoppingContext"
 export const useNewShopping = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [shopping, setShopping] = useState<CreateShopping>()
-    const { setRefreshShoppings, setIsFocusFetchShoppings} = useContext(ShoppingContext);
+    const { setRefreshShoppings, setIsFocusFetchShoppings, setRefreshHome} = useContext(ShoppingContext);
 
 
 
@@ -17,6 +17,7 @@ export const useNewShopping = () => {
             console.log("response: "+JSON.stringify(response));
             setRefreshShoppings(true)
             setIsFocusFetchShoppings(true)
+            setRefreshHome(true)
             setShopping(response)
         } catch (error) {
             console.error("ERROR °°°°°°°°°°°° ", error.response.data);

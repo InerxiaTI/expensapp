@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import expenseBanner from '../../../../assets/expenseBanner.png';
 import { getFormatedDate } from 'react-native-modern-datepicker';
@@ -14,14 +14,18 @@ import { ButtonV2Component } from '../../../components/buttons/ButtonV2Component
 import { useNewShopping } from '../hooks/useNewShopping';
 import { Collaborator } from '../../../interfaces/UserInterface';
 import { useEditShopping } from '../hooks/useEditShopping';
-import { infoLog } from '../../../utils/HandlerError';
+import { errorLog, infoLog } from '../../../utils/HandlerError';
 import { GenericHeaderComponent } from '../../../components/GenericHeaderComponent';
+import { AuthContext } from '../../../context/AuthContext';
 
 
 interface AddExpenseScreenProps extends StackScreenProps<RootStackParams, 'AddExpense'> { }
 
 
 const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
+
+	const {authState} = useContext(AuthContext);
+  const user = authState.user
 
 	const { isLoading, setIsLoading, shopping, saveShopping} = useNewShopping()
 	const { isLoading: isLoadingEdit, setIsLoading: setIsLoadingEdit, updateShopping} = useEditShopping()
@@ -116,9 +120,12 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 
 
 		const editShopping = addExpenseParams.editShoppingRequest
+		infoLog(JSON.stringify(editShopping), "EDITAR ");
 		editShopping!.descripcion = compra
 		editShopping!.fechaCompra = getFormatedDate(date, "YYYY-MM-DD")
+		infoLog("selected: " + JSON.stringify(selectedCollaborator))
 		editShopping!.idUsuarioCompra = selectedCollaborator.idUsuario
+		editShopping!.idUsuarioRegistro = user!.id
 		editShopping!.valor = Number(valorCompra)
 
 		setIsLoadingEdit(true);
@@ -145,7 +152,7 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 	const handleOnPress = async () => {
 
 		const createShoppig = addExpenseParams.createShoppingRequest
-		const idUsuarioCompra = selectedCollaborator.idUsuario ? selectedCollaborator.idUsuario : createShoppig?.idUsuarioCompra
+		const idUsuarioCompra = selectedCollaborator.idUsuario ? selectedCollaborator!.idUsuario : createShoppig!.idUsuarioCompra
 
 		const createShoppingRequest: CreateShoppingRequest = {
 			...createShoppig,
@@ -179,13 +186,15 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 	}
 
 	useEffect(() => {
+		infoLog("USE 1 "+JSON.stringify(addExpenseParams.editShoppingRequest));
 
 		if(addExpenseParams.editShoppingRequest!==undefined){
+			infoLog("USE EFFECT "+JSON.stringify(addExpenseParams.editShoppingRequest))
 			setButtonTitle("Editar compra")
 			setEditarCompra(true)
 			console.log("vamos a editar");
 			setDate(new Date(addExpenseParams.editShoppingRequest.fechaCompra))
-			setSelectedCollaborator({id: addExpenseParams.editShoppingRequest.idUsuarioCompra})
+			setSelectedCollaborator({idUsuario: addExpenseParams.editShoppingRequest.idUsuarioCompra})
 			const {formattedValue, numericValue} = formatValorVisible(addExpenseParams.editShoppingRequest.valor.toString())
 			setValorCompraVisible(formattedValue)
 			setValorCompra(numericValue)

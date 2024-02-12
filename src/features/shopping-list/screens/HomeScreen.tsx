@@ -88,7 +88,7 @@ const HomeScreen = () => {
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} 
             colors={["#3c3b3f"]}  progressBackgroundColor={"#eacbff"} />
           }
-          onEndReachedThreshold={0.45}
+          onEndReachedThreshold={0.20}
           onEndReached={onInfiniteScroll}
           ListFooterComponent={
 

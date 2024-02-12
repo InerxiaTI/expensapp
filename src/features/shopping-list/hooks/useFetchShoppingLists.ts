@@ -4,7 +4,7 @@ import { ShoppingContext } from "../../../context/ShoppingContext";
 import { GenericResponse, ShoppingList } from "../../../interfaces/ShoppingInterface";
 import { User } from "../../../interfaces/UserInterface";
 import { getShoppingLists } from "../../../infrastructure/services/shopping-lists.service";
-import { errorLog } from "../../../utils/HandlerError";
+import { errorLog, infoLog } from "../../../utils/HandlerError";
 
 
 
@@ -26,6 +26,8 @@ export const useFetchShoppingLists = (user: User) => {
         useCallback(() => {
 
             if(shoppingState.refreshHome) {
+                infoLog("SE ACTUALIZA POR AQUI 2")
+
                 fetchShoppingLists(user!)
             }
 
@@ -35,6 +37,7 @@ export const useFetchShoppingLists = (user: User) => {
 	)
 
     useEffect(()=>{
+        infoLog("SE ACTUALIZA POR AQUI")
         fetchShoppingLists(user!)
     },[])
 
@@ -101,6 +104,8 @@ export const useFetchShoppingLists = (user: User) => {
     }
 
     const onRefresh = () => {
+        infoLog("SE ACTUALIZA POR AQUI 3")
+
         setRefreshing(true)
         fetchShoppingLists(user!)
         setRefreshing(false);
@@ -108,6 +113,7 @@ export const useFetchShoppingLists = (user: User) => {
     };
 
     const onInfiniteScroll = () => {
+        infoLog("SE ACTUALIZA POR AQUI 4")
         fetchShoppingListsInfinite(user!)
     }
 
