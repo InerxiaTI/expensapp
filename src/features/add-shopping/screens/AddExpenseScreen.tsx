@@ -53,7 +53,7 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
       },
       headerShown: true,
       header: () => (
-				<GenericHeaderComponent title='Agregar compra' />
+				<GenericHeaderComponent title='Agregar compra' showArrowBack />
       ),
 
     });
@@ -383,7 +383,7 @@ const styles = StyleSheet.create({
 	},
 	container: {
 		flex: 1,
-		borderWidth: 1,
+		borderWidth: 0,
 		borderColor: 'red'
 	},
 	content: {

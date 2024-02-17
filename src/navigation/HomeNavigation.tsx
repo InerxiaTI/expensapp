@@ -33,8 +33,8 @@ export const HomeNavigation = () => {
             />
             <HomeStack.Screen name="AddExpense" component={AddExpenseScreen} 
                 options={{ 
-                    presentation: "modal",
-                    cardStyleInterpolator: CardStyleInterpolators.forModalPresentationIOS,
+                    presentation: "card",
+                    cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
 
                 }} 
             />
