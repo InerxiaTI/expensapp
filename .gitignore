@@ -64,3 +64,10 @@ yarn-error.log
 
 # testing
 /coverage
+
+ios/Podfile.lock
+
+ios/ExpensApp.xcodeproj/project.pbxproj
+ios/ExpensApp.xcworkspace/contents.xcworkspacedata
+ios/ExpensApp.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
+

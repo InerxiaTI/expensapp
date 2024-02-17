@@ -1,4 +1,5 @@
-const HOST = 'http://192.168.1.161:3000'
+//const HOST = 'https://api.expenseapp.ritallus.com/expensemate-api'
+const HOST = 'http://192.168.1.250:8080/expensemate-api'
 
 const CONFIGS = {
     ENV: 'qa-rpi',

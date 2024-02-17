@@ -1,5 +1,5 @@
 import { useState } from "react"
-import expenseMateApi from "../api/expenseMateApi"
+import expenseMateApi from "../infrastructure/api/expenseMateApi"
 import { User, UserLoggedResponse, UserLoginRequest } from "../interfaces/UserInterface"
 
 export const useLogin = () => {
@@ -11,25 +11,25 @@ export const useLogin = () => {
     const validateUser = async (correo: string, pass: string) => {
 
         const request: UserLoginRequest = {
-            correo,
+            email:correo,
             pass
         }
 
         console.log("3. request login: " + JSON.stringify(request));
-        
+
 
         try {
             console.log("4.");
 
             const response = await expenseMateApi.post<UserLoggedResponse>(
-                '/api/usuario/login', 
+                '/usuario/login',
                 request
             )
             console.log("5.");
             console.log("response: "+JSON.stringify(response.data.body));
             if (response.status === 200 || response.status === 201) {
                 console.log("5.1");
-                
+
                 setUserData(response.data.body)
             }
             console.log("5.2");
@@ -37,7 +37,7 @@ export const useLogin = () => {
 
             return response
 
-            
+
         } catch (error) {
             if (error.response && error.response.status === 400) {
                 console.info(JSON.stringify(error.response.data)+" ....");
