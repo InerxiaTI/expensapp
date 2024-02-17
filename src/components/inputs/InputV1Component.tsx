@@ -33,7 +33,12 @@ const InputV1Component = ({
             }}
         >
             <Text style={styles.textInfoInput}>{title}</Text>
-            <View style={styles.searchContainer}>
+            <View 
+                style={{
+                    ...styles.searchContainer,
+                    borderWidth: !editable ? 0: 1
+                }}
+            >
                 <TextInput
                     editable={editable}
                     value={value}
@@ -41,7 +46,7 @@ const InputV1Component = ({
                     keyboardType={keyboardType} 
                     placeholder={placeholder}
                     placeholderTextColor={'#6B7280'}
-                    style={styles.searchTextInput}
+                    style={{...styles.searchTextInput, color: !editable? '#6B7280': 'white'}}
                     autoFocus={autoFocus}
                     ref={textInputRef}
                     autoCapitalize={autoCapitalize}

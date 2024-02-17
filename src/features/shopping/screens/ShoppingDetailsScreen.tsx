@@ -208,7 +208,7 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
           data={shoppingDetailList}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <ShoppingCardComponent shopping={item}/>
+            <ShoppingCardComponent shopping={item} shoppingListState={shoppingList.estado}/>
           )}
           showsVerticalScrollIndicator={false}
 
@@ -217,7 +217,7 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
 
       </View>
       {
-        shoppingList.estado !== 'CONFIGURANDO'
+        (shoppingList.estado !== 'CONFIGURANDO' && shoppingList.estado !== 'EN_CIERRE')
           ?
           <FloatingActionButton
             title={'cart-plus'}

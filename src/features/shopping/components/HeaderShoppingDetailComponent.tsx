@@ -161,6 +161,8 @@ const HeaderShoppingDetailComponent = ({
       setIconActionButton('cart-check')
     }
 
+    
+
   }, [])
 
   return (
@@ -214,7 +216,7 @@ const HeaderShoppingDetailComponent = ({
         visible={confirmationVisible}
         onRequestClose={hideConfirmationDialog}
         onConfirm={handleConfirmAction}
-        question={`¿Desea eliminar la compra ${shoppingState.idShoppingCardSelected}?`}
+        question={`¿Desea eliminar la compra ${shoppingState.shoppingToEdit?.descripcion}?`}
         description='No podrá deshacer esta acción.'
       />
 
