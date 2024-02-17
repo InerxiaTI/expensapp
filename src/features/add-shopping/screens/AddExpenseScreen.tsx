@@ -3,7 +3,6 @@ import { Image, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, Vi
 import expenseBanner from '../../../../assets/expenseBanner.png';
 import { getFormatedDate } from 'react-native-modern-datepicker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { KeyboardAvoidingScrollView } from '@cassianosch/react-native-keyboard-sticky-footer-avoiding-scroll-view';
 
 import InputV1Component from '../../../components/inputs/InputV1Component';
@@ -15,14 +14,18 @@ import { ButtonV2Component } from '../../../components/buttons/ButtonV2Component
 import { useNewShopping } from '../hooks/useNewShopping';
 import { Collaborator } from '../../../interfaces/UserInterface';
 import { useEditShopping } from '../hooks/useEditShopping';
-import { infoLog } from '../../../utils/HandlerError';
-import { ShoppingContext } from '../../../context/ShoppingContext';
+import { errorLog, infoLog } from '../../../utils/HandlerError';
+import { GenericHeaderComponent } from '../../../components/GenericHeaderComponent';
+import { AuthContext } from '../../../context/AuthContext';
 
 
 interface AddExpenseScreenProps extends StackScreenProps<RootStackParams, 'AddExpense'> { }
 
 
 const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
+
+	const {authState} = useContext(AuthContext);
+  const user = authState.user
 
 	const { isLoading, setIsLoading, shopping, saveShopping} = useNewShopping()
 	const { isLoading: isLoadingEdit, setIsLoading: setIsLoadingEdit, updateShopping} = useEditShopping()
@@ -40,6 +43,21 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 	const addExpenseParams: AddExpenseParams = route.params
 
 	console.log("createShopping: " + JSON.stringify(addExpenseParams));
+	
+	React.useEffect(() => {
+    // Use `setOptions` to update the button that we previously specified
+    // Now the button includes an `onPress` handler to update the count
+    navigation.setOptions({
+      headerStyle: {
+        backgroundColor: 'white',
+      },
+      headerShown: true,
+      header: () => (
+				<GenericHeaderComponent title='Agregar compra' showArrowBack />
+      ),
+
+    });
+  }, [navigation]);
 
 	const handleCompraChange = (text: string) => {
 		setCompra(text);
@@ -102,9 +120,12 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 
 
 		const editShopping = addExpenseParams.editShoppingRequest
+		infoLog(JSON.stringify(editShopping), "EDITAR ");
 		editShopping!.descripcion = compra
 		editShopping!.fechaCompra = getFormatedDate(date, "YYYY-MM-DD")
+		infoLog("selected: " + JSON.stringify(selectedCollaborator))
 		editShopping!.idUsuarioCompra = selectedCollaborator.idUsuario
+		editShopping!.idUsuarioRegistro = user!.id
 		editShopping!.valor = Number(valorCompra)
 
 		setIsLoadingEdit(true);
@@ -131,7 +152,7 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 	const handleOnPress = async () => {
 
 		const createShoppig = addExpenseParams.createShoppingRequest
-		const idUsuarioCompra = selectedCollaborator.idUsuario ? selectedCollaborator.idUsuario : createShoppig?.idUsuarioCompra
+		const idUsuarioCompra = selectedCollaborator.idUsuario ? selectedCollaborator!.idUsuario : createShoppig!.idUsuarioCompra
 
 		const createShoppingRequest: CreateShoppingRequest = {
 			...createShoppig,
@@ -165,13 +186,15 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 	}
 
 	useEffect(() => {
+		infoLog("USE 1 "+JSON.stringify(addExpenseParams.editShoppingRequest));
 
 		if(addExpenseParams.editShoppingRequest!==undefined){
+			infoLog("USE EFFECT "+JSON.stringify(addExpenseParams.editShoppingRequest))
 			setButtonTitle("Editar compra")
 			setEditarCompra(true)
 			console.log("vamos a editar");
 			setDate(new Date(addExpenseParams.editShoppingRequest.fechaCompra))
-			setSelectedCollaborator({id: addExpenseParams.editShoppingRequest.idUsuarioCompra})
+			setSelectedCollaborator({idUsuario: addExpenseParams.editShoppingRequest.idUsuarioCompra})
 			const {formattedValue, numericValue} = formatValorVisible(addExpenseParams.editShoppingRequest.valor.toString())
 			setValorCompraVisible(formattedValue)
 			setValorCompra(numericValue)
@@ -189,7 +212,7 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 
 	return (
 
-		<SafeAreaView style={styles.container}>
+		<View style={styles.container}>
 			<KeyboardAvoidingScrollView
 				containerStyle={styles.container}
 				contentContainerStyle={styles.content}
@@ -334,7 +357,7 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 				/>
 
 			</KeyboardAvoidingScrollView>
-		</SafeAreaView>
+		</View>
 
 	)
 }
@@ -360,6 +383,8 @@ const styles = StyleSheet.create({
 	},
 	container: {
 		flex: 1,
+		borderWidth: 0,
+		borderColor: 'red'
 	},
 	content: {
 		padding: 16,

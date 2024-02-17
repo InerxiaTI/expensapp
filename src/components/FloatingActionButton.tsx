@@ -36,7 +36,7 @@ const FloatingActionButton = ({title, onPress, position = "br"}: FabProps) => {
                     background={TouchableNativeFeedback.Ripple('#D7B2FD', false, 30)}
                     onPress={onPress} >
                     <View style={styles.fab}>
-                        <MaterialCommunityIcons name='cart-plus' color={'white'} style={styles.fabText} />
+                        <MaterialCommunityIcons name={title} color={'white'} style={styles.fabText} />
                     </View>
                 </TouchableNativeFeedback>
            </View>

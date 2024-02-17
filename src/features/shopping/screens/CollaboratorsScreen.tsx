@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import BaseScreenComponent from '../../../components/BaseScreenComponent'
 import { ScrollView, Text, View } from 'react-native'
 import { StackScreenProps } from '@react-navigation/stack'
@@ -20,10 +20,26 @@ const CollaboratorsScreen = ({ route, navigation }: CollaboratorsScreenProps) =>
     idListaCompras: collaboratorParams.idListaCompras!
   }
 
-  const { reloadCollaborators, isLoading, collaborators } = useFetchCollaborators(request)
+  const { reloadCollaborators, isLoading, collaborators, totalPorcentaje } = useFetchCollaborators(request)
 
   const approvedCollaborators = collaborators.filter(collaborator => collaborator.estado === 'APROBADO');
   const pendingCollaborators = collaborators.filter(collaborator => collaborator.estado === 'PENDIENTE');
+
+  React.useEffect(() => {
+    // Use `setOptions` to update the button that we previously specified
+    // Now the button includes an `onPress` handler to update the count
+    navigation.setOptions({
+      headerStyle: {
+        backgroundColor: 'white',
+      },
+      headerShown: true,
+      header: () => (
+        <GenericHeaderComponent title='Colaboradores' showArrowBack />
+
+      ),
+
+    });
+  }, [navigation]);
 
   const updateCollaboratorsList = async () => {
     reloadCollaborators()
@@ -37,17 +53,27 @@ const CollaboratorsScreen = ({ route, navigation }: CollaboratorsScreenProps) =>
   return (
     <BaseScreenComponent>
 
-      <GenericHeaderComponent title='Colaboradores s' showArrowBack />
-
       <View
         style={{
           flex: 1,
-          borderWidth: 1,
+          borderWidth: 0,
           borderColor: 'red',
-          marginTop: 0,
+          marginTop: 10,
           paddingHorizontal: 15
         }}
       >
+        <View
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
+            marginVertical: 5
+          }}
+        >
+          <Text style={{color: '#6B7280', fontSize: 14, fontWeight: 'bold'}}>Total porcentaje: </Text>
+          <Text style={{color: 'white', fontSize: 14, fontWeight: 'bold'}}>{totalPorcentaje}%</Text>
+        </View>
+
         <View
           style={{
             flex: 2,
@@ -105,9 +131,6 @@ const CollaboratorsScreen = ({ route, navigation }: CollaboratorsScreenProps) =>
           )
 
         }
-
-
-
 
       </View>
     </BaseScreenComponent>

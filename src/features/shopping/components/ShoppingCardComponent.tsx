@@ -11,10 +11,11 @@ import { getFormatedDate } from 'react-native-modern-datepicker';
 
 interface ShoppingCardProps {
   shopping: Shopping,
+  shoppingListState: string
 
 }
 
-const ShoppingCardComponent = ({ shopping }: ShoppingCardProps) => {
+const ShoppingCardComponent = ({ shopping, shoppingListState }: ShoppingCardProps) => {
   const [isPressed, setIsPressed] = useState(false);
   const [background, setBackground] = useState('#262626')
   const { setShoppingCardSelected, setIdShoppingCardSelected, shoppingState, setShoppingToEdit } = useContext(ShoppingContext);
@@ -58,7 +59,7 @@ const ShoppingCardComponent = ({ shopping }: ShoppingCardProps) => {
 
     <TouchableOpacity
       onPress={handlePressOut}
-      onLongPress={handleLongPress}
+      onLongPress={shoppingListState==="PENDIENTE"? handleLongPress: () => {}}
       delayLongPress={300}
       >
       <View style={{

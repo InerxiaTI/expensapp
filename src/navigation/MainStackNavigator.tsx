@@ -12,6 +12,8 @@ import ErrorInesperadoScreen from '../screens/error/ErrorGeneralScreen';
 import { infoLog } from '../utils/HandlerError';
 import LanguageScreen from '../screens/LanguageScreen';
 import LoadingComponent from '../components/LoadingComponent';
+import CategoriesScreen from '../features/categories/screens/CategoriesScreen';
+import AddCategoriesScreen from '../features/categories/screens/AddCategoriesScreen';
 
 export type RootStackParams = {
   Auth: undefined,
@@ -28,6 +30,9 @@ export type RootStackParams = {
   Collaborators: CollaboratorsParams,
   AssignPercentageCollaborator: any,
   ErrorInesperado: any,
+  Categories: any,
+  CategoriesList: any,
+  AddCategories: any
 
 }
 
@@ -49,6 +54,24 @@ export const NewShoppingListStack = () => {
   )
 }
 
+
+export const CategoriesStack = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName='CategoriesList'
+      screenOptions={{
+        headerShown: false,
+        headerStyle: {
+          elevation: 0,
+          shadowColor: 'transparent',
+        }
+      }}>
+      <Stack.Screen name="CategoriesList" component={CategoriesScreen} />
+      <Stack.Screen name="AddCategories" component={AddCategoriesScreen} />
+    </Stack.Navigator>
+  )
+}
+
 export const SettingsStack = () => {
   return (
     <Stack.Navigator
@@ -62,6 +85,8 @@ export const SettingsStack = () => {
       }}>
       <Stack.Screen name="Settings" component={SettingsScreen} />
       <Stack.Screen name="Language" component={LanguageScreen} />
+      <Stack.Screen name="Categories" component={CategoriesStack} />
+
     </Stack.Navigator>
   )
 }

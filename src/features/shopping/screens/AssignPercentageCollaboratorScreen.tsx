@@ -28,6 +28,21 @@ const AssignPercentageCollaboratorScreen = ({ route, navigation }: AssignPercent
 
 	const [percentage, setPercentage] = useState<string>(assignPercentage.collaborator.porcentaje?.toString());
 
+	React.useEffect(() => {
+    // Use `setOptions` to update the button that we previously specified
+    // Now the button includes an `onPress` handler to update the count
+    navigation.setOptions({
+      headerStyle: {
+        backgroundColor: 'white',
+      },
+      headerShown: true,
+      header: () => (
+				<GenericHeaderComponent showArrowBack title='Asignar porcentaje' />
+      ),
+
+    });
+  }, [navigation]);
+
 	const handleOnChangeText = (value: string) => {
 
 		try {
@@ -91,8 +106,6 @@ const AssignPercentageCollaboratorScreen = ({ route, navigation }: AssignPercent
 
 	return (
 		<BaseScreenComponent>
-
-			<GenericHeaderComponent showArrowBack title='Asignar porcentaje' />
 			<View
 				style={{
 					borderWidth: 0,

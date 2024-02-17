@@ -1,6 +1,6 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import BaseScreenComponent from '../../../components/BaseScreenComponent'
-import { Image, StyleSheet, TextInput, ToastAndroid, View } from 'react-native'
+import { Image, TextInput, ToastAndroid, View } from 'react-native'
 import { GenericHeaderComponent } from '../../../components/GenericHeaderComponent'
 import expenseBanner from '../../../../assets/expenseBanner.png';
 import InputV1Component from '../../../components/inputs/InputV1Component';
@@ -8,18 +8,37 @@ import { AuthContext } from '../../../context/AuthContext';
 import { ButtonV2Component } from '../../../components/buttons/ButtonV2Component';
 import { useJoinShoppingList } from '../hooks/useJoinShoppingList';
 import { errorLog } from '../../../utils/HandlerError';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 
 const JoinShoppingListScreen = () => {
 
   const { authState } = useContext(AuthContext);
+  const navigator = useNavigation();
   console.log("auth: ", authState);
   const user = authState.user
 
   const [textValue, setTextValue] = useState('');
   const [isDisabled, setIsDisabled] = useState(false);
   const [habilitarBoton, setHabilitarBoton] = useState(false)
+  const isFocused = useIsFocused();
+
   const inputRef = useRef<TextInput>(null);
 
+  
+  React.useEffect(() => {
+    // Use `setOptions` to update the button that we previously specified
+    // Now the button includes an `onPress` handler to update the count
+    navigator.setOptions({
+      headerStyle: {
+        backgroundColor: 'white',
+      },
+      headerShown: true,
+      header: () => (
+        <GenericHeaderComponent title='Unirse'/>
+      ),
+
+    });
+  }, [navigator]);
 
   const handleOnTextChange = (textValue: string) => {
     setTextValue(textValue)
@@ -48,6 +67,7 @@ const JoinShoppingListScreen = () => {
       ToastAndroid.show("No se pudo enviar la solicitud", ToastAndroid.LONG)
 
     } finally {
+      setTextValue('')
       setIsLoading(false)
       setIsDisabled(false)
     }
@@ -55,11 +75,23 @@ const JoinShoppingListScreen = () => {
 
   }
 
+  useEffect(() => {
+
+    if (isFocused && inputRef.current) {
+      inputRef.current.focus();
+    }
+    // Restablecer los campos al montar la pantalla
+    if (!isFocused) {
+      setTextValue('')
+      setHabilitarBoton(false)
+      setIsDisabled(false)
+
+    }
+
+  }, [isFocused]);
+
   return (
     <BaseScreenComponent>
-
-
-      <GenericHeaderComponent title='Unirse' showArrowBack/>
 
       {/* Imagen */}
 
@@ -69,8 +101,6 @@ const JoinShoppingListScreen = () => {
         borderWidth: 0,
         borderColor: 'red'
       }}>
-
-
 
         <Image
           source={expenseBanner}
@@ -96,6 +126,10 @@ const JoinShoppingListScreen = () => {
           editable={!isDisabled}
           placeholder='Ingrese código de lista'
           autoCapitalize='characters'
+          autoFocus={isFocused}
+          refOwn={inputRef}
+
+
         />
 
         <ButtonV2Component

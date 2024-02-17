@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import BaseScreenComponent from '../../../components/BaseScreenComponent'
-import { ActivityIndicator, Button, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { COLORS } from '../../../theme/Theme'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import HeaderShoppingDetailComponent from '../components/HeaderShoppingDetailComponent';
@@ -63,7 +63,7 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
   const [addExpenseParams, setAddExpenseParams] = useState<AddExpenseParams>({
     createShoppingRequest: createShopping,
     estadoLista: shoppingList.estado,
-    idUsuarioCreador: shoppingList.idUsuarioCreador
+    idUsuarioCreador: shoppingList.usuarioCreadorId
 
   })
 
@@ -91,6 +91,27 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
       getShoppingDetail(shoppingList.id, user!)
   }, [user])
 
+  React.useEffect(() => {
+    // Use `setOptions` to update the button that we previously specified
+    // Now the button includes an `onPress` handler to update the count
+    navigation.setOptions({
+      headerStyle: {
+        backgroundColor: 'white',
+      },
+      headerShown: true,
+      header: () => (
+        <HeaderShoppingDetailComponent
+          title={shoppingList.nombre}
+          code={shoppingList.codigoGenerado}
+          idListaCompras={shoppingList.id}
+          idUsuarioCreador={shoppingList.usuarioCreadorId}
+          estado={shoppingList.estado}
+        />
+      ),
+
+    });
+  }, [navigation]);
+
 
   if (isLoading) {
     return (
@@ -100,18 +121,11 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
     )
   }
 
+
+
   return (
-    <BaseScreenComponent headerShown={false}>
-      {/* Header */}
-      <HeaderShoppingDetailComponent
-        title={shoppingList.nombre}
-        code={shoppingList.codigoGenerado}
-        idListaCompras={shoppingList.id}
-        idUsuarioCreador={shoppingList.usuarioCreadorId}
-        estado={shoppingList.estado}
-      />
-
-
+    <BaseScreenComponent>
+      
       {/* Shoppers */}
       <View
         style={{
@@ -194,7 +208,7 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
           data={shoppingDetailList}
           keyExtractor={(item) => item.id.toString()}
           renderItem={({ item }) => (
-            <ShoppingCardComponent shopping={item}/>
+            <ShoppingCardComponent shopping={item} shoppingListState={shoppingList.estado}/>
           )}
           showsVerticalScrollIndicator={false}
 
@@ -203,7 +217,7 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
 
       </View>
       {
-        shoppingList.estado !== 'CONFIGURANDO'
+        (shoppingList.estado !== 'CONFIGURANDO' && shoppingList.estado !== 'EN_CIERRE')
           ?
           <FloatingActionButton
             title={'cart-plus'}
