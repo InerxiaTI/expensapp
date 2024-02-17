@@ -12,6 +12,7 @@ export const useFetchCollaborators = (request: CollaboratorsFilterRequest) => {
   const userLogged = authState.user
 
   const [isLoading, setIsLoading] = useState(true)
+  const [totalPorcentaje, setTotalPorcentaje] = useState(0)
   const [collaborators, setCollaborators] = useState<Collaborator[]>([])
 
   useFocusEffect(
@@ -27,7 +28,7 @@ export const useFetchCollaborators = (request: CollaboratorsFilterRequest) => {
 
     console.log("RR LLamando a la API para traer listas de colaboradores: ", JSON.stringify(request));
     try {
-
+      let totalPorcentaje = 0;
       const response = await getCollaborators(request)
       response.sort((a, b) => {
         if (a.idUsuario === userLogged?.id) {
@@ -38,7 +39,9 @@ export const useFetchCollaborators = (request: CollaboratorsFilterRequest) => {
         }
         return 0; // Mantén el orden actual si ninguno es el usuario logueado
       });
-
+      response.forEach(collaborator => totalPorcentaje+=collaborator.porcentaje)
+      
+      setTotalPorcentaje(totalPorcentaje);
       setCollaborators(response)
 
     } catch (error) {
@@ -58,6 +61,7 @@ export const useFetchCollaborators = (request: CollaboratorsFilterRequest) => {
     reloadCollaborators,
     fetchCollaborators,
     isLoading,
-    collaborators
+    collaborators,
+    totalPorcentaje
   }
 }
