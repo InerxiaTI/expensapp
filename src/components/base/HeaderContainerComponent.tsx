@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import BaseHeaderComponent from './BaseHeaderComponent'
 import { Text, TouchableOpacity, View } from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useNavigation } from '@react-navigation/native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 interface HeaderContainerProps {
 	title?: string,
@@ -14,6 +14,7 @@ const HeaderContainerComponent = ({ title = '', showArrowBack = false, children 
 	const navigator = useNavigation();
 	const [paddingOnlyText, setPaddingOnlyText] = useState(0)
 
+
 	useEffect(() => {
 
 		if (!showArrowBack) {
@@ -24,15 +25,23 @@ const HeaderContainerComponent = ({ title = '', showArrowBack = false, children 
 
 
 	return (
-		<BaseHeaderComponent>
+		<SafeAreaView style={{
+			flexDirection: 'row',
+			justifyContent: 'space-between',
+			borderWidth: 0,
+			borderColor: 'red',
+			width: '100%',
+			backgroundColor: '#3c3b3f',
+		}}>
 			<>
+				{/* Header Left */}
 				<View
 					style={{
 						flexDirection: 'row',
 						alignItems: 'center',
 						borderWidth: 0,
 						borderColor: 'green',
-						gap: 15,
+						gap: 0,
 						height: 50
 					}}
 				>
@@ -46,7 +55,8 @@ const HeaderContainerComponent = ({ title = '', showArrowBack = false, children 
 									justifyContent: 'center',
 									alignItems: 'center',
 									borderWidth: 0,
-									borderColor: 'yellow'
+									borderColor: 'yellow',
+									paddingRight: 10
 
 								}}
 							>
@@ -67,19 +77,20 @@ const HeaderContainerComponent = ({ title = '', showArrowBack = false, children 
 						<Text style={{
 							fontSize: 18,
 							fontWeight: '700',
-							color: '#6B7280'
+							color: '#fff'
 						}}>{title}</Text>
 					</View>
 				</View>
 
 				{/* Header Right */}
-
 				<View
 					style={{
+						height: 50,
+						borderWidth: 0,
+						borderColor: 'blue',
 						flexDirection: 'row-reverse',
-						justifyContent: 'flex-start',
-						alignItems: 'center',
-						paddingHorizontal: 15
+						gap: 10,
+						paddingHorizontal: 1
 					}}
 				>
 					{children}
@@ -87,7 +98,7 @@ const HeaderContainerComponent = ({ title = '', showArrowBack = false, children 
 				</View>
 			</>
 
-		</BaseHeaderComponent>
+		</SafeAreaView>
 
 	)
 }

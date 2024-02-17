@@ -13,10 +13,10 @@ const BaseHeaderComponent = ({children}: BaseHeaderProps) => {
   return (
     <View style={{
         backgroundColor: COLORS.backgroudPrimary,
-        height: 50,
+        height: 0,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        borderWidth: 0,
+        borderWidth: 1,
         borderColor: 'red',
         width: '100%',
       }}>

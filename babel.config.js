@@ -3,6 +3,16 @@ module.exports = {
     plugins: [
         "nativewind/babel",
         'react-native-reanimated/plugin',
+        // [
+        //     'module-resolver',
+        //     {
+        //       root: ['./src'],
+        //       extensions: ['.js', '.json', '.ts', '.tsx', '.jsx'],
+        //       alias: {
+        //         '@': './src',
+        //       },
+        //     },
+        // ],
     ],
 
 };

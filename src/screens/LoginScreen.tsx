@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Dimensions, KeyboardAvoidingView, Platform, StyleSheet, Text, TouchableOpacity, View, ToastAndroid, ActivityIndicator, BackHandler } from 'react-native';
+import { Dimensions, Platform, StyleSheet, Text, TouchableOpacity, View, ToastAndroid, BackHandler } from 'react-native';
 import { ScrollView, TextInput } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { AuthContext } from '../context/AuthContext'
@@ -11,6 +11,7 @@ import { reset } from '../navigation/servicesUtil/NavigationService';
 import BaseScreenComponent from '../components/BaseScreenComponent';
 import { ButtonV2Component } from '../components/buttons/ButtonV2Component';
 import { useForm } from '../hooks/useForm';
+import SplashScreen from 'react-native-splash-screen';
 
 const { height } = Dimensions.get('window');
 
@@ -34,9 +35,6 @@ const LoginScreen = () => {
     }
 
   })
-
-
-
 
   const handleAuth = async () => {
     setIsDisabled(true)
@@ -121,12 +119,16 @@ const LoginScreen = () => {
   useEffect(() => {
     if (shouldNavigateToTabs && authState.isLoggedIn == true) {
       reset(0, 'Tabs', {})
+    } else {
+      if (Platform.OS === 'android') {
+        SplashScreen.hide()
+      }
     }
   }, [shouldNavigateToTabs, authState.isLoggedIn])
 
 
   return (
-    <BaseScreenComponent>
+    <BaseScreenComponent statusBarColor='transparent'>
 
       <ScrollView
         contentContainerStyle={{
@@ -138,7 +140,7 @@ const LoginScreen = () => {
           style={{
             borderColor: 'red',
             borderWidth: 0,
-            height: height*0.55,
+            height: height * 0.55,
             width: '90%',
             marginTop: height * 0.1,
             borderRadius: 8,

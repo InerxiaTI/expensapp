@@ -5,11 +5,15 @@ import LoginScreen from '../screens/LoginScreen';
 import { TabsNavigator } from './TabsNavigator';
 import { AddExpenseParams, ShoppingList } from '../interfaces/ShoppingInterface';
 import SettingsScreen from '../screens/SettingsScreen';
-import NewShoppingListScreen from '../screens/NewShoppingListScreen';
-import { AddCollaboratorAsShopperParams } from '../screens/AddCollaboratorAsShopperScreen';
+import NewShoppingListScreen from '../features/create-shopping-list/screens/NewShoppingListScreen';
+import { AddCollaboratorAsShopperParams } from '../features/add-shopping/screens/AddCollaboratorAsShopperScreen';
 import { CollaboratorsParams } from '../interfaces/UserInterface';
 import ErrorInesperadoScreen from '../screens/error/ErrorGeneralScreen';
 import { infoLog } from '../utils/HandlerError';
+import LanguageScreen from '../screens/LanguageScreen';
+import LoadingComponent from '../components/LoadingComponent';
+import CategoriesScreen from '../features/categories/screens/CategoriesScreen';
+import AddCategoriesScreen from '../features/categories/screens/AddCategoriesScreen';
 
 export type RootStackParams = {
   Auth: undefined,
@@ -21,10 +25,14 @@ export type RootStackParams = {
   NewShoppingList: undefined,
   JoinShoppingList: undefined,
   Settings: undefined,
+  Language: undefined,
   AddCollaboratorAsShopper: AddCollaboratorAsShopperParams,
   Collaborators: CollaboratorsParams,
   AssignPercentageCollaborator: any,
   ErrorInesperado: any,
+  Categories: any,
+  CategoriesList: any,
+  AddCategories: any
 
 }
 
@@ -46,9 +54,28 @@ export const NewShoppingListStack = () => {
   )
 }
 
+
+export const CategoriesStack = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName='CategoriesList'
+      screenOptions={{
+        headerShown: false,
+        headerStyle: {
+          elevation: 0,
+          shadowColor: 'transparent',
+        }
+      }}>
+      <Stack.Screen name="CategoriesList" component={CategoriesScreen} />
+      <Stack.Screen name="AddCategories" component={AddCategoriesScreen} />
+    </Stack.Navigator>
+  )
+}
+
 export const SettingsStack = () => {
   return (
     <Stack.Navigator
+    initialRouteName='Settings'
       screenOptions={{
         headerShown: false,
         headerStyle: {
@@ -57,6 +84,9 @@ export const SettingsStack = () => {
         }
       }}>
       <Stack.Screen name="Settings" component={SettingsScreen} />
+      <Stack.Screen name="Language" component={LanguageScreen} />
+      <Stack.Screen name="Categories" component={CategoriesStack} />
+
     </Stack.Navigator>
   )
 }
@@ -106,7 +136,9 @@ export const ErrorGeneralStack = () => {
 export const MainStackNavigator = () => {
 
   const { authState } = useContext(AuthContext);
-  console.log("MAINS STACK NAVI logueado: " + authState.isLoggedIn);
+  console.log("MAINS STACK NAVI logueado: " + JSON.stringify(authState));
+
+  if (authState.status === 'checking') return <LoadingComponent />
 
   return (
     <Stack.Navigator
@@ -118,9 +150,20 @@ export const MainStackNavigator = () => {
         }
       }}
     >
-      <Stack.Screen name="Auth" component={AuthNavigation} />
-      <Stack.Screen name="Tabs" component={TabsNavigator} />
-      <Stack.Screen name="ErrorInesperado" component={ErrorInesperadoScreen} />
+      {
+        (authState.status !== 'authenticated')
+        ?(
+          <Stack.Screen name="Auth" component={AuthNavigation} />
+        )
+        : (
+         <>
+            <Stack.Screen name="Tabs" component={TabsNavigator} />
+            <Stack.Screen name="ErrorInesperado" component={ErrorInesperadoScreen} />
+         </>
+        )
+      }
+    
+     
     </Stack.Navigator>
   );
 

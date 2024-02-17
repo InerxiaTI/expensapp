@@ -1,25 +1,26 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import { Collaborator, CollaboratorsFilterRequest } from "../../interfaces/UserInterface";
 import { AuthContext } from "../../context/AuthContext";
-import { getCollaborators } from "../../services/collaboratorService";
+import { getCollaborators } from "../../infrastructure/services/collaborator.service";
 import { useFocusEffect } from "@react-navigation/native";
 import { ShoppingContext } from "../../context/ShoppingContext";
 
 export const useFetchCollaborators = (request: CollaboratorsFilterRequest) => {
   const { authState } = useContext(AuthContext);
-  const { shoppingState, setIsFocusFetchShoppingLists } = useContext(ShoppingContext);
+  const { shoppingState, setIsFocusFetchShoppings } = useContext(ShoppingContext);
 
   const userLogged = authState.user
 
   const [isLoading, setIsLoading] = useState(true)
+  const [totalPorcentaje, setTotalPorcentaje] = useState(0)
   const [collaborators, setCollaborators] = useState<Collaborator[]>([])
 
   useFocusEffect(
     useCallback(() => {
-      if (!shoppingState.isFocusFetchShoppingLists) {
+      if (!shoppingState.isFocusFetchShoppings) {
         fetchCollaborators(request)
       }
-      setIsFocusFetchShoppingLists(false)
+      setIsFocusFetchShoppings(false)
     }, [])
   )
 
@@ -27,7 +28,7 @@ export const useFetchCollaborators = (request: CollaboratorsFilterRequest) => {
 
     console.log("RR LLamando a la API para traer listas de colaboradores: ", JSON.stringify(request));
     try {
-
+      let totalPorcentaje = 0;
       const response = await getCollaborators(request)
       response.sort((a, b) => {
         if (a.idUsuario === userLogged?.id) {
@@ -38,7 +39,9 @@ export const useFetchCollaborators = (request: CollaboratorsFilterRequest) => {
         }
         return 0; // Mantén el orden actual si ninguno es el usuario logueado
       });
-
+      response.forEach(collaborator => totalPorcentaje+=collaborator.porcentaje)
+      
+      setTotalPorcentaje(totalPorcentaje);
       setCollaborators(response)
 
     } catch (error) {
@@ -58,6 +61,7 @@ export const useFetchCollaborators = (request: CollaboratorsFilterRequest) => {
     reloadCollaborators,
     fetchCollaborators,
     isLoading,
-    collaborators
+    collaborators,
+    totalPorcentaje
   }
 }
