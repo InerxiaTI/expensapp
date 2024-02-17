@@ -41,8 +41,15 @@ const ShoppingListCardComponent = ({ buysList }: ShoppingListCardProps) => {
                             marginTop: 10
                         }}
                     >
-                        <Text style={styles.secondaryText}>Fecha de finalización</Text>
-                        <Text style={styles.secondaryText}>{buysList.fechaFinalizado === null ? 'N/A' : buysList.fechaFinalizado}</Text>
+                        {
+                            buysList.estado !== "PENDIENTE" && buysList.fechaFinalizado !== null?
+                                <>
+                                    <Text style={styles.secondaryText}>Fecha de finalización</Text>
+                                    <Text style={styles.secondaryText}>{buysList.fechaFinalizado === null ? 'N/A' : buysList.fechaFinalizado}</Text>
+                                </>
+                             :<></>
+                        }
+                       
                     </View>
                     <View
                         style={{
