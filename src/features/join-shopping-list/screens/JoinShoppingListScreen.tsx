@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import BaseScreenComponent from '../../../components/BaseScreenComponent'
 import { Image, TextInput, ToastAndroid, View } from 'react-native'
 import { GenericHeaderComponent } from '../../../components/GenericHeaderComponent'
@@ -8,7 +8,7 @@ import { AuthContext } from '../../../context/AuthContext';
 import { ButtonV2Component } from '../../../components/buttons/ButtonV2Component';
 import { useJoinShoppingList } from '../hooks/useJoinShoppingList';
 import { errorLog } from '../../../utils/HandlerError';
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 
 const JoinShoppingListScreen = () => {
 
@@ -20,6 +20,8 @@ const JoinShoppingListScreen = () => {
   const [textValue, setTextValue] = useState('');
   const [isDisabled, setIsDisabled] = useState(false);
   const [habilitarBoton, setHabilitarBoton] = useState(false)
+  const isFocused = useIsFocused();
+
   const inputRef = useRef<TextInput>(null);
 
   
@@ -65,12 +67,28 @@ const JoinShoppingListScreen = () => {
       ToastAndroid.show("No se pudo enviar la solicitud", ToastAndroid.LONG)
 
     } finally {
+      setTextValue('')
       setIsLoading(false)
       setIsDisabled(false)
     }
 
 
   }
+
+  useEffect(() => {
+
+    if (isFocused && inputRef.current) {
+      inputRef.current.focus();
+    }
+    // Restablecer los campos al montar la pantalla
+    if (!isFocused) {
+      setTextValue('')
+      setHabilitarBoton(false)
+      setIsDisabled(false)
+
+    }
+
+  }, [isFocused]);
 
   return (
     <BaseScreenComponent>
@@ -108,6 +126,10 @@ const JoinShoppingListScreen = () => {
           editable={!isDisabled}
           placeholder='Ingrese código de lista'
           autoCapitalize='characters'
+          autoFocus={isFocused}
+          refOwn={inputRef}
+
+
         />
 
         <ButtonV2Component
