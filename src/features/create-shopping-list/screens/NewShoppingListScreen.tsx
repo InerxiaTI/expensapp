@@ -181,32 +181,37 @@ const NewShoppingListScreen = () => {
 
         />
 
-        <View>
-          <Text style={styles.textInfoInput}>Código para unirse</Text>
-          <View style={{
-            flexDirection: 'row',
-            backgroundColor: '#201F21',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-            borderRadius: 20,
-            marginTop: 5,
-            marginBottom: 16,
-            height: 50
-          }}>
-
-            <Text style={styles.searchTextInputDisabled}>
-              {codigo}
-            </Text>
-
+        {
+          codigo && (
+            <View>
+            <Text style={styles.textInfoInput}>Código para unirse</Text>
+            <View style={{
+              flexDirection: 'row',
+              backgroundColor: '#201F21',
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+              borderRadius: 20,
+              marginTop: 5,
+              marginBottom: 16,
+              height: 50
+            }}>
+  
+              <Text style={styles.searchTextInputDisabled}>
+                {codigo}
+              </Text>
+  
+            </View>
           </View>
-        </View>
+          )
+        }
+       
 
 
         {/* Boton */}
 
         <ButtonV2Component
           title='Guardar'
-          onPress={() => showConfirmationDialog()}
+          onPress={() => handleConfirmAction()}
           habilitarBoton={habilitarBoton}
           isLoading={isLoading}
         />
