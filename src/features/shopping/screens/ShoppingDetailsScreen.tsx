@@ -16,6 +16,8 @@ import { CollaboratorsFilterRequest } from '../../../interfaces/UserInterface';
 import { ShoppingContext } from '../../../context/ShoppingContext';
 import { infoLog } from '../../../utils/HandlerError';
 import { ShoppingV2Context } from '../context/ShoppingV2Context';
+import currencyFormatter from 'currency-formatter'
+
 
 interface ShoppingDetailsScreenProps extends StackScreenProps<RootStackParams, 'ShoppingDetails'> { }
 
@@ -161,18 +163,23 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
 
                     <View style={styles.shopperCardTextContainer}>
                       <Icon name='account-cash-outline' size={14} color='white' />
-                      <Text style={{ color: 'white', fontSize: 14, fontWeight: 'bold' }}>{item.nombres} id: {item.idUsuario}</Text>
+                      <Text style={{ color: 'white', fontSize: 14, fontWeight: 'bold' }}>{item.nombres}</Text>
+                      {
+                        item.esCreador ?
+                            <Icon name='wrench' size={12} color='grey' />                  
+                          : <></>
+                      }
+
                     </View>
 
-                    {
-                      item.esCreador ?
-                        <View style={styles.shopperCardTextContainer}>
-                          <Icon name='wrench' size={12} color='white' />
-                          <Text style={styles.montoText}>Creador</Text>
-                        </View>
-                        : <></>
+                    <View style={styles.shopperCardTextContainer}>
+                      <Icon name='trending-down' size={14} color='white' />
+                      <Text style={{ color: '#CD8EFF', fontSize: 14, fontWeight: 'bold' }}>
+                        {currencyFormatter.format(parseFloat(item.totalCompras+""), { code: 'COP', precision: 2 })}
+                      </Text>
+                    </View>
 
-                    }
+                    
 
 
 
@@ -256,12 +263,19 @@ const styles = StyleSheet.create({
     color: '#6B7280'
   },
   porcentaje: {
+    opacity: 0.4,
+    color: 'grey',
+    fontSize: 15,
+    position: 'absolute',
+    left: 115,
+    top: 60
+  },
+  esCreador: {
+    borderWidth: 0,
+    borderColor: 'red',
     opacity: 0.5,
     color: 'grey',
-    fontSize: 20,
-    position: 'absolute',
-    left: 90,
-    top: 45
+    
   }
 
 });
