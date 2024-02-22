@@ -4,6 +4,8 @@ import { useNavigation } from '@react-navigation/native'
 import { ShoppingList } from '../../../interfaces/ShoppingInterface'
 import currencyFormatter from 'currency-formatter'
 import { sliceText } from '../../../utils/textUtil'
+import { getFormatedDate } from 'react-native-modern-datepicker';
+
 
 interface ShoppingListCardProps {
     buysList: ShoppingList
@@ -44,8 +46,8 @@ const ShoppingListCardComponent = ({ buysList }: ShoppingListCardProps) => {
                         {
                             buysList.estado !== "PENDIENTE" && buysList.fechaFinalizado !== null?
                                 <>
-                                    <Text style={styles.secondaryText}>Fecha de finalización</Text>
-                                    <Text style={styles.secondaryText}>{buysList.fechaFinalizado === null ? 'N/A' : buysList.fechaFinalizado}</Text>
+                                    <Text style={styles.secondaryText}>Fecha de finalización:</Text>
+                                    <Text style={styles.secondaryText}>{buysList.fechaFinalizado === null ? 'N/A' : getFormatedDate(new Date(buysList.fechaFinalizado), "YYYY-MM-DD")}</Text>
                                 </>
                              :<></>
                         }
