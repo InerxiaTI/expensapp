@@ -164,12 +164,6 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
                     <View style={styles.shopperCardTextContainer}>
                       <Icon name='account-cash-outline' size={14} color='white' />
                       <Text style={{ color: 'white', fontSize: 14, fontWeight: 'bold' }}>{item.nombres}</Text>
-                      {
-                        item.esCreador ?
-                            <Icon name='wrench' size={12} color='grey' />                  
-                          : <></>
-                      }
-
                     </View>
 
                     <View style={styles.shopperCardTextContainer}>
@@ -178,6 +172,14 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
                         {currencyFormatter.format(parseFloat(item.totalCompras+""), { code: 'COP', precision: 2 })}
                       </Text>
                     </View>
+
+                    {
+                      item.esCreador ?
+                          <View style={styles.esCreador}>
+                            <Icon name='wrench' size={12} color='grey' /> 
+                          </View>                 
+                        : <></>
+                    }
 
                     
 
@@ -275,6 +277,9 @@ const styles = StyleSheet.create({
     borderColor: 'red',
     opacity: 0.5,
     color: 'grey',
+    position: 'absolute',
+    left: 120,
+    top: 5
     
   }
 
