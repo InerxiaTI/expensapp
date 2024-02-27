@@ -9,12 +9,15 @@ import { GenericHeaderComponent } from '../../../components/GenericHeaderCompone
 import InputV1Component from '../../../components/inputs/InputV1Component'
 import { ButtonV2Component } from '../../../components/buttons/ButtonV2Component'
 import { useAssignPercentage } from '../hooks/useAssignPercentage'
+import { useTranslation } from 'react-i18next'
 
 
 interface AssignPercentageCollaboratorScreenProps extends StackScreenProps<RootStackParams, 'AssignPercentageCollaborator'> { }
 
 
 const AssignPercentageCollaboratorScreen = ({ route, navigation }: AssignPercentageCollaboratorScreenProps) => {
+	
+	const { t } = useTranslation();
 
 	const [habilitarBoton, setHabilitarBoton] = useState(true)
 
@@ -37,7 +40,7 @@ const AssignPercentageCollaboratorScreen = ({ route, navigation }: AssignPercent
       },
       headerShown: true,
       header: () => (
-				<GenericHeaderComponent showArrowBack title='Asignar porcentaje' />
+				<GenericHeaderComponent showArrowBack title={t('assign:assignTittle')} />
       ),
 
     });
@@ -129,14 +132,14 @@ const AssignPercentageCollaboratorScreen = ({ route, navigation }: AssignPercent
 				</View>
 
 				<InputV1Component
-					title='Colaborador'
+					title={t('assign:collaborator')}
 					value={assignPercentage.collaborator.nombres}
 					editable={false}
 				/>
 
 				<InputV1Component
-					title='Porcentaje'
-					placeholder='Ingrese el porcentaje'
+					title={t('assign:percentage')}
+					placeholder={t('assign:addPercentage')}
 					keyboardType='number-pad'
 					onChangeText={handleOnChangeText}
 					value={percentage}
@@ -144,7 +147,7 @@ const AssignPercentageCollaboratorScreen = ({ route, navigation }: AssignPercent
 
 				<ButtonV2Component
 					onPress={() => saveNewPercentage()}
-					title='Guardar'
+					title={t('assign:save')}
 					habilitarBoton={habilitarBoton}
 					isLoading={isLoading}
 				/>
