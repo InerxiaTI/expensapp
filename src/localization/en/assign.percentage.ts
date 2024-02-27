@@ -3,5 +3,5 @@ export default {
 	collaborator: 'Collaborator',
 	percentage: 'Percentage',
 	addPercentage: 'Entering percentage',
-	save: 'Save',
+	save: 'Save percentage',
 }
