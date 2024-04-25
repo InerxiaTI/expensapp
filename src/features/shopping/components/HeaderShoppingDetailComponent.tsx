@@ -33,19 +33,31 @@ const HeaderShoppingDetailComponent = ({
   const { authState } = useContext(AuthContext);
   const { shoppingState, setRefreshShoppings } = useContext(ShoppingContext);
   const { hideContextMenu, showContextMenu, isContextMenuVisible } = useContextMenu()
-  const { hideConfirmationDialog, showConfirmationDialog, confirmationVisible } = useConfirmDialog()
 
+
+  const { hideConfirmationDialog, showConfirmationDialog, confirmationVisible } = useConfirmDialog()
   const { setIsLoading, saveStartShoppingList } = useStartShoppingList()
   const { removeShopping, setIsLoading: setIsLoadingOnRemove, isLoading: isLoadingOnRemove } = useDeleteShopping()
 
 
   const [iconActionButton, setIconActionButton] = useState('cart-arrow-right')
+  const [question, setQuestion] = useState("")
+  const [description, setDescription] = useState("")
   const user = authState.user
 
   const collaboratorsParams: CollaboratorsParams = {
     idListaCompras: idListaCompras,
     idUsuarioCreador,
     estadoLista: estado
+  }
+
+  const showConfirmDialogOnDelete = () => {
+    setQuestion(`¿Desea eliminar la compra ${shoppingState.shoppingToEdit?.descripcion}?`)
+    showConfirmationDialog()
+  }
+
+  const showConfirmDialogOnChangeState = () => {
+    showConfirmationDialog()
   }
 
 
@@ -84,6 +96,11 @@ const HeaderShoppingDetailComponent = ({
     hideConfirmationDialog();
   };
 
+  const handleConfirmActionToPending = async () => {
+    // Lógica a ejecutar cuando se presiona el botón "Aceptar"
+    await handleActionShoppingList();
+  };
+
   const removeShoppingById = async () => {
     setIsLoadingOnRemove(true);
 
@@ -118,6 +135,7 @@ const HeaderShoppingDetailComponent = ({
         try {
           await saveStartShoppingList(idListaCompras);
           setIsLoading(false);
+          hideConfirmationDialog();
           navigator.goBack() // Volver a la pantalla anterior
 
         } catch (error) {
@@ -157,9 +175,24 @@ const HeaderShoppingDetailComponent = ({
   useEffect(() => {
 
     infoLog("ID SHOPPING TO EDIT OR DELETE: " + shoppingState.idShoppingCardSelected)
-    if (estado === 'PENDIENTE') {
-      setIconActionButton('cart-check')
+    infoLog("ID SHOPPING " + estado)
+
+    switch (estado) {
+      case 'PENDIENTE':
+        setIconActionButton('cart-check')
+        setQuestion(`La lista pasará al estado EN_CIERRE ¿Desea cerrar la lista de compras:  ${title}?`)
+        setDescription('Podras deshacer está acción')
+        break;
+      case 'CONFIGURANDO':
+        setQuestion(`¿Desea iniciar la lista de compras:  ${title}?`)
+        setDescription("No podrá deshacer esta acción.")
+        break;
+    
+      default:
+        break;
     }
+
+  
 
     
 
@@ -182,7 +215,7 @@ const HeaderShoppingDetailComponent = ({
               {
                 user?.id === idUsuarioCreador ?
                   <ToolItemComponent
-                    onPress={handleActionShoppingList}
+                    onPress={showConfirmDialogOnChangeState}
                     icon={iconActionButton}
                   />
                   :
@@ -197,7 +230,7 @@ const HeaderShoppingDetailComponent = ({
               (
                 <>
                   <ToolItemComponent
-                    onPress={showConfirmationDialog}
+                    onPress={showConfirmDialogOnDelete}
                     icon='delete'
                   />
                   <ToolItemComponent
@@ -216,8 +249,16 @@ const HeaderShoppingDetailComponent = ({
         visible={confirmationVisible}
         onRequestClose={hideConfirmationDialog}
         onConfirm={handleConfirmAction}
-        question={`¿Desea eliminar la compra ${shoppingState.shoppingToEdit?.descripcion}?`}
+        question={question}
         description='No podrá deshacer esta acción.'
+      />
+
+      <ConfirmDialogComponent
+        visible={confirmationVisible}
+        onRequestClose={hideConfirmationDialog}
+        onConfirm={handleConfirmActionToPending}
+        question={question}
+        description={description}
       />
 
       <Modal
