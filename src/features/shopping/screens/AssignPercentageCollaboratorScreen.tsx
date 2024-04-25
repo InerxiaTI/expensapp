@@ -135,6 +135,7 @@ const AssignPercentageCollaboratorScreen = ({ route, navigation }: AssignPercent
 				/>
 
 				<InputV1Component
+					showPencil
 					title='Porcentaje'
 					placeholder='Ingrese el porcentaje'
 					keyboardType='number-pad'
