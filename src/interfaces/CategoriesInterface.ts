@@ -1,4 +1,14 @@
+export interface CreateCategoryRequest {
+	idUsuarioCreador: number;
+	nombre:           string;
+	esPrivada:        boolean;
+}
 
+export interface CreateCategoryResponse {
+	description: string;
+	message:     string;
+	body:        Category;
+}
 
 export interface Category {
 	id:               number;

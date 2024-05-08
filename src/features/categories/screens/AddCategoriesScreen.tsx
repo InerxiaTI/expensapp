@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import BaseScreenComponent from '../../../components/BaseScreenComponent'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Image, StyleSheet, Text, ToastAndroid, View } from 'react-native'
 import { KeyboardAvoidingScrollView } from '@cassianosch/react-native-keyboard-sticky-footer-avoiding-scroll-view'
 import { ButtonV2Component } from '../../../components/buttons/ButtonV2Component'
 import expenseBanner from '../../../../assets/expenseBanner.png';
@@ -8,13 +8,23 @@ import InputV1Component from '../../../components/inputs/InputV1Component'
 import { useNavigation } from '@react-navigation/native'
 import { GenericHeaderComponent } from '../../../components/GenericHeaderComponent'
 import SwitchV1 from '../../../components/switch/SwitchV1'
+import { useNewCategory } from '../hooks/useNewCategory'
+import { CreateCategoryRequest } from '../../../interfaces/CategoriesInterface';
+import { AuthContext } from '../../../context/AuthContext'
+import { errorLog, infoLog } from '../../../utils/HandlerError'
 
 
 const AddCategoriesScreen = () => {
 	const navigator = useNavigation();
+	const {authState} = useContext(AuthContext);
+  const user = authState.user
 
-
+	const [categoryText, setCategoryText] = useState("")
 	const [isEnabled, setIsEnabled] = useState(false);
+	const [habilitarBoton, setHabilitarBoton] = useState(false)
+
+	const {isLoading, setIsLoading, saveCategory} = useNewCategory();
+
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
 	React.useEffect(() => {
@@ -32,6 +42,47 @@ const AddCategoriesScreen = () => {
     });
   }, [navigator]);
 
+	const handleOnChangeCategoryText = (text: string) => {
+		console.log(text);
+		
+		setCategoryText(text);
+		if(text.trim() !== '') {
+			setHabilitarBoton(true)
+		} else {
+			setHabilitarBoton(false)
+		}
+	};
+
+	const handleOnSaveCategory = async ()=> {
+
+		const createCategoryRequest: CreateCategoryRequest = {
+			esPrivada: isEnabled,
+			nombre: categoryText,
+			idUsuarioCreador: user!.id
+		}
+
+		console.log("createCategory: " + JSON.stringify(createCategoryRequest));
+		setIsLoading(true);
+		setHabilitarBoton(false)
+		try {
+			await saveCategory(createCategoryRequest)
+			ToastAndroid.show("Categoria creada con exito", ToastAndroid.LONG)
+
+			setIsLoading(false)
+		} catch (error) {
+			errorLog("Falla al guardar: " + error);
+			ToastAndroid.show("No se pudo crear la categoria", ToastAndroid.LONG)
+		} finally {
+			setIsLoading(false);
+			setIsEnabled(false)
+			setCategoryText("")
+			setHabilitarBoton(false)
+		}
+		
+		
+	}
+
+
 	return (
 		<BaseScreenComponent>
 			<KeyboardAvoidingScrollView
@@ -40,10 +91,9 @@ const AddCategoriesScreen = () => {
 				stickyFooter={
 					<ButtonV2Component
 						title={'Guardar'}
-						onPress={()=>{console.log("hola");
-						}}
-						isLoading={false}
-						habilitarBoton={true}
+						onPress={handleOnSaveCategory}
+						isLoading={isLoading}
+						habilitarBoton={habilitarBoton}
 
 					/>
 				}>
@@ -74,12 +124,9 @@ const AddCategoriesScreen = () => {
 
         <InputV1Component
           title='Categoria'
-          onChangeText={()=>console.log("ss")
-					}
-          value={"Servicios publicos"}
-          editable={!false}
-          placeholder='Ingrese código de lista'
-          autoCapitalize='characters'
+          onChangeText={handleOnChangeCategoryText}
+          value={categoryText}
+          placeholder='Ingrese nombre de la categoria'
         />
 
 

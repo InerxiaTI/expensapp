@@ -10,7 +10,7 @@ interface SwitchV1Props {
 const defaultStyles = {
 	bgSwitchColor: '#262626',
 	ballSwitchColor: '#6B7280',
-	borderPressable: 1,
+	borderPressable: 2,
 	borderPressableColor: '#6B7280',
 };
 

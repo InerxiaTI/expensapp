@@ -1,4 +1,4 @@
-import { CategoriesFilterRequest, Category } from "../../interfaces/CategoriesInterface";
+import { CategoriesFilterRequest, Category, CreateCategoryRequest, CreateCategoryResponse } from "../../interfaces/CategoriesInterface";
 import { GenericResponse } from "../../interfaces/ShoppingInterface";
 import { User } from "../../interfaces/UserInterface";
 import { errorLog, infoLog } from "../../utils/HandlerError";
@@ -24,6 +24,22 @@ const getCategories = async (request: CategoriesFilterRequest, pageable: any) =>
 	}
 }
 
+const createCategory = async (request: CreateCategoryRequest) => {
+	console.log("LLamando a la API para crear Categoria");
+	try {
+		const response = await expenseMateApi.post<CreateCategoryResponse>(
+			'/categoria/crear-categoria',
+			request
+		)
+		console.log("response save CATEGORY: " + JSON.stringify(response.data.body));
+		return response.data.body
+	} catch (error) {
+		throw error;
+	}
+
+}
+
 export {
-	getCategories
+	getCategories,
+	createCategory
 }
