@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import BaseScreenComponent from '../../../components/BaseScreenComponent'
-import { Image, StyleSheet, Switch, View } from 'react-native'
+import { Image, StyleSheet, Text, View } from 'react-native'
 import { KeyboardAvoidingScrollView } from '@cassianosch/react-native-keyboard-sticky-footer-avoiding-scroll-view'
 import { ButtonV2Component } from '../../../components/buttons/ButtonV2Component'
 import expenseBanner from '../../../../assets/expenseBanner.png';
 import InputV1Component from '../../../components/inputs/InputV1Component'
 import { useNavigation } from '@react-navigation/native'
 import { GenericHeaderComponent } from '../../../components/GenericHeaderComponent'
+import SwitchV1 from '../../../components/switch/SwitchV1'
 
 
 const AddCategoriesScreen = () => {
@@ -81,21 +82,21 @@ const AddCategoriesScreen = () => {
           autoCapitalize='characters'
         />
 
-				<Switch 
-					 trackColor={{false: '#201F21', true: '#201F21'}}
-					 thumbColor={isEnabled ? '#BB81F4' : '#262626'}
-					 ios_backgroundColor="#3e3e3e"
-					 onValueChange={toggleSwitch}
-					 value={isEnabled}
-				/>
 
-        <ButtonV2Component
-          title='Enviar solicitud'
-          onPress={() => console.log("aa")
-					}
-          habilitarBoton={false}
-          isLoading={true}
-        />
+				<View style={{
+					borderColor: 'red',
+					borderWidth: 0,
+				}}>
+					<Text style={styles.textInfoInput}>Privada</Text>
+					<View
+						style={{
+							marginTop:5
+						}}
+					>
+					<SwitchV1 value={isEnabled} onValueChange={toggleSwitch} />
+					</View>
+				</View>
+
       </View>
 
 			</KeyboardAvoidingScrollView>
@@ -113,7 +114,13 @@ const styles = StyleSheet.create({
 	},
 	content: {
 		padding: 0,
+	},
+	textInfoInput: {
+		color: '#6B7280',
+		fontSize: 24,
+		fontWeight: '700',
 	}
 })
+
 
 export default AddCategoriesScreen
