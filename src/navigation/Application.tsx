@@ -10,6 +10,7 @@ import { COLORS } from '../theme/Theme';
 import { infoLog } from '../utils/HandlerError';
 import { MainStackNavigator } from './MainStackNavigator';
 import { navigatorRef, isReadyNavigationRef } from './servicesUtil/NavigationService';
+import { CategoryProvider } from '../features/categories/context/CategoryContext';
 
 // Define tu propio theme personalizado
 const MyTheme = {
@@ -45,14 +46,16 @@ const Application = () => {
       >
 
       <AppState>
-        <ShoppingProvider>
-          <ShoppingV2Provider>
-          <TabBarProvider>
-            <StatusBar animated={true} translucent backgroundColor="#3c3b3f" barStyle="default" />
-            <MainStackNavigator />
-          </TabBarProvider>
-          </ShoppingV2Provider>
-        </ShoppingProvider>
+        <CategoryProvider>
+          <ShoppingProvider>
+            <ShoppingV2Provider>
+            <TabBarProvider>
+              <StatusBar animated={true} translucent backgroundColor="#3c3b3f" barStyle="default" />
+              <MainStackNavigator />
+            </TabBarProvider>
+            </ShoppingV2Provider>
+          </ShoppingProvider>
+        </CategoryProvider>
       </AppState>
     </NavigationContainer>
   )

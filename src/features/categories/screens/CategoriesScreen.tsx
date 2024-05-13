@@ -5,11 +5,11 @@ import { AuthContext } from '../../../context/AuthContext';
 import { useFetchCategories } from '../hooks/useFetchCategories';
 import { CategoriesFilterRequest } from '../../../interfaces/CategoriesInterface';
 import { ScrollView, View } from 'react-native';
-import BaseSimpleCardComponent from '../../../components/base/BaseSimpleCardComponent';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FloatingActionButton from '../../../components/FloatingActionButton';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../../../navigation/MainStackNavigator';
+import CategoryCardComponent from '../components/CategoryCardComponent';
 
 interface CategoriesScreenProps extends StackScreenProps<RootStackParams, 'CategoriesList'> { }
 
@@ -59,21 +59,7 @@ const CategoriesScreen = ({ route, navigation }: CategoriesScreenProps) => {
 				<ScrollView showsVerticalScrollIndicator={false}>
 					{
 						categories.map((category) => (
-							<BaseSimpleCardComponent key={category.id} visibleText={category.nombre} objectToManipulated={category}>
-
-								<View
-									style={{
-										flexDirection: 'row',
-										gap: 20
-									}}
-								>
-									<MaterialCommunityIcons 
-										name={category.esPrivada?'shield-key':'account-group'} 
-										size={20} 
-										color={category.esPrivada?'white':'grey'} />
-
-								</View>
-							</BaseSimpleCardComponent>
+							<CategoryCardComponent key={category.id} visibleText={category.nombre} category={category}/>
 						))
 					}
 
