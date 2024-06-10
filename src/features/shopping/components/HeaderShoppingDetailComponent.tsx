@@ -43,6 +43,7 @@ const HeaderShoppingDetailComponent = ({
   const [iconActionButton, setIconActionButton] = useState('cart-arrow-right')
   const [question, setQuestion] = useState("")
   const [description, setDescription] = useState("")
+  const [action, setAction] = useState("none")
   const user = authState.user
 
   const collaboratorsParams: CollaboratorsParams = {
@@ -52,11 +53,14 @@ const HeaderShoppingDetailComponent = ({
   }
 
   const showConfirmDialogOnDelete = () => {
+    setAction("delete")
+    setDescription("No podrá deshacer esta acción.")
     setQuestion(`¿Desea eliminar la compra ${shoppingState.shoppingToEdit?.descripcion}?`)
     showConfirmationDialog()
   }
 
   const showConfirmDialogOnChangeState = () => {
+    setAction("changeState")
     showConfirmationDialog()
   }
 
@@ -92,7 +96,17 @@ const HeaderShoppingDetailComponent = ({
 
   const handleConfirmAction = async () => {
     // Lógica a ejecutar cuando se presiona el botón "Aceptar"
-    await removeShoppingById();
+    switch(action){
+      case 'delete':
+        await removeShoppingById();
+        break;
+      case 'changeState':
+        handleConfirmActionToPending();
+        break; 
+      default: console.log("sin acción definida");
+        break;
+      
+    }
     hideConfirmationDialog();
   };
 
@@ -106,7 +120,7 @@ const HeaderShoppingDetailComponent = ({
 
     try {
       await removeShopping(shoppingState.idShoppingCardSelected)
-      ToastAndroid.show("Lista eliminada con exito", ToastAndroid.SHORT)
+      ToastAndroid.show("Compra eliminada con exito", ToastAndroid.SHORT)
       setIsLoadingOnRemove(false);
       setRefreshShoppings(true)
 
@@ -249,14 +263,6 @@ const HeaderShoppingDetailComponent = ({
         visible={confirmationVisible}
         onRequestClose={hideConfirmationDialog}
         onConfirm={handleConfirmAction}
-        question={question}
-        description='No podrá deshacer esta acción.'
-      />
-
-      <ConfirmDialogComponent
-        visible={confirmationVisible}
-        onRequestClose={hideConfirmationDialog}
-        onConfirm={handleConfirmActionToPending}
         question={question}
         description={description}
       />

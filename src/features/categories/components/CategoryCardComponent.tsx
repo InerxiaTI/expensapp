@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { CategoryContext } from '../context/CategoryContext'
 import { infoLog } from '../../../utils/HandlerError'
-import { Category } from '../../../interfaces/CategoriesInterface'
+import { Category, EditCategoryRequest } from '../../../interfaces/CategoriesInterface'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 interface BaseSimpleCardProps {
@@ -13,11 +13,20 @@ interface BaseSimpleCardProps {
 const CategoryCardComponent = ({visibleText, category}:BaseSimpleCardProps) => {
 
 	const [isPressed, setIsPressed] = useState(false);
-	const { setIdCategoryCardSelected, setIsCategoryCardSelected, categoryState } = useContext(CategoryContext);
+	const { setIdCategoryCardSelected, setIsCategoryCardSelected, categoryState, setCategoryToEdit} = useContext(CategoryContext);
 
+
+	const parseCategoryToEdit = () => {
+		const categoryToEdit: EditCategoryRequest = {
+			idCategoria: category.id,
+			nombre: category.nombre,
+			esPrivada: category.esPrivada
+		}
+		setCategoryToEdit(categoryToEdit)
+	}
 	
   const handleLongPress = () => {
-    //parseShoppingToEdit()
+    parseCategoryToEdit()
     //setBackground('#d9a2ff')
     setIsPressed(true);
     setIsCategoryCardSelected(true)

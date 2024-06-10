@@ -27,3 +27,12 @@ export interface CategoriesFilterRequest {
 	esPrivada?:        boolean;
 }
 
+export interface EditCategoryRequest {
+	idCategoria: number;
+	nombre:      string;
+	esPrivada:   boolean;
+}
+
+export interface AddCategoryParams {
+	editCategoryRequest?: EditCategoryRequest,
+}

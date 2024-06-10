@@ -1,46 +1,55 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import BaseScreenComponent from '../../../components/BaseScreenComponent'
 import { Image, StyleSheet, Text, ToastAndroid, View } from 'react-native'
 import { KeyboardAvoidingScrollView } from '@cassianosch/react-native-keyboard-sticky-footer-avoiding-scroll-view'
 import { ButtonV2Component } from '../../../components/buttons/ButtonV2Component'
 import expenseBanner from '../../../../assets/expenseBanner.png';
 import InputV1Component from '../../../components/inputs/InputV1Component'
-import { useNavigation } from '@react-navigation/native'
 import { GenericHeaderComponent } from '../../../components/GenericHeaderComponent'
 import SwitchV1 from '../../../components/switch/SwitchV1'
 import { useNewCategory } from '../hooks/useNewCategory'
-import { CreateCategoryRequest } from '../../../interfaces/CategoriesInterface';
+import { CreateCategoryRequest, AddCategoryParams } from '../../../interfaces/CategoriesInterface';
 import { AuthContext } from '../../../context/AuthContext'
 import { errorLog, infoLog } from '../../../utils/HandlerError'
+import { StackScreenProps } from '@react-navigation/stack'
+import { RootStackParams } from '../../../navigation/MainStackNavigator'
+import { useEditCategory } from '../hooks/useEditCategory'
+
+interface AddCategoriesScreenProps extends StackScreenProps<RootStackParams, 'AddCategory'> { }
 
 
-const AddCategoriesScreen = () => {
-	const navigator = useNavigation();
+const AddCategoriesScreen = ({ route, navigation }: AddCategoriesScreenProps) => {
 	const {authState} = useContext(AuthContext);
   const user = authState.user
+
+	const addCategoryParams: AddCategoryParams = route.params
+
+	const [screenTitle, setScreenTitle] = useState("Agregar categoria")
+	const [isEditCategory, setIsEditCategory] = useState(false)
 
 	const [categoryText, setCategoryText] = useState("")
 	const [isEnabled, setIsEnabled] = useState(false);
 	const [habilitarBoton, setHabilitarBoton] = useState(false)
 
 	const {isLoading, setIsLoading, saveCategory} = useNewCategory();
+	const {isLoading: isLoadingEdit, setIsLoading: setIsLoadingEdit, updateCategory} = useEditCategory();
 
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
 	React.useEffect(() => {
     // Use `setOptions` to update the button that we previously specified
     // Now the button includes an `onPress` handler to update the count
-    navigator.setOptions({
+    navigation.setOptions({
       headerStyle: {
         backgroundColor: 'white',
       },
       headerShown: true,
       header: () => (
-				<GenericHeaderComponent title='Agregar Categoria' showArrowBack />
+				<GenericHeaderComponent title={screenTitle} showArrowBack />
       ),
 
     });
-  }, [navigator]);
+  }, [navigation, screenTitle]);
 
 	const handleOnChangeCategoryText = (text: string) => {
 		console.log(text);
@@ -78,9 +87,45 @@ const AddCategoriesScreen = () => {
 			setCategoryText("")
 			setHabilitarBoton(false)
 		}
-		
-		
 	}
+
+	const handleEdit = async () => {
+		const editCategory = addCategoryParams.editCategoryRequest
+		editCategory!.esPrivada = isEnabled;
+		editCategory!.nombre = categoryText
+
+		setIsLoadingEdit(true);
+		setHabilitarBoton(false)
+
+		try {
+			await updateCategory(editCategory!);
+			setIsLoadingEdit(false);
+
+			// navigation.dispatch() se quiere llamar la función para actualizar las listas de compras
+			navigation.goBack() // Volver a la pantalla anterior
+
+		} catch (error) {
+			infoLog("Falla al guardar: " + error);
+		} finally {
+			setIsLoadingEdit(false);
+			setHabilitarBoton(true)
+
+		}
+
+	}
+
+	useEffect(() => {
+		infoLog("USE 1 "+JSON.stringify(addCategoryParams))
+		if(addCategoryParams!==undefined && addCategoryParams.editCategoryRequest!==undefined){
+			console.log("vamos a editar");
+			setIsEditCategory(true)
+			setScreenTitle("Editar categoria");
+			setCategoryText(addCategoryParams.editCategoryRequest.nombre)
+			setIsEnabled(addCategoryParams.editCategoryRequest.esPrivada)
+
+
+		}
+	},[])
 
 
 	return (
@@ -91,7 +136,7 @@ const AddCategoriesScreen = () => {
 				stickyFooter={
 					<ButtonV2Component
 						title={'Guardar'}
-						onPress={handleOnSaveCategory}
+						onPress={isEditCategory? handleEdit :handleOnSaveCategory}
 						isLoading={isLoading}
 						habilitarBoton={habilitarBoton}
 
