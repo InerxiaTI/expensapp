@@ -21,7 +21,7 @@ const ShoppingCardComponent = ({ shopping, shoppingListState }: ShoppingCardProp
   const { setShoppingCardSelected, setIdShoppingCardSelected, shoppingState, setShoppingToEdit } = useContext(ShoppingContext);
 
 
-  function parseShoppingToEdit(){
+  function parseShoppingToEdit() {
     const shoppingToEdit: EditShoppingRequest = {
       idCompra: shopping.id,
       idCategoria: shopping.idCategoria,
@@ -41,7 +41,7 @@ const ShoppingCardComponent = ({ shopping, shoppingListState }: ShoppingCardProp
     setIsPressed(true);
     setShoppingCardSelected(true)
     setIdShoppingCardSelected(shopping.id)
-    infoLog("LONGPRESS_1: " + isPressed +" / " +background)
+    infoLog("LONGPRESS_1: " + isPressed + " / " + background)
 
   };
 
@@ -50,7 +50,7 @@ const ShoppingCardComponent = ({ shopping, shoppingListState }: ShoppingCardProp
     setShoppingCardSelected(false)
     setBackground('#262626')
     setIsPressed(false);
-    infoLog("++++++++++++ LONGPRESS_2: " + isPressed +" / " +background)
+    infoLog("++++++++++++ LONGPRESS_2: " + isPressed + " / " + background)
 
   };
 
@@ -59,26 +59,31 @@ const ShoppingCardComponent = ({ shopping, shoppingListState }: ShoppingCardProp
 
     <TouchableOpacity
       onPress={handlePressOut}
-      onLongPress={shoppingListState==="PENDIENTE"? handleLongPress: () => {}}
+      onLongPress={shoppingListState === "PENDIENTE" ? handleLongPress : () => { }}
       delayLongPress={300}
-      >
+    >
       <View style={{
-          ...styles.card,
-          backgroundColor: shopping.id === shoppingState.idShoppingCardSelected && isPressed? '#4f4f4f': '#262626'}}>
+        ...styles.card,
+        backgroundColor: shopping.id === shoppingState.idShoppingCardSelected && isPressed ? '#4f4f4f' : '#262626'
+      }}>
         <View style={styles.containerShoppingInfo}>
           <View style={styles.containerPerColumn}>
             <MaterialCommunityIcons name='shopping' size={14} color='white' />
             <Text style={{
               ...styles.shoppingText,
               color: 'white'
-            }}>{sliceText(shopping.id+" - "+shopping.nombreCategoria + ". " + shopping.descripcion, 23)}</Text>
+            }}>{sliceText(shopping.id + " - " + shopping.nombreCategoria + ". " + shopping.descripcion, 23)}</Text>
 
           </View>
 
-          <Text style={styles.textGrey}>{shopping.nombresUsuarioCompra}</Text>
+          <View style={styles.containerPerColumn}>
+            <MaterialCommunityIcons name='currency-usd' size={14} color='grey' />
+            <Text style={styles.textGrey}>{shopping.nombresUsuarioCompra}</Text>
+          </View>
+
 
           <View style={styles.containerPerColumn}>
-            <Icon name='calendar' size={12} color='white' />
+            <Icon name='calendar' size={14} color='grey' />
             <Text style={styles.textGrey}>{getFormatedDate(new Date(shopping.fechaCompra), "YYYY-MM-DD")}</Text>
 
           </View>
@@ -96,6 +101,23 @@ const ShoppingCardComponent = ({ shopping, shoppingListState }: ShoppingCardProp
               </Text>
             </View>
 
+            {
+              shopping.nombresUsuarioRegistro!==shopping.nombresUsuarioCompra
+              ?
+              <View 
+                style={{
+                  ...styles.containerPerColumn,
+                  position: 'absolute',
+                  top: 40,
+                 
+              }}>
+                <Text style={styles.textGrey2}>Registrado por: {shopping.nombresUsuarioRegistro}</Text>
+              </View>
+              : 
+              <></>
+            }
+           
+
             {/* <View style={styles.containerPerColumn}>
                             <Icon name='trending-up' size={14} color='white' />
                             <Text style={{...styles.shoppingText, color: '#00861D'}}>
@@ -106,7 +128,7 @@ const ShoppingCardComponent = ({ shopping, shoppingListState }: ShoppingCardProp
           </View>
         </View>
         <View>
-  
+
         </View>
 
       </View>
@@ -163,6 +185,11 @@ const styles = StyleSheet.create({
   textGrey: {
     fontSize: 14,
     color: '#6B7280'
+  },
+  textGrey2: {
+    fontSize: 10,
+    color: '#6B7280',
+    opacity: 0.4
   }
 
 });

@@ -47,6 +47,7 @@ export interface Collaborator {
     idListaCompra:    number;
     idUsuario:        number;
     esCreador:        boolean;
+    totalCompras:     number;
 }
 
 
