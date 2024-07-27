@@ -10,6 +10,7 @@ import { RootStackParams } from '../../../navigation/MainStackNavigator';
 import CategoryCardComponent from '../components/CategoryCardComponent';
 import HeaderCategoryComponent from '../components/HeaderCategoryComponent';
 import { CategoryContext } from '../context/CategoryContext';
+import { infoLog } from '../../../utils/HandlerError';
 
 interface CategoriesScreenProps extends StackScreenProps<RootStackParams, 'CategoriesList'> { }
 
@@ -48,10 +49,16 @@ const CategoriesScreen = ({ route, navigation }: CategoriesScreenProps) => {
   }, [navigation]);
 
 	useEffect(()=>{
+		infoLog("qqqqqqqqqqqqqqqqqqqqqqqqqqq 1 use effect")
 		if(categoryState.refreshCategory){
 			setIdCategoryCardSelected(0);
 		}
 	},[categoryState.refreshCategory])
+
+	useEffect(()=>{
+		infoLog("ENTRA A CATEGORIAS LISTA---------------------")
+		setIdCategoryCardSelected(0);
+	}, [])
 
 	return (
 		<BaseScreenComponent>

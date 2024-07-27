@@ -7,7 +7,7 @@ import { CategoryContext } from "../context/CategoryContext"
 export const useEditCategory = () => {
 	const [isLoading, setIsLoading] = useState(false)
 	const [category, setCategory] = useState<Category>()
-	const {setRefreshCategory} = useContext(CategoryContext);
+	const {setRefreshCategory, setIdCategoryCardSelected} = useContext(CategoryContext);
 
 
 
@@ -18,6 +18,7 @@ export const useEditCategory = () => {
 				console.log("response: "+JSON.stringify(response));
 				setRefreshCategory(true)
 				//setIsFocusFetchShoppings(true)
+				setIdCategoryCardSelected(0)
 				//setRefreshHome(true)
 				setCategory(response)
 		} catch (error) {

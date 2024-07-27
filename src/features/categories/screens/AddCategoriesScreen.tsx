@@ -34,8 +34,10 @@ const AddCategoriesScreen = ({ route, navigation }: AddCategoriesScreenProps) =>
 	const {isLoading, setIsLoading, saveCategory} = useNewCategory();
 	const {isLoading: isLoadingEdit, setIsLoading: setIsLoadingEdit, updateCategory} = useEditCategory();
 
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-
+  const toggleSwitch = () => {
+		setHabilitarBoton(true)
+		setIsEnabled(previousState => !previousState);
+	}
 	React.useEffect(() => {
     // Use `setOptions` to update the button that we previously specified
     // Now the button includes an `onPress` handler to update the count
