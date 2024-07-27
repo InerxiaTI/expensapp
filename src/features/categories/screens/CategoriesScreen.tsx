@@ -1,15 +1,16 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import BaseScreenComponent from '../../../components/BaseScreenComponent'
-import { GenericHeaderComponent } from '../../../components/GenericHeaderComponent'
 import { AuthContext } from '../../../context/AuthContext';
 import { useFetchCategories } from '../hooks/useFetchCategories';
 import { CategoriesFilterRequest } from '../../../interfaces/CategoriesInterface';
 import { ScrollView, View } from 'react-native';
-import BaseSimpleCardComponent from '../../../components/base/BaseSimpleCardComponent';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import FloatingActionButton from '../../../components/FloatingActionButton';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../../../navigation/MainStackNavigator';
+import CategoryCardComponent from '../components/CategoryCardComponent';
+import HeaderCategoryComponent from '../components/HeaderCategoryComponent';
+import { CategoryContext } from '../context/CategoryContext';
+import { infoLog } from '../../../utils/HandlerError';
 
 interface CategoriesScreenProps extends StackScreenProps<RootStackParams, 'CategoriesList'> { }
 
@@ -22,6 +23,9 @@ const CategoriesScreen = ({ route, navigation }: CategoriesScreenProps) => {
 
 	const { authState } = useContext(AuthContext);
   const userLogged = authState.user
+
+	const {categoryState, setIdCategoryCardSelected} = useContext(CategoryContext);
+
 
 	const request: CategoriesFilterRequest = {
 		idUsuarioCreador: userLogged!.id
@@ -38,11 +42,23 @@ const CategoriesScreen = ({ route, navigation }: CategoriesScreenProps) => {
       },
       headerShown: true,
       header: () => (
-				<GenericHeaderComponent title='Categorias' showArrowBack />
+				<HeaderCategoryComponent title='Categorias' idUsuarioCreador={userLogged!.id}/>
       ),
 
     });
   }, [navigation]);
+
+	useEffect(()=>{
+		infoLog("qqqqqqqqqqqqqqqqqqqqqqqqqqq 1 use effect")
+		if(categoryState.refreshCategory){
+			setIdCategoryCardSelected(0);
+		}
+	},[categoryState.refreshCategory])
+
+	useEffect(()=>{
+		infoLog("ENTRA A CATEGORIAS LISTA---------------------")
+		setIdCategoryCardSelected(0);
+	}, [])
 
 	return (
 		<BaseScreenComponent>
@@ -59,21 +75,7 @@ const CategoriesScreen = ({ route, navigation }: CategoriesScreenProps) => {
 				<ScrollView showsVerticalScrollIndicator={false}>
 					{
 						categories.map((category) => (
-							<BaseSimpleCardComponent key={category.id} visibleText={category.nombre} objectToManipulated={category}>
-
-								<View
-									style={{
-										flexDirection: 'row',
-										gap: 20
-									}}
-								>
-									<MaterialCommunityIcons 
-										name={category.esPrivada?'shield-key':'account-group'} 
-										size={20} 
-										color={category.esPrivada?'white':'grey'} />
-
-								</View>
-							</BaseSimpleCardComponent>
+							<CategoryCardComponent key={category.id} visibleText={category.nombre} category={category}/>
 						))
 					}
 
@@ -82,7 +84,7 @@ const CategoriesScreen = ({ route, navigation }: CategoriesScreenProps) => {
 
 			<FloatingActionButton
 				title={'plus'}
-				onPress={() => navigation.navigate('AddCategories')}
+				onPress={() => navigation.navigate('AddCategory')}
 			/>
 			
 
