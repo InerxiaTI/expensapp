@@ -1,13 +1,14 @@
 {
   "name": "ExpensApp",
-  "version": "0.0.1",
+  "version": "0.6.0-alpha",
   "private": true,
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "upgrade-version": "node ./scripts/upgrade-version.js"
   },
   "dependencies": {
     "@cassianosch/react-native-keyboard-sticky-footer-avoiding-scroll-view": "^1.0.5",

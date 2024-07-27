@@ -1,7 +1,9 @@
 import React, { useRef } from 'react'
-import { View, Text, TextInput, StyleSheet, KeyboardType, KeyboardTypeOptions } from 'react-native'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import { View, Text, TextInput, StyleSheet, KeyboardType, KeyboardTypeOptions, TouchableOpacity } from 'react-native'
 
 interface InputV1Props {
+    showPencil?: boolean,
     title?: string,
     placeholder?: string,
     onChangeText?: (text: string) => void, // Función que maneja el cambio de texto
@@ -17,6 +19,7 @@ interface InputV1Props {
 }
 
 const InputV1Component = ({
+    showPencil,
     title = '', 
     placeholder = '', onChangeText, value, editable= true, 
     keyboardType = 'default', autoFocus = false, refOwn,
@@ -52,6 +55,21 @@ const InputV1Component = ({
                     autoCapitalize={autoCapitalize}
                     // autoCorrect={autoCorrect}
                 />
+
+                {showPencil && (
+                    <View
+                        style={{
+                        flexDirection: 'row',
+                        borderColor: 'red',
+                        borderWidth: 0,
+                        gap: 5,
+                        marginRight: 15
+                        }}
+                    >
+                    <Icon name='pencil' size={20} color={'grey'} />
+                  </View>
+    
+                )}
 
             </View>
         </View>

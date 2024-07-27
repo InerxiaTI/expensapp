@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect, useContext } from 'react'
-import { Image, StyleSheet, Text, TextInput, ToastAndroid, View } from 'react-native'
+import { Image, Platform, StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native'
 import expenseBanner from '../../../../assets/expenseBanner.png';
 import BaseScreenComponent from '../../../components/BaseScreenComponent';
 import { GenericHeaderComponent } from '../../../components/GenericHeaderComponent';
@@ -11,6 +11,9 @@ import { useNewShoppingLists } from '../hooks/useNewShoppingList';
 import { errorLog } from '../../../utils/HandlerError';
 import ToolItemComponent from '../../../components/base/ToolItemComponent';
 import ConfirmDialogComponent from '../../../components/base/ConfirmDialogComponent';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import Clipboard from '@react-native-clipboard/clipboard';
+
 
 
 const NewShoppingListScreen = () => {
@@ -127,6 +130,16 @@ const NewShoppingListScreen = () => {
     setIsDisabled(false)
   }
 
+  const handleCopyToClipboard = () => {
+    Clipboard.setString(codigo);
+
+    if (Platform.OS === 'android') {
+      ToastAndroid.show('Texto copiado al portapapeles', ToastAndroid.SHORT);
+    } else {
+      // Puedes implementar una notificación similar para otras plataformas
+    }
+  };
+
   useEffect(() => {
 
     if (isFocused && inputRef.current) {
@@ -181,32 +194,51 @@ const NewShoppingListScreen = () => {
 
         />
 
-        <View>
-          <Text style={styles.textInfoInput}>Código para unirse</Text>
-          <View style={{
-            flexDirection: 'row',
-            backgroundColor: '#201F21',
-            justifyContent: 'flex-start',
-            alignItems: 'center',
-            borderRadius: 20,
-            marginTop: 5,
-            marginBottom: 16,
-            height: 50
-          }}>
+        {
+          codigo && (
+            <View>
+            <Text style={styles.textInfoInput}>Código para unirse</Text>
+            <View style={{
+              flexDirection: 'row',
+              backgroundColor: '#201F21',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              borderRadius: 20,
+              marginTop: 5,
+              marginBottom: 16,
+              height: 50
+            }}>
+  
+              <Text style={styles.searchTextInputDisabled}>
+                {codigo}
+              </Text>
 
-            <Text style={styles.searchTextInputDisabled}>
-              {codigo}
-            </Text>
+              <TouchableOpacity
+                  onPress={handleCopyToClipboard}
+                  style={{
+                    flexDirection: 'row',
+                    borderColor: 'red',
+                    borderWidth: 0,
+                    gap: 5,
+                    marginRight: 15
+                  }}
 
+                >
+                  <Icon name='content-copy' size={20} color={'white'} />
+                </TouchableOpacity>
+  
+            </View>
           </View>
-        </View>
+          )
+        }
+       
 
 
         {/* Boton */}
 
         <ButtonV2Component
           title='Guardar'
-          onPress={() => showConfirmationDialog()}
+          onPress={() => handleConfirmAction()}
           habilitarBoton={habilitarBoton}
           isLoading={isLoading}
         />

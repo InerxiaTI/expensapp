@@ -14,6 +14,7 @@ import LanguageScreen from '../screens/LanguageScreen';
 import LoadingComponent from '../components/LoadingComponent';
 import CategoriesScreen from '../features/categories/screens/CategoriesScreen';
 import AddCategoriesScreen from '../features/categories/screens/AddCategoriesScreen';
+import { AddCategoryParams } from '../interfaces/CategoriesInterface';
 
 export type RootStackParams = {
   Auth: undefined,
@@ -32,7 +33,7 @@ export type RootStackParams = {
   ErrorInesperado: any,
   Categories: any,
   CategoriesList: any,
-  AddCategories: any
+  AddCategory: AddCategoryParams
 
 }
 
@@ -67,7 +68,7 @@ export const CategoriesStack = () => {
         }
       }}>
       <Stack.Screen name="CategoriesList" component={CategoriesScreen} />
-      <Stack.Screen name="AddCategories" component={AddCategoriesScreen} />
+      <Stack.Screen name="AddCategory" component={AddCategoriesScreen} />
     </Stack.Navigator>
   )
 }
