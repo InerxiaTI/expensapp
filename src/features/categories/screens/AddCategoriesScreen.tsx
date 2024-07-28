@@ -80,6 +80,7 @@ const AddCategoriesScreen = ({ route, navigation }: AddCategoriesScreenProps) =>
 			ToastAndroid.show("Categoría creada con exito", ToastAndroid.LONG)
 
 			setIsLoading(false)
+			navigation.goBack()
 		} catch (error) {
 			errorLog("Falla al guardar: " + error);
 			ToastAndroid.show("No se pudo crear la categoría", ToastAndroid.LONG)

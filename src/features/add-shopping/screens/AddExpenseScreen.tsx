@@ -53,7 +53,7 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
       },
       headerShown: true,
       header: () => (
-				<GenericHeaderComponent title='Agregar compra' showArrowBack />
+				<GenericHeaderComponent title={buttonTitle} showArrowBack />
       ),
 
     });
@@ -110,6 +110,7 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 		const currentDate = selectedDate;
 		setShow(false);
 		setDate(currentDate);
+		setHabilitarBoton(true)
 	};
 
 	const showDatepicker = () => {
@@ -192,7 +193,7 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 			infoLog("USE EFFECT "+JSON.stringify(addExpenseParams.editShoppingRequest))
 			setButtonTitle("Editar compra")
 			setEditarCompra(true)
-			console.log("vamos a editar");
+			infoLog("vamos a editar");
 			setDate(new Date(addExpenseParams.editShoppingRequest.fechaCompra))
 			setSelectedCollaborator({idUsuario: addExpenseParams.editShoppingRequest.idUsuarioCompra})
 			const {formattedValue, numericValue} = formatValorVisible(addExpenseParams.editShoppingRequest.valor.toString())

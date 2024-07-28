@@ -157,6 +157,8 @@ const HeaderShoppingDetailComponent = ({
           errorLog("No se pudo iniciar lista de compras", error)
           if (error!.response.data.message === 'TOTAL_PERCENTAGES_MUST_BE_100_PERCENT') {
             ToastAndroid.showWithGravity("Total porcentaje debe ser 100", ToastAndroid.LONG, 1)
+          } else if(error!.response.data.message === 'HAS_PENDING_REQUESTS') {
+            ToastAndroid.showWithGravity("Error: Tiene solicitudes de colaboradores pendientes", ToastAndroid.LONG, 1)
           } else {
             ToastAndroid.showWithGravity("No se pudo iniciar lista de compras", ToastAndroid.LONG, 1)
           }
@@ -194,11 +196,11 @@ const HeaderShoppingDetailComponent = ({
     switch (estado) {
       case 'PENDIENTE':
         setIconActionButton('cart-check')
-        setQuestion(`La lista pasará al estado EN_CIERRE ¿Desea cerrar la lista de compras:  ${title}?`)
-        setDescription('Podras deshacer está acción')
+        setQuestion(`La lista pasará al estado EN CIERRE ¿Desea cerrar la lista de compras?`)
+        setDescription('Podrás deshacer está acción')
         break;
       case 'CONFIGURANDO':
-        setQuestion(`¿Desea iniciar la lista de compras:  ${title}?`)
+        setQuestion(`¿Desea iniciar la lista de compras?`)
         setDescription("No podrá deshacer esta acción.")
         break;
     
