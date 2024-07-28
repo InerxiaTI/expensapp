@@ -24,7 +24,7 @@ const AddCategoriesScreen = ({ route, navigation }: AddCategoriesScreenProps) =>
 
 	const addCategoryParams: AddCategoryParams = route.params
 
-	const [screenTitle, setScreenTitle] = useState("Agregar categoria")
+	const [screenTitle, setScreenTitle] = useState("Agregar categoría")
 	const [isEditCategory, setIsEditCategory] = useState(false)
 
 	const [categoryText, setCategoryText] = useState("")
@@ -77,12 +77,12 @@ const AddCategoriesScreen = ({ route, navigation }: AddCategoriesScreenProps) =>
 		setHabilitarBoton(false)
 		try {
 			await saveCategory(createCategoryRequest)
-			ToastAndroid.show("Categoria creada con exito", ToastAndroid.LONG)
+			ToastAndroid.show("Categoría creada con exito", ToastAndroid.LONG)
 
 			setIsLoading(false)
 		} catch (error) {
 			errorLog("Falla al guardar: " + error);
-			ToastAndroid.show("No se pudo crear la categoria", ToastAndroid.LONG)
+			ToastAndroid.show("No se pudo crear la categoría", ToastAndroid.LONG)
 		} finally {
 			setIsLoading(false);
 			setIsEnabled(false)
@@ -121,7 +121,7 @@ const AddCategoriesScreen = ({ route, navigation }: AddCategoriesScreenProps) =>
 		if(addCategoryParams!==undefined && addCategoryParams.editCategoryRequest!==undefined){
 			console.log("vamos a editar");
 			setIsEditCategory(true)
-			setScreenTitle("Editar categoria");
+			setScreenTitle("Editar categoría");
 			setCategoryText(addCategoryParams.editCategoryRequest.nombre)
 			setIsEnabled(addCategoryParams.editCategoryRequest.esPrivada)
 
@@ -170,10 +170,10 @@ const AddCategoriesScreen = ({ route, navigation }: AddCategoriesScreenProps) =>
       >
 
         <InputV1Component
-          title='Categoria'
+          title='Categoría'
           onChangeText={handleOnChangeCategoryText}
           value={categoryText}
-          placeholder='Ingrese nombre de la categoria'
+          placeholder='Ingrese nombre de la categoría'
         />
 
 

@@ -42,7 +42,7 @@ const CategoriesScreen = ({ route, navigation }: CategoriesScreenProps) => {
       },
       headerShown: true,
       header: () => (
-				<HeaderCategoryComponent title='Categorias' idUsuarioCreador={userLogged!.id}/>
+				<HeaderCategoryComponent title='Categorías' idUsuarioCreador={userLogged!.id}/>
       ),
 
     });
