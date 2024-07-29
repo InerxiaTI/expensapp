@@ -20,6 +20,7 @@ interface AddCollaboratorAsShopperProps extends StackScreenProps<RootStackParams
 
 const AddCollaboratorAsShopperScreen = ({ route, navigation }: AddCollaboratorAsShopperProps) => {
 	const addCollaboratorsAsShopper: AddCollaboratorAsShopperParams = route.params
+	infoLog("4444444444 "+JSON.stringify(addCollaboratorsAsShopper))
 	const createShopping: CreateShoppingRequest = addCollaboratorsAsShopper.createShoppingRequest
 
 	const request: CollaboratorsFilterRequest = {

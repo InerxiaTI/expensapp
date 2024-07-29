@@ -82,15 +82,8 @@ const HeaderShoppingDetailComponent = ({
 
 
   const handleEdit = () => {
-
-    const createShopping = { idListaCompras: idListaCompras }
-    const editShoppingParams: AddExpenseParams = {
-      editShoppingRequest: shoppingState.shoppingToEdit,
-      createShoppingRequest: createShopping,
-      estadoLista: estado,
-      idUsuarioCreador: idUsuarioCreador
-    }
-    navigator.navigate('AddExpense', editShoppingParams)
+    
+    navigator.navigate('AddExpense')
 
   }
 
@@ -194,15 +187,30 @@ const HeaderShoppingDetailComponent = ({
     infoLog("ID SHOPPING " + estado)
 
     switch (estado) {
+      //CONFIGURANDO: estado inicial, no permite agregar compras, solo configurar porcentajes, siguiente estado: PENDIENTE
+      case 'CONFIGURANDO':
+        setIconActionButton('cart-arrow-right')
+        setQuestion(`¿Desea iniciar la lista de compras?`)
+        setDescription("No podrá deshacer esta acción.")
+        break;
+      //PENDIENTE O ABIERTO: estado que permite agregar compras, no configurar porcentajes, permite pasar a: EN_CIERRE
       case 'PENDIENTE':
         setIconActionButton('cart-check')
         setQuestion(`La lista pasará al estado EN CIERRE ¿Desea cerrar la lista de compras?`)
         setDescription('Podrás deshacer está acción')
         break;
-      case 'CONFIGURANDO':
-        setQuestion(`¿Desea iniciar la lista de compras?`)
-        setDescription("No podrá deshacer esta acción.")
-        break;
+      //EN_CIERRE: no permite agregar compras, es un estado previo al FINALIZADO
+      //permite revisar las compras, ver los deudores y montos
+      //permite regresar al estado PENDIENTE para modificar alguna compra si es necesario.
+      case 'EN_CIERRE':
+
+      break;
+      //FINALIZADO: es el ultimo estado, no permite regresar a ningun estado
+      //significa que ya la lista está finalizada, no permite agregar compras ni revisar,
+      //y todas als deudas entre integrantes están saldadas
+      case 'FINALIZADO':
+
+      break;
     
       default:
         break;
@@ -229,7 +237,7 @@ const HeaderShoppingDetailComponent = ({
                 icon='dots-vertical'
               />
               {
-                user?.id === idUsuarioCreador ?
+                user?.id === idUsuarioCreador && estado !== 'FINALIZADO'?
                   <ToolItemComponent
                     onPress={showConfirmDialogOnChangeState}
                     icon={iconActionButton}

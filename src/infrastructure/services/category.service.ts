@@ -1,4 +1,4 @@
-import { CategoriesFilterRequest, Category, CreateCategoryRequest, CreateCategoryResponse, EditCategoryRequest } from "../../interfaces/CategoriesInterface";
+import { CategoriesFilterRequest, Category, CategoryByCreatorResponse, CreateCategoryRequest, CreateCategoryResponse, EditCategoryRequest } from "../../interfaces/CategoriesInterface";
 import { GenericResponse } from "../../interfaces/ShoppingInterface";
 import { User } from "../../interfaces/UserInterface";
 import { errorLog, infoLog } from "../../utils/HandlerError";
@@ -54,8 +54,22 @@ const editCategory = async (request: EditCategoryRequest) => {
 
 }
 
+const getCategoriesByCreator = async (idCreador: number) => {
+	infoLog("LLamando a la API para traer listas de categorias por creador");
+	try {
+		const response = await expenseMateApi.get<CategoryByCreatorResponse>(
+			`/categoria/filter-categorias-by-creador/${idCreador}`
+		)
+		return response.data.body
+	} catch (error) {
+		errorLog("Error direct on fetch categories by creator", error);
+		throw error;
+	}
+}
+
 export {
 	getCategories,
 	createCategory,
-	editCategory
+	editCategory,
+	getCategoriesByCreator
 }

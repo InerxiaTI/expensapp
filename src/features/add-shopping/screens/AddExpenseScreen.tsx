@@ -17,6 +17,8 @@ import { useEditShopping } from '../hooks/useEditShopping';
 import { errorLog, infoLog } from '../../../utils/HandlerError';
 import { GenericHeaderComponent } from '../../../components/GenericHeaderComponent';
 import { AuthContext } from '../../../context/AuthContext';
+import { Category } from '../../../interfaces/CategoriesInterface';
+import { ShoppingContext } from '../../../context/ShoppingContext';
 
 
 interface AddExpenseScreenProps extends StackScreenProps<RootStackParams, 'AddExpense'> { }
@@ -27,10 +29,14 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 	const {authState} = useContext(AuthContext);
   const user = authState.user
 
+	const { shoppingState, setAddExpenseParams } = useContext(ShoppingContext);
+
+
 	const { isLoading, setIsLoading, shopping, saveShopping} = useNewShopping()
 	const { isLoading: isLoadingEdit, setIsLoading: setIsLoadingEdit, updateShopping} = useEditShopping()
 
 	const [selectedCollaborator, setSelectedCollaborator] = useState<Collaborator>({});
+	const [selectedCategory, setSelectedCategory] = useState<Category>({});
 
 	const [compra, setCompra] = useState("");
 	const [valorCompra, setValorCompra] = useState("");
@@ -40,9 +46,9 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 	const [buttonTitle, setButtonTitle] = useState("Agregar compra")
 
 
-	const addExpenseParams: AddExpenseParams = route.params
+	const addExpenseParams: AddExpenseParams = shoppingState.addExpenseParams!
 
-	console.log("createShopping: " + JSON.stringify(addExpenseParams));
+	infoLog("5555555555555555 addExpenseParams: " + JSON.stringify(addExpenseParams));
 	
 	React.useEffect(() => {
     // Use `setOptions` to update the button that we previously specified
@@ -53,7 +59,7 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
       },
       headerShown: true,
       header: () => (
-				<GenericHeaderComponent title={buttonTitle} showArrowBack />
+				<GenericHeaderComponent title={addExpenseParams.editShoppingRequest?'Editar compra': 'Agregar compra'} showArrowBack />
       ),
 
     });
@@ -96,7 +102,10 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 	};
 
 	const validateForm = (compra: string, valor: string) => {
-		const formIsValid = compra.trim() !== '' && valor.trim() !== '';
+
+		console.log(JSON.stringify(selectedCategory), "ppppppppppppppp SELECT CATEGORY")
+
+		const formIsValid = compra.trim() !== '' && selectedCategory.id !== undefined;
 		setHabilitarBoton(formIsValid);
 	};
 
@@ -119,7 +128,7 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 
 	const handleEdit = async () => {
 
-
+		infoLog(JSON.stringify(addExpenseParams), "VER")
 		const editShopping = addExpenseParams.editShoppingRequest
 		infoLog(JSON.stringify(editShopping), "EDITAR ");
 		editShopping!.descripcion = compra
@@ -128,6 +137,9 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 		editShopping!.idUsuarioCompra = selectedCollaborator.idUsuario
 		editShopping!.idUsuarioRegistro = user!.id
 		editShopping!.valor = Number(valorCompra)
+		editShopping!.idCategoria = selectedCategory.id
+		infoLog(JSON.stringify(editShopping), "TO EDITAR ");
+
 
 		setIsLoadingEdit(true);
 		setHabilitarBoton(false)
@@ -154,12 +166,19 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 
 		const createShoppig = addExpenseParams.createShoppingRequest
 		const idUsuarioCompra = selectedCollaborator.idUsuario ? selectedCollaborator!.idUsuario : createShoppig!.idUsuarioCompra
+		const idCategoria = selectedCategory.id;
+
+		let valorCompraRequest = valorCompra
+		if(valorCompra.trim()===""){
+			valorCompraRequest = "0"
+		}
 
 		const createShoppingRequest: CreateShoppingRequest = {
 			...createShoppig,
 			idUsuarioCompra,
+			idCategoria,
 			fechaCompra: getFormatedDate(date, "YYYY-MM-DD"),
-			valor: Number(valorCompra),
+			valor: Number(valorCompraRequest),
 			descripcion: compra
 		}
 
@@ -187,15 +206,16 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 	}
 
 	useEffect(() => {
-		infoLog("USE 1 "+JSON.stringify(addExpenseParams.editShoppingRequest));
+		infoLog("-----------------USE antes de EDITAR 1 "+JSON.stringify(addExpenseParams));
 
 		if(addExpenseParams.editShoppingRequest!==undefined){
-			infoLog("USE EFFECT "+JSON.stringify(addExpenseParams.editShoppingRequest))
+			infoLog("-------USE EFFECT "+JSON.stringify(addExpenseParams.editShoppingRequest))
 			setButtonTitle("Editar compra")
 			setEditarCompra(true)
 			infoLog("vamos a editar");
 			setDate(new Date(addExpenseParams.editShoppingRequest.fechaCompra))
 			setSelectedCollaborator({idUsuario: addExpenseParams.editShoppingRequest.idUsuarioCompra})
+			setSelectedCategory({id: addExpenseParams.editShoppingRequest.idCategoria, nombre: addExpenseParams.editShoppingRequest.nombreCategoria})
 			const {formattedValue, numericValue} = formatValorVisible(addExpenseParams.editShoppingRequest.valor.toString())
 			setValorCompraVisible(formattedValue)
 			setValorCompra(numericValue)
@@ -206,8 +226,16 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 
 	useEffect(() => {
 		if (route.params && route.params.collaborator) {
-			console.log("aqui");
+			infoLog("CAMBIO COLABORADOR");
 			setSelectedCollaborator(route.params.collaborator);
+			setHabilitarBoton(true)
+		}
+
+		if(route.params && route.params.category){
+			infoLog("CAMBIO CATEGORIA");
+			setSelectedCategory(route.params.category);
+			setHabilitarBoton(true)
+
 		}
 	}, [route.params]);
 
@@ -356,6 +384,50 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 					keyboardType='numeric'
 					autoCorrect={false}
 				/>
+
+					<View
+						style={{
+							flex: 1,
+							borderWidth: 0,
+							borderColor: 'white'
+						}}
+					>
+						<Text style={{ ...styles.textInfoInput, fontSize: 20 }}>Categoría</Text>
+						<View style={styles.searchContainer}>
+							<TouchableWithoutFeedback
+								onPress={() => {
+									navigation.navigate('AddCategoryToShop',
+										{
+											idUsuarioCreador: addExpenseParams.idUsuarioCreador
+										}
+									)
+								}}
+							>
+								<View
+									style={{
+										flex: 1,
+										flexDirection: 'row',
+										paddingHorizontal: 15,
+										height: 50,
+										justifyContent: 'space-between',
+										alignItems: 'center',
+										borderWidth: 0,
+										borderColor: 'red',
+									}}
+								>
+									<Text style={{
+										fontSize: 14,
+										lineHeight: 20,
+										letterSpacing: 1,
+										fontWeight: '500',
+										color: 'lightgrey',
+									}}>{selectedCategory.nombre !== undefined ? selectedCategory.nombre : 'seleccionar categoría'}</Text>
+									<MaterialCommunityIcons name="chevron-down" size={20} color='white' />
+								</View>
+							</TouchableWithoutFeedback>
+
+						</View>
+					</View>
 
 			</KeyboardAvoidingScrollView>
 		</View>
