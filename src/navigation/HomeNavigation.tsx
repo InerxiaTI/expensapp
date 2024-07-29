@@ -6,6 +6,7 @@ import { RootStackParams } from "./MainStackNavigator";
 import AddCollaboratorAsShopperScreen from "../features/add-shopping/screens/AddCollaboratorAsShopperScreen";
 import AssignPercentageCollaboratorScreen from "../features/shopping/screens/AssignPercentageCollaboratorScreen";
 import CollaboratorsScreen from "../features/shopping/screens/CollaboratorsScreen";
+import AddCategoryToShopScreen from '../features/add-shopping/screens/AddCategoryToShopScreen';
 
 const HomeStack = createStackNavigator<RootStackParams>();
 
@@ -41,6 +42,14 @@ export const HomeNavigation = () => {
             <HomeStack.Screen name="AddCollaboratorAsShopper" component={AddCollaboratorAsShopperScreen} 
             options={{
                 title: 'AddCollaboratorAsShopper',
+                cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+                presentation: "card",
+
+             }}
+            />
+            <HomeStack.Screen name="AddCategoryToShop" component={AddCategoryToShopScreen} 
+            options={{
+                title: 'AddCategoryToShop',
                 cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
                 presentation: "card",
 

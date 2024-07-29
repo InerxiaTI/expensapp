@@ -18,13 +18,14 @@ interface ShoppingCardProps {
 const ShoppingCardComponent = ({ shopping, shoppingListState }: ShoppingCardProps) => {
   const [isPressed, setIsPressed] = useState(false);
   const [background, setBackground] = useState('#262626')
-  const { setShoppingCardSelected, setIdShoppingCardSelected, shoppingState, setShoppingToEdit } = useContext(ShoppingContext);
+  const { setShoppingCardSelected, setIdShoppingCardSelected, shoppingState, setShoppingToEdit, setAddExpenseParams } = useContext(ShoppingContext);
 
 
   function parseShoppingToEdit() {
     const shoppingToEdit: EditShoppingRequest = {
       idCompra: shopping.id,
       idCategoria: shopping.idCategoria,
+      nombreCategoria: shopping.nombreCategoria,
       idUsuarioCompra: shopping.idUsuarioCompra,
       idUsuarioRegistro: shopping.idUsuarioRegistro,
       fechaCompra: shopping.fechaCompra,
@@ -32,6 +33,11 @@ const ShoppingCardComponent = ({ shopping, shoppingListState }: ShoppingCardProp
       descripcion: shopping.descripcion
     }
     setShoppingToEdit(shoppingToEdit)
+    setAddExpenseParams({
+      ...shoppingState.addExpenseParams,
+      editShoppingRequest: shoppingToEdit
+    })
+
 
   }
 
