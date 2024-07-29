@@ -15,19 +15,21 @@ import LoadingComponent from '../components/LoadingComponent';
 import CategoriesScreen from '../features/categories/screens/CategoriesScreen';
 import AddCategoriesScreen from '../features/categories/screens/AddCategoriesScreen';
 import { AddCategoryParams } from '../interfaces/CategoriesInterface';
+import { AddCategoryToShopParams } from '../features/add-shopping/screens/AddCategoryToShopScreen';
 
 export type RootStackParams = {
   Auth: undefined,
   Tabs: undefined,
   Home: undefined,
   ShoppingDetails: ShoppingList,
-  AddExpense: AddExpenseParams,
+  AddExpense: AddExpenseParams|undefined,
   Login: undefined,
   NewShoppingList: undefined,
   JoinShoppingList: undefined,
   Settings: undefined,
   Language: undefined,
   AddCollaboratorAsShopper: AddCollaboratorAsShopperParams,
+  AddCategoryToShop: AddCategoryToShopParams,
   Collaborators: CollaboratorsParams,
   AssignPercentageCollaborator: any,
   ErrorInesperado: any,

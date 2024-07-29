@@ -4,13 +4,16 @@ import { CategoryContext } from '../context/CategoryContext'
 import { infoLog } from '../../../utils/HandlerError'
 import { Category, EditCategoryRequest } from '../../../interfaces/CategoriesInterface'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import { useNavigation } from '@react-navigation/native'
 
 interface BaseSimpleCardProps {
 	visibleText: string
-	category: Category
+	category: Category,
+	actionButton?: () => void
 }
 
-const CategoryCardComponent = ({visibleText, category}:BaseSimpleCardProps) => {
+const CategoryCardComponent = ({visibleText, category, actionButton}:BaseSimpleCardProps) => {
+	const navigator = useNavigation();
 
 	const [isPressed, setIsPressed] = useState(false);
 	const { setIdCategoryCardSelected, setIsCategoryCardSelected, categoryState, setCategoryToEdit} = useContext(CategoryContext);
@@ -48,8 +51,8 @@ const CategoryCardComponent = ({visibleText, category}:BaseSimpleCardProps) => {
 
 	return (
 		<TouchableOpacity
-			onPress={handlePressOut}
-			onLongPress={handleLongPress}
+			onPress={()=>actionButton?.length == undefined ? handlePressOut: actionButton()}
+			onLongPress={()=>actionButton?.length == undefined ? handleLongPress: ()=>undefined}
 		>
 			<View
 				style={{

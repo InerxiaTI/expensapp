@@ -1,5 +1,5 @@
 export default {
-    categories: 'Categorias',
+    categories: 'Categorías',
     notifications: 'Notificaciones',
     privacity: 'Privacidad y seguridad',
     storage: 'Datos y almacenamiento',

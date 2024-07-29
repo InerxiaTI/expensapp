@@ -33,6 +33,7 @@ const CollaboratorCardComponent = ({
 
 	const [disableButton, setDisableButton] = useState(true);
 	const [disableButtonCard, setDisableButtonCard] = useState(true);
+	const [editablePercentage, setEditablePercentage] = useState(false);
 	const [colorIcon, setColorIcon] = useState('grey');
 
 
@@ -119,6 +120,7 @@ const CollaboratorCardComponent = ({
 		if (collaborator.estado === 'APROBADO' && idUsuarioCreador === userLogged?.id
 			&& estadoLista === 'CONFIGURANDO') {
 			setDisableButtonCard(false)
+			setEditablePercentage(true)
 		}
 
 		if (actionButtom?.length !== undefined) {
@@ -146,10 +148,26 @@ const CollaboratorCardComponent = ({
 			<Text style={styles.mainText} >{collaborator.nombres} {collaborator.apellidos}</Text>
 			{
 				collaborator.estado === 'APROBADO' ?
-					<Text style={styles.mainText} >{collaborator.porcentaje}%</Text>
+					<View
+						style={{
+							borderWidth: 0,
+							borderColor: 'red',
+							flexDirection: 'row',
+							gap: 20
+						}}
+					>
+						<Text style={styles.mainText} >{collaborator.porcentaje}%</Text>
+						{
+							editablePercentage?
+								<MaterialCommunityIcons name='pencil' size={20} color='#6B7280'/>
+								:<></>
+						}
+						</View>
 					:
 					<View
 						style={{
+							borderWidth: 0,
+							borderColor: 'red',
 							flexDirection: 'row',
 							gap: 20
 						}}

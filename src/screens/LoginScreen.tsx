@@ -12,11 +12,14 @@ import BaseScreenComponent from '../components/BaseScreenComponent';
 import { ButtonV2Component } from '../components/buttons/ButtonV2Component';
 import { useForm } from '../hooks/useForm';
 import SplashScreen from 'react-native-splash-screen';
+import { useTranslation } from 'react-i18next';
 
 const { height } = Dimensions.get('window');
 
 
 const LoginScreen = () => {
+  const { t } = useTranslation();
+
   const { signIn, authState } = useContext(AuthContext);
   const [shouldNavigateToTabs, setShouldNavigateToTabs] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
@@ -158,7 +161,7 @@ const LoginScreen = () => {
               alignSelf: 'center'
 
             }}
-          >Iniciar sesión</Text>
+          >{t('login:loginTitle')}</Text>
 
           {/* Inputs */}
           <View
@@ -177,7 +180,7 @@ const LoginScreen = () => {
                 returnKeyType="next"
                 onSubmitEditing={() => passwordInputRef.current!.focus()}
                 autoCapitalize='none'
-                placeholder='Email'
+                placeholder={t('login:email')}
                 onChangeText={(value) => onChangeValidate(value, 'email', setHabilitarBoton, () => {
                   return isValidEmail(value);
                 })}
@@ -194,7 +197,7 @@ const LoginScreen = () => {
                 returnKeyType="done" // Cambiar el tipo de tecla
                 onSubmitEditing={handleAuth}
                 keyboardType='default'
-                placeholder='Contraseña'
+                placeholder={t('login:password')}
                 onChangeText={(value) => onChangeValidate(
                   value, 'password', setHabilitarBoton, () => {
                     if (value.length >= 4) {
@@ -223,7 +226,7 @@ const LoginScreen = () => {
                   fontWeight: '700',
 
                 }}
-              >Olvidaste la contraseña?</Text>
+              >{t('login:forgotPassword')}</Text>
             </View>
           </View>
 
@@ -240,7 +243,7 @@ const LoginScreen = () => {
 
             <ButtonV2Component
               onPress={handleAuth}
-              title='Login'
+              title={t('login:buttonLogin')}
               isLoading={isLoading}
               habilitarBoton={habilitarBoton}
 
@@ -275,14 +278,14 @@ const LoginScreen = () => {
                 fontSize: 14,
                 fontWeight: '700',
               }}
-            >No tienes una cuenta?</Text>
+            >{t('login:haveAccount')}</Text>
             <Text
               style={{
                 color: '#59D8E0',
                 fontSize: 14,
                 fontWeight: '700'
               }}
-            >Crear cuenta</Text>
+            >{t('login:createAccount')}</Text>
 
           </View>
 
@@ -302,7 +305,7 @@ const LoginScreen = () => {
                 fontSize: 24,
                 fontWeight: '700'
               }}
-            >O inicia sesión con</Text>
+            >{t('login:alternativeLogin')}</Text>
 
             <View
               style={{

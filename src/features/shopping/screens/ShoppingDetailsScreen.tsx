@@ -26,7 +26,7 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
   const { authState } = useContext(AuthContext);
   const { shoppingCardState, setIsCardLongPressed, setIsCardPressed } = useContext(ShoppingV2Context);
   const userLogged = authState.user
-  const { setShoppingCardSelected, setIdShoppingCardSelected, shoppingState, setRefreshShoppings } = useContext(ShoppingContext);
+  const { setShoppingCardSelected, setIdShoppingCardSelected, shoppingState, setRefreshShoppings, setAddExpenseParams } = useContext(ShoppingContext);
 
 
   const shoppingList = route.params
@@ -55,24 +55,26 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
 
   }
 
-  const [createShopping, setCreateShopping] = useState<CreateShoppingRequest>({
-    idListaCompras: shoppingList.id,
-    idCategoria: 1,
-    idUsuarioCompra: user!,
-    idUsuarioRegistro: user!,
-  })
-
-  const [addExpenseParams, setAddExpenseParams] = useState<AddExpenseParams>({
-    createShoppingRequest: createShopping,
-    estadoLista: shoppingList.estado,
-    idUsuarioCreador: shoppingList.usuarioCreadorId
-
-  })
-
   useEffect(() => {
     setIdShoppingCardSelected(0)
     setIsCardLongPressed(false)
     setIsCardLongPressed(false)
+
+    const createShopping: CreateShoppingRequest={
+      idListaCompras: shoppingList.id,
+      idCategoria: 1,
+      idUsuarioCompra: user!,
+      idUsuarioRegistro: user!,
+    }
+  
+    const addExpenseParams: AddExpenseParams= {
+      createShoppingRequest: createShopping,
+      estadoLista: shoppingList.estado,
+      idUsuarioCreador: shoppingList.usuarioCreadorId
+  
+    }
+  
+    setAddExpenseParams(addExpenseParams)
     
   },[])
 
@@ -226,11 +228,11 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
 
       </View>
       {
-        (shoppingList.estado !== 'CONFIGURANDO' && shoppingList.estado !== 'EN_CIERRE')
+        (shoppingList.estado === 'PENDIENTE')
           ?
           <FloatingActionButton
             title={'cart-plus'}
-            onPress={() => navigation.navigate('AddExpense', addExpenseParams)}
+            onPress={() => navigation.navigate('AddExpense')}
           />
           : <></>
       }
