@@ -1,4 +1,5 @@
 import { AddExpenseParams, EditShoppingRequest } from "../interfaces/ShoppingInterface"
+import { Collaborator } from "../interfaces/UserInterface"
 import { ShoppingState } from "./ShoppingContext"
 
 type ShoppingAction = 
@@ -9,6 +10,7 @@ type ShoppingAction =
     | {type: 'setIdShoppingCardSelected', payload: number}
     | {type: 'setShoppingToEdit', payload: EditShoppingRequest}
     | {type: 'setAddExpenseParams', payload: AddExpenseParams}
+    | {type: 'setCollaborators', payload: Collaborator[]}
 
 export const shoppingReducer = (state: ShoppingState, action: ShoppingAction): ShoppingState => {
 
@@ -47,6 +49,11 @@ export const shoppingReducer = (state: ShoppingState, action: ShoppingAction): S
             return {
                 ...state,
                 addExpenseParams: action.payload
+            }
+        case 'setCollaborators':
+            return {
+                ...state,
+                collaborators: action.payload
             }
     }
 

@@ -7,7 +7,7 @@ import { ShoppingContext } from "../../context/ShoppingContext";
 
 export const useFetchCollaborators = (request: CollaboratorsFilterRequest) => {
   const { authState } = useContext(AuthContext);
-  const { shoppingState, setIsFocusFetchShoppings } = useContext(ShoppingContext);
+  const { shoppingState, setIsFocusFetchShoppings, setCollaborators: setCollaboratorsContext } = useContext(ShoppingContext);
 
   const userLogged = authState.user
 
@@ -43,6 +43,8 @@ export const useFetchCollaborators = (request: CollaboratorsFilterRequest) => {
       
       setTotalPorcentaje(totalPorcentaje);
       setCollaborators(response)
+      setCollaboratorsContext(response)      
+
 
     } catch (error) {
       console.error("ERROR °°°°°°°°°°°° ", error.response.data);

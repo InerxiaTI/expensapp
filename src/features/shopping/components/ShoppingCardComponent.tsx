@@ -33,10 +33,6 @@ const ShoppingCardComponent = ({ shopping, shoppingListState }: ShoppingCardProp
       descripcion: shopping.descripcion
     }
     setShoppingToEdit(shoppingToEdit)
-    setAddExpenseParams({
-      ...shoppingState.addExpenseParams,
-      editShoppingRequest: shoppingToEdit
-    })
 
 
   }
@@ -70,73 +66,65 @@ const ShoppingCardComponent = ({ shopping, shoppingListState }: ShoppingCardProp
     >
       <View style={{
         ...styles.card,
-        backgroundColor: shopping.id === shoppingState.idShoppingCardSelected && isPressed ? '#4f4f4f' : '#262626'
+        backgroundColor: shopping.id === shoppingState.idShoppingCardSelected && isPressed 
+        ? '#4f4f4f' : '#262626'
       }}>
         <View style={styles.containerShoppingInfo}>
+
           <View style={styles.containerPerColumn}>
-            <MaterialCommunityIcons name='shopping' size={14} color='white' />
+            <MaterialCommunityIcons name='shopping' size={18} color='white' />
             <Text style={{
               ...styles.shoppingText,
               color: 'white'
-            }}>{sliceText(shopping.id + " - " + shopping.nombreCategoria + ". " + shopping.descripcion, 23)}</Text>
+            }}>{sliceText(shopping.nombreCategoria + ". " + shopping.descripcion, 50)}</Text>
 
           </View>
 
-          <View style={styles.containerPerColumn}>
-            <MaterialCommunityIcons name='currency-usd' size={14} color='grey' />
-            <Text style={styles.textGrey}>{shopping.nombresUsuarioCompra}</Text>
-          </View>
-
-
-          <View style={styles.containerPerColumn}>
-            <Icon name='calendar' size={14} color='grey' />
-            <Text style={styles.textGrey}>{getFormatedDate(new Date(shopping.fechaCompra), "YYYY-MM-DD")}</Text>
-
-          </View>
-
-
-        </View>
-
-        <View style={styles.containerShoppingAmount} >
-          <View style={styles.containerAmoutIconText}>
-
+          <View style={styles.containerPerColumn2}>
             <View style={styles.containerPerColumn}>
-              {/* <Icon name='trending-down' size={14} color='white' /> */}
-              <Text style={{ fontSize: 16, fontWeight: '700', color: '#fff' }}>
-                {currencyFormatter.format(parseFloat(shopping.valor), { code: 'COP', precision: 2 })}
-              </Text>
+              <MaterialCommunityIcons name='currency-usd' size={18} color='grey' />
+              <Text style={styles.textGrey}>{shopping.nombresUsuarioCompra}</Text>
             </View>
 
+            <View >
+              {/* <Icon name='trending-down' size={14} color='white' /> */}
+              {
+                shopping.valor == 0
+                ?
+                  <Text style={{ fontSize: 16, fontWeight: '700', color: '#C03CF9' }}>
+                    SIN VALOR
+                  </Text>
+                :
+                  <Text style={{ fontSize: 16, fontWeight: '700', color: '#fff' }}>
+                    {currencyFormatter.format(parseFloat(shopping.valor), { code: 'COP', precision: 2 })}
+                  </Text>
+              }
+              
+            </View>
+          </View>
+
+
+          <View style={styles.containerPerColumn2}>
+            <View style={styles.containerPerColumn}>
+              <Icon name='calendar' size={18} color='grey' />
+              <Text style={styles.textGrey}>{getFormatedDate(new Date(shopping.fechaCompra), "YYYY-MM-DD")}</Text>
+            </View>
+            
             {
               shopping.nombresUsuarioRegistro!==shopping.nombresUsuarioCompra
               ?
               <View 
                 style={{
-                  ...styles.containerPerColumn,
-                  position: 'absolute',
-                  top: 40,
-                 
+                  ...styles.containerPerColumn,                  
               }}>
                 <Text style={styles.textGrey2}>Registrado por: {shopping.nombresUsuarioRegistro}</Text>
               </View>
               : 
               <></>
             }
-           
-
-            {/* <View style={styles.containerPerColumn}>
-                            <Icon name='trending-up' size={14} color='white' />
-                            <Text style={{...styles.shoppingText, color: '#00861D'}}>
-                                $ {shopping.cuantoDeben}
-                            </Text>
-                        </View> */}
-
           </View>
-        </View>
-        <View>
 
         </View>
-
       </View>
 
     </TouchableOpacity>
@@ -146,41 +134,33 @@ const ShoppingCardComponent = ({ shopping, shoppingListState }: ShoppingCardProp
 
 const styles = StyleSheet.create({
   card: {
-    gap: 5,
     width: '100%',
     height: 81,
     marginTop: 11,
-    paddingStart: 16,
-    paddingTop: 8,
+    paddingStart: 10,
+    paddingEnd: 10,
+    paddingTop: 5,
     paddingBottom: 5,
     borderRadius: 8,
     borderColor: 'green',
     borderWidth: 0,
-    flexDirection: 'row',
+    flexDirection: 'column',
   },
   containerShoppingInfo: {
-    width: '55%',
     borderWidth: 0,
     borderColor: 'blue',
     gap: 2,
     justifyContent: 'center',
   },
-  containerShoppingAmount: {
-    flex: 1,
-    borderWidth: 0,
-    borderColor: 'white',
-    justifyContent: 'center',
-  },
-  containerAmoutIconText: {
-    borderWidth: 0,
-    borderColor: 'yellow',
-    gap: 10,
-    justifyContent: 'center',
-    alignItems: 'flex-start'
-  },
   containerPerColumn: {
     flexDirection: 'row',
     gap: 5,
+    borderWidth: 0,
+    borderColor: 'green'
+  },
+  containerPerColumn2: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     borderWidth: 0,
     borderColor: 'green'
   },
@@ -193,9 +173,9 @@ const styles = StyleSheet.create({
     color: '#6B7280'
   },
   textGrey2: {
-    fontSize: 10,
+    fontSize: 14,
     color: '#6B7280',
-    opacity: 0.4
+    opacity: 0.6
   }
 
 });

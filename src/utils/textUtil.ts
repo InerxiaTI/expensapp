@@ -17,4 +17,15 @@ export const parseDate = (date: string) => {
   return fechaFormateada;
 }
 
+export const mapStatusList = (statusList: string) => {
+  switch (statusList){
+    case 'PENDIENTE': 
+      return 'ABIERTO'
+    case 'EN_CIERRE':
+      return 'EN CIERRE'
+    default:
+      return statusList
+  }
+}
+
 

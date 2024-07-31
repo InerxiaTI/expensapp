@@ -26,7 +26,9 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
   const { authState } = useContext(AuthContext);
   const { shoppingCardState, setIsCardLongPressed, setIsCardPressed } = useContext(ShoppingV2Context);
   const userLogged = authState.user
-  const { setShoppingCardSelected, setIdShoppingCardSelected, shoppingState, setRefreshShoppings, setAddExpenseParams } = useContext(ShoppingContext);
+  const { setShoppingCardSelected, 
+    setIdShoppingCardSelected, 
+    shoppingState, setRefreshShoppings, setAddExpenseParams, setCollaborators } = useContext(ShoppingContext);
 
 
   const shoppingList = route.params

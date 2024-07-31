@@ -1,6 +1,7 @@
 import { createContext, useReducer  } from "react";
 import { shoppingReducer } from "./ShoppingReducer";
 import { AddExpenseParams, EditShoppingRequest } from '../interfaces/ShoppingInterface';
+import { Collaborator } from "../interfaces/UserInterface";
 
 
 export interface ShoppingState {
@@ -11,6 +12,7 @@ export interface ShoppingState {
     refreshShoppings: boolean;
     shoppingToEdit?: EditShoppingRequest;
     addExpenseParams?: AddExpenseParams;
+    collaborators?: Collaborator[] 
 }
 
 
@@ -21,7 +23,8 @@ export const shoppingInitialState: ShoppingState = {
     idShoppingCardSelected: 0,
     refreshShoppings: false,
     shoppingToEdit: undefined,
-    addExpenseParams: undefined
+    addExpenseParams: undefined,
+    collaborators: undefined
 }
 
 export interface ShoppingContextProps {
@@ -33,6 +36,7 @@ export interface ShoppingContextProps {
     setIdShoppingCardSelected: (value: number) => void;
     setShoppingToEdit: (value: EditShoppingRequest) => void;
     setAddExpenseParams: (value: AddExpenseParams) => void;
+    setCollaborators: (value: Collaborator[]) => void;
 }
 
 export const ShoppingContext = createContext({} as ShoppingContextProps)
@@ -69,6 +73,10 @@ export const ShoppingProvider = ({ children }: any) => {
         dispatch({type: 'setAddExpenseParams', payload: value})
     }
 
+    const setCollaborators = (value: Collaborator[]) => {
+        dispatch({type: 'setCollaborators', payload: value})
+    }
+
     return (
         <ShoppingContext.Provider 
             value={{ 
@@ -79,7 +87,8 @@ export const ShoppingProvider = ({ children }: any) => {
                 setIdShoppingCardSelected,
                 setRefreshShoppings,
                 setShoppingToEdit,
-                setAddExpenseParams
+                setAddExpenseParams,
+                setCollaborators
             }}
         >
             {children}

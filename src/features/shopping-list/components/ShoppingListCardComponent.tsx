@@ -3,7 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { ShoppingList } from '../../../interfaces/ShoppingInterface'
 import currencyFormatter from 'currency-formatter'
-import { sliceText } from '../../../utils/textUtil'
+import { mapStatusList, sliceText } from '../../../utils/textUtil'
 import { getFormatedDate } from 'react-native-modern-datepicker';
 
 
@@ -59,7 +59,7 @@ const ShoppingListCardComponent = ({ buysList }: ShoppingListCardProps) => {
                             borderColor: 'yellow'
                         }}
                     >
-                        <Text style={styles.secondaryText}>{buysList.estado}</Text>
+                        <Text style={styles.secondaryText}>{mapStatusList(buysList.estado)}</Text>
                     </View>
                 </View>
 
