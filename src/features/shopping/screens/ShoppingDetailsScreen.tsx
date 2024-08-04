@@ -26,13 +26,16 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
   const { authState } = useContext(AuthContext);
   const { shoppingCardState, setIsCardLongPressed, setIsCardPressed } = useContext(ShoppingV2Context);
   const userLogged = authState.user
-  const { setShoppingCardSelected, setIdShoppingCardSelected, shoppingState, setRefreshShoppings, setAddExpenseParams } = useContext(ShoppingContext);
+  const { setShoppingCardSelected, 
+    setIdShoppingCardSelected, 
+    shoppingState, setRefreshShoppings, setAddExpenseParams} = useContext(ShoppingContext);
 
 
-  const shoppingList = route.params
+  const shoppingList = shoppingState.shoppingList
+  infoLog(JSON.stringify(shoppingList), "AQUI1")
   const [user, setUser] = useState(userLogged!.id);
   const request: CollaboratorsFilterRequest = {
-    idListaCompras: shoppingList.id,
+    idListaCompras: shoppingList!.id,
     estados: ['APROBADO']
   }
 
@@ -114,7 +117,7 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
       ),
 
     });
-  }, [navigation]);
+  }, [navigation, shoppingState.refreshShoppings, shoppingState.shoppingList]);
 
 
   if (isLoading) {

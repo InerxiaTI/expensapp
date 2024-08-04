@@ -17,10 +17,6 @@ interface CategoriesScreenProps extends StackScreenProps<RootStackParams, 'Categ
 
 const CategoriesScreen = ({ route, navigation }: CategoriesScreenProps) => {
 
-	console.log(JSON.stringify(navigation));
-	console.log(JSON.stringify(route));
-	
-
 	const { authState } = useContext(AuthContext);
   const userLogged = authState.user
 

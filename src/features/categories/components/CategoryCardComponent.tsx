@@ -13,8 +13,6 @@ interface BaseSimpleCardProps {
 }
 
 const CategoryCardComponent = ({visibleText, category, actionButton}:BaseSimpleCardProps) => {
-	const navigator = useNavigation();
-
 	const [isPressed, setIsPressed] = useState(false);
 	const { setIdCategoryCardSelected, setIsCategoryCardSelected, categoryState, setCategoryToEdit} = useContext(CategoryContext);
 
@@ -52,7 +50,7 @@ const CategoryCardComponent = ({visibleText, category, actionButton}:BaseSimpleC
 	return (
 		<TouchableOpacity
 			onPress={()=>actionButton?.length == undefined ? handlePressOut: actionButton()}
-			onLongPress={()=>actionButton?.length == undefined ? handleLongPress: ()=>undefined}
+			onLongPress={()=>actionButton?.length === undefined ? handleLongPress(): ()=>undefined}
 		>
 			<View
 				style={{

@@ -9,7 +9,7 @@ import InputV1Component from '../../../components/inputs/InputV1Component';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../../../navigation/MainStackNavigator';
-import { CreateShoppingRequest, AddExpenseParams } from '../../../interfaces/ShoppingInterface';
+import { CreateShoppingRequest, AddExpenseParams, EditShoppingRequest } from '../../../interfaces/ShoppingInterface';
 import { ButtonV2Component } from '../../../components/buttons/ButtonV2Component';
 import { useNewShopping } from '../hooks/useNewShopping';
 import { Collaborator } from '../../../interfaces/UserInterface';
@@ -29,7 +29,7 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 	const {authState} = useContext(AuthContext);
   const user = authState.user
 
-	const { shoppingState, setAddExpenseParams } = useContext(ShoppingContext);
+	const { shoppingState, setShoppingToEdit } = useContext(ShoppingContext);
 
 
 	const { isLoading, setIsLoading, shopping, saveShopping} = useNewShopping()
@@ -59,7 +59,7 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
       },
       headerShown: true,
       header: () => (
-				<GenericHeaderComponent title={addExpenseParams.editShoppingRequest?'Editar compra': 'Agregar compra'} showArrowBack />
+				<GenericHeaderComponent title={shoppingState.shoppingToEdit?.idCompra?'Editar compra': 'Agregar compra'} showArrowBack />
       ),
 
     });
@@ -129,7 +129,7 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 	const handleEdit = async () => {
 
 		infoLog(JSON.stringify(addExpenseParams), "VER")
-		const editShopping = addExpenseParams.editShoppingRequest
+		const editShopping = shoppingState.shoppingToEdit
 		infoLog(JSON.stringify(editShopping), "EDITAR ");
 		editShopping!.descripcion = compra
 		editShopping!.fechaCompra = getFormatedDate(date, "YYYY-MM-DD")
@@ -149,13 +149,15 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 			setIsLoadingEdit(false);
 
 			// navigation.dispatch() se quiere llamar la función para actualizar las listas de compras
+			//limpiar context
 			navigation.goBack() // Volver a la pantalla anterior
 
 		} catch (error) {
 			infoLog("Falla al guardar: " + error);
 		} finally {
 			setIsLoadingEdit(false);
-			setHabilitarBoton(true)
+			setHabilitarBoton(true);
+			setShoppingToEdit(undefined)
 
 		}
 
@@ -208,25 +210,29 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 	useEffect(() => {
 		infoLog("-----------------USE antes de EDITAR 1 "+JSON.stringify(addExpenseParams));
 
-		if(addExpenseParams.editShoppingRequest!==undefined){
-			infoLog("-------USE EFFECT "+JSON.stringify(addExpenseParams.editShoppingRequest))
+		if(shoppingState.shoppingToEdit!==undefined){
+			infoLog("-------USE EFFECT "+JSON.stringify(shoppingState.shoppingToEdit))
 			setButtonTitle("Editar compra")
 			setEditarCompra(true)
 			infoLog("vamos a editar");
-			setDate(new Date(addExpenseParams.editShoppingRequest.fechaCompra))
-			setSelectedCollaborator({idUsuario: addExpenseParams.editShoppingRequest.idUsuarioCompra})
-			setSelectedCategory({id: addExpenseParams.editShoppingRequest.idCategoria, nombre: addExpenseParams.editShoppingRequest.nombreCategoria})
-			const {formattedValue, numericValue} = formatValorVisible(addExpenseParams.editShoppingRequest.valor.toString())
+			setDate(new Date(shoppingState.shoppingToEdit.fechaCompra))
+			setSelectedCategory({id: shoppingState.shoppingToEdit.idCategoria, nombre: shoppingState.shoppingToEdit.nombreCategoria})
+			const col: Collaborator = shoppingState.collaborators!.find(c => c.idUsuario === shoppingState.shoppingToEdit?.idUsuarioCompra)
+			setSelectedCollaborator(col)
+
+			infoLog(JSON.stringify(col)+ "COLLA")
+
+			const {formattedValue, numericValue} = formatValorVisible(shoppingState.shoppingToEdit.valor.toString())
 			setValorCompraVisible(formattedValue)
 			setValorCompra(numericValue)
-			setCompra(addExpenseParams.editShoppingRequest.descripcion)
+			setCompra(shoppingState.shoppingToEdit.descripcion)
 		}
 
 	},[])
 
 	useEffect(() => {
 		if (route.params && route.params.collaborator) {
-			infoLog("CAMBIO COLABORADOR");
+			infoLog("CAMBIO COLABORADOR "+JSON.stringify(route.params.collaborator) );
 			setSelectedCollaborator(route.params.collaborator);
 			setHabilitarBoton(true)
 		}
@@ -377,7 +383,7 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 				/>
 
 				<InputV1Component
-					title='Valor'
+					title='Valor (opcional)'
 					placeholder='Valor'
 					onChangeText={handleValorCompraChange}
 					value={valorCompraVisible}

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import BaseScreenComponent from '../../../components/BaseScreenComponent'
 import { ScrollView, View } from 'react-native'
 import { StackScreenProps } from '@react-navigation/stack'
@@ -9,6 +9,7 @@ import { useFetchCollaborators } from '../../../hooks/collaborators/useFetchColl
 import CollaboratorCardComponent from '../../../components/CollaboratorCardComponent'
 import { GenericHeaderComponent } from '../../../components/GenericHeaderComponent'
 import { infoLog } from '../../../utils/HandlerError'
+import { ShoppingContext } from '../../../context/ShoppingContext'
 
 export interface AddCollaboratorAsShopperParams {
 	createShoppingRequest: CreateShoppingRequest,
@@ -28,7 +29,8 @@ const AddCollaboratorAsShopperScreen = ({ route, navigation }: AddCollaboratorAs
 		estados: ['APROBADO']
 	}
 
-	const { reloadCollaborators, isLoading, collaborators } = useFetchCollaborators(request)
+	//const { reloadCollaborators, isLoading, collaborators } = useFetchCollaborators(request)
+	const {shoppingState} = useContext(ShoppingContext);
 
 
 	React.useEffect(() => {
@@ -62,7 +64,7 @@ const AddCollaboratorAsShopperScreen = ({ route, navigation }: AddCollaboratorAs
 				}}
 			>
 				<ScrollView>
-					{collaborators.map((collaborator, index) => (
+					{shoppingState.collaborators!.map((collaborator, index) => (
 						<CollaboratorCardComponent
 							key={index}
 							collaborator={collaborator}

@@ -69,7 +69,7 @@ const LoginScreen = () => {
 
         } catch (error) {
           console.log("ERROR: " + error);
-          ToastAndroid.show(error.response.data.message, ToastAndroid.LONG)
+          ToastAndroid.show("Usuario o contraseña incorrecta", ToastAndroid.LONG)
         } finally {
           setIsLoading(false)
           setIsDisabled(false)
