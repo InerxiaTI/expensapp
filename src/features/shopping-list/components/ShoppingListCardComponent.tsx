@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { ShoppingList } from '../../../interfaces/ShoppingInterface'
 import currencyFormatter from 'currency-formatter'
 import { mapStatusList, sliceText } from '../../../utils/textUtil'
 import { getFormatedDate } from 'react-native-modern-datepicker';
+import { ShoppingContext } from '../../../context/ShoppingContext'
 
 
 interface ShoppingListCardProps {
@@ -13,10 +14,17 @@ interface ShoppingListCardProps {
 
 const ShoppingListCardComponent = ({ buysList }: ShoppingListCardProps) => {
     const navigator = useNavigation();
+    const {setShoppingList} = useContext(ShoppingContext);
+
+    const goToShoppingDetail = () => {
+        //set shopping list to context to pass values
+        setShoppingList(buysList)
+        navigator.navigate('ShoppingDetails', buysList)
+    }
 
     return (
         <TouchableOpacity
-            onPress={() => navigator.navigate('ShoppingDetails', buysList)}
+            onPress={() => goToShoppingDetail()}
         >
             <View style={styles.card}>
 

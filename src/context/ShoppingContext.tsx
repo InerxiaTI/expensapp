@@ -1,6 +1,6 @@
 import { createContext, useReducer  } from "react";
 import { shoppingReducer } from "./ShoppingReducer";
-import { AddExpenseParams, EditShoppingRequest } from '../interfaces/ShoppingInterface';
+import { AddExpenseParams, EditShoppingRequest, ShoppingList } from '../interfaces/ShoppingInterface';
 import { Collaborator } from "../interfaces/UserInterface";
 
 
@@ -12,7 +12,8 @@ export interface ShoppingState {
     refreshShoppings: boolean;
     shoppingToEdit?: EditShoppingRequest;
     addExpenseParams?: AddExpenseParams;
-    collaborators?: Collaborator[] 
+    collaborators?: Collaborator[],
+    shoppingList?: ShoppingList 
 }
 
 
@@ -24,7 +25,8 @@ export const shoppingInitialState: ShoppingState = {
     refreshShoppings: false,
     shoppingToEdit: undefined,
     addExpenseParams: undefined,
-    collaborators: undefined
+    collaborators: undefined,
+    shoppingList: undefined
 }
 
 export interface ShoppingContextProps {
@@ -37,6 +39,7 @@ export interface ShoppingContextProps {
     setShoppingToEdit: (value: EditShoppingRequest) => void;
     setAddExpenseParams: (value: AddExpenseParams) => void;
     setCollaborators: (value: Collaborator[]) => void;
+    setShoppingList: (value: ShoppingList) => void;
 }
 
 export const ShoppingContext = createContext({} as ShoppingContextProps)
@@ -76,6 +79,9 @@ export const ShoppingProvider = ({ children }: any) => {
     const setCollaborators = (value: Collaborator[]) => {
         dispatch({type: 'setCollaborators', payload: value})
     }
+    const setShoppingList = (value: ShoppingList) => {
+        dispatch({type: 'setShoppingList', payload: value})
+    }
 
     return (
         <ShoppingContext.Provider 
@@ -88,7 +94,8 @@ export const ShoppingProvider = ({ children }: any) => {
                 setRefreshShoppings,
                 setShoppingToEdit,
                 setAddExpenseParams,
-                setCollaborators
+                setCollaborators,
+                setShoppingList
             }}
         >
             {children}
