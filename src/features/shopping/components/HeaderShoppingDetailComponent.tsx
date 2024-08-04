@@ -31,12 +31,12 @@ const HeaderShoppingDetailComponent = ({
 
   const navigator = useNavigation();
   const { authState } = useContext(AuthContext);
-  const { shoppingState, setRefreshShoppings } = useContext(ShoppingContext);
+  const { shoppingState, setRefreshShoppings} = useContext(ShoppingContext);
   const { hideContextMenu, showContextMenu, isContextMenuVisible } = useContextMenu()
 
 
   const { hideConfirmationDialog, showConfirmationDialog, confirmationVisible } = useConfirmDialog()
-  const { setIsLoading, saveStartShoppingList } = useStartShoppingList()
+  const { setIsLoading, saveStartShoppingList, shoppingList, isLoading } = useStartShoppingList()
   const { removeShopping, setIsLoading: setIsLoadingOnRemove, isLoading: isLoadingOnRemove } = useDeleteShopping()
 
 
@@ -143,7 +143,10 @@ const HeaderShoppingDetailComponent = ({
           await saveStartShoppingList(idListaCompras);
           setIsLoading(false);
           hideConfirmationDialog();
-          navigator.goBack() // Volver a la pantalla anterior
+          infoLog(JSON.stringify(shoppingList), "AQUI----")
+          //setShoppingList(shoppingList!)
+          setRefreshShoppings(true)
+          //navigator.goBack() // Volver a la pantalla anterior
 
         } catch (error) {
           //console.error("Falla al guardar: " + error);
@@ -182,7 +185,7 @@ const HeaderShoppingDetailComponent = ({
   }
 
   useEffect(() => {
-
+    infoLog("renderizando HEADER ####################")
     infoLog("ID SHOPPING TO EDIT OR DELETE: " + shoppingState.idShoppingCardSelected)
     infoLog("ID SHOPPING " + estado)
 
@@ -215,12 +218,7 @@ const HeaderShoppingDetailComponent = ({
       default:
         break;
     }
-
-  
-
-    
-
-  }, [])
+  },[shoppingState])
 
   return (
     <>

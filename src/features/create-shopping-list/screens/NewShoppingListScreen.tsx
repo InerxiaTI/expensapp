@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect, useContext } from 'react'
 import { Image, Platform, StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native'
-import expenseBanner from '../../../../assets/expenseBanner.png';
+import expenseBanner from '../../../../assets/bagE.png';
 import BaseScreenComponent from '../../../components/BaseScreenComponent';
 import { GenericHeaderComponent } from '../../../components/GenericHeaderComponent';
 import { useIsFocused, useNavigation } from '@react-navigation/native';
@@ -166,7 +166,8 @@ const NewShoppingListScreen = () => {
         width: '100%',
         alignItems: 'center',
         borderWidth: 0,
-        borderColor: 'red'
+        borderColor: 'red',
+        paddingTop: 10
       }}>
         <Image
           source={expenseBanner}

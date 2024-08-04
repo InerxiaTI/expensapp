@@ -5,7 +5,7 @@ import { ShoppingContext } from "../../../context/ShoppingContext";
 
 
 export const useStartShoppingList = () => {
-    const { setRefreshHome } = useContext(ShoppingContext);
+    const { setRefreshHome, setShoppingList: setSoppingListContext } = useContext(ShoppingContext);
 
     const [isLoading, setIsLoading] = useState(false)
     const [shoppingList, setShoppingList] = useState<ShoppingList>()
@@ -15,8 +15,9 @@ export const useStartShoppingList = () => {
 
         try {
             const response = await startShoppingList(idListaCompras)
-
+            console.log("QQQQQQQQQQQQQQQQQQ---- "+JSON.stringify(response));
             setShoppingList(response)
+            setSoppingListContext(response)
             setRefreshHome(true)
         } catch (error) {
             throw error;
