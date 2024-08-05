@@ -47,7 +47,7 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
 
   const {
     collaborators,
-    isLoading: isLoadingCollaborators } = useFetchCollaborators(request)
+    isLoading: isLoadingCollaborators, fetchCollaborators } = useFetchCollaborators(request)
 
 
   const changeList = (userId: number) => {
@@ -85,8 +85,10 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
     infoLog("En el useEffect dependiente del refreshShopping")
 
     if(shoppingState.refreshShoppings){
-      infoLog("REFRESCANDO CON REFESH_SHOPPING"+JSON.stringify(shoppingState));
-      getShoppingDetail(shoppingList.id, user!) 
+      infoLog("|||||||||||||||||||||REFRESCANDO CON REFESH_SHOPPING"+JSON.stringify(shoppingState));
+      infoLog("|||||||||||||||||||||REFRESCANDO CON REFESH_SHOPPING"+JSON.stringify(request));
+      getShoppingDetail(shoppingList.id, user!)
+      fetchCollaborators(request)
       setRefreshShoppings(false)
       setIdShoppingCardSelected(0)
     }
