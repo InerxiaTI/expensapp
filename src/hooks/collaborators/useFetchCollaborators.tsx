@@ -4,6 +4,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { getCollaborators } from "../../infrastructure/services/collaborator.service";
 import { useFocusEffect } from "@react-navigation/native";
 import { ShoppingContext } from "../../context/ShoppingContext";
+import { infoLog } from "../../utils/HandlerError";
 
 export const useFetchCollaborators = (request: CollaboratorsFilterRequest) => {
   const { authState } = useContext(AuthContext);
@@ -17,16 +18,16 @@ export const useFetchCollaborators = (request: CollaboratorsFilterRequest) => {
 
   useFocusEffect(
     useCallback(() => {
-      if (!shoppingState.isFocusFetchShoppings) {
+      //if (shoppingState.isFocusFetchShoppings || !shoppingState?.collaborators?.length > 0) {
         fetchCollaborators(request)
-      }
+      //}
       setIsFocusFetchShoppings(false)
     }, [])
   )
 
   const fetchCollaborators = async (request: CollaboratorsFilterRequest) => {
 
-    console.log("RR LLamando a la API para traer listas de colaboradores: ", JSON.stringify(request));
+    infoLog("RR LLamando a la API para traer listas de colaboradores: " + JSON.stringify(request));
     try {
       let totalPorcentaje = 0;
       const response = await getCollaborators(request)

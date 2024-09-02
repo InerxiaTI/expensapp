@@ -32,18 +32,17 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
 
 
   const shoppingList = shoppingState.shoppingList
-  infoLog(JSON.stringify(shoppingList), "AQUI1")
   const [user, setUser] = useState(userLogged!.id);
+
   const request: CollaboratorsFilterRequest = {
-    idListaCompras: shoppingList!.id,
+    idListaCompras: shoppingState.shoppingList!.id,
     estados: ['APROBADO']
   }
-
 
   const {
     isLoading,
     shoppingDetailList,
-    getShoppingDetail } = useFetchShoppingListDetail(shoppingList.id, user!);
+    getShoppingDetail } = useFetchShoppingListDetail(shoppingList!.id, user!);
 
   const {
     collaborators,
@@ -87,7 +86,7 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
     if(shoppingState.refreshShoppings){
       infoLog("|||||||||||||||||||||REFRESCANDO CON REFESH_SHOPPING"+JSON.stringify(shoppingState));
       infoLog("|||||||||||||||||||||REFRESCANDO CON REFESH_SHOPPING"+JSON.stringify(request));
-      getShoppingDetail(shoppingList.id, user!)
+      getShoppingDetail(shoppingList!.id, user!)
       fetchCollaborators(request)
       setRefreshShoppings(false)
       setIdShoppingCardSelected(0)
