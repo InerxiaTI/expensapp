@@ -290,7 +290,12 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 							borderColor: 'blue'
 						}}
 					>
-						<Text style={{ ...styles.textInfoInput, fontSize: 20 }}>Fecha de compra</Text>
+						<View style={{flexDirection: 'row'}}>
+							<Text style={{ ...styles.textInfoInput, fontSize: 20, 
+								borderWidth: 0,
+								borderColor: 'blue'}}>Fecha de compra</Text>
+							<Text style={styles.requiredFiled}> *</Text>
+						</View>
 						<View style={styles.searchContainer}>
 							<TouchableOpacity
 								style={{
@@ -322,7 +327,10 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 							borderColor: 'white'
 						}}
 					>
-						<Text style={{ ...styles.textInfoInput, fontSize: 20 }}>Comprador</Text>
+						<View style={{flexDirection: 'row'}}>
+							<Text style={{ ...styles.textInfoInput, fontSize: 20 }}>Comprador</Text>
+							<Text style={styles.requiredFiled}> *</Text>
+						</View>
 						<View style={styles.searchContainer}>
 							<TouchableWithoutFeedback
 								onPress={() => {
@@ -380,10 +388,11 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 					placeholder='Compra'
 					onChangeText={handleCompraChange}
 					value={compra}
+					required
 				/>
 
 				<InputV1Component
-					title='Valor (opcional)'
+					title='Valor'
 					placeholder='Valor'
 					onChangeText={handleValorCompraChange}
 					value={valorCompraVisible}
@@ -398,7 +407,10 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 							borderColor: 'white'
 						}}
 					>
-						<Text style={{ ...styles.textInfoInput, fontSize: 20 }}>Categoría</Text>
+						<View style={{flexDirection: 'row'}}>
+							<Text style={{ ...styles.textInfoInput, fontSize: 20 }}>Categoría</Text>
+							<Text style={styles.requiredFiled}> *</Text>
+						</View>
 						<View style={styles.searchContainer}>
 							<TouchableWithoutFeedback
 								onPress={() => {
@@ -479,5 +491,12 @@ const styles = StyleSheet.create({
 		padding: 16,
 		backgroundColor: 'white',
 	},
+	requiredFiled: {
+		fontSize: 20,
+		color: 'red',
+		opacity: 0.5, 
+		borderWidth: 0, 
+		borderColor: 'white'
+	}
 })
 export default AddExpenseScreen

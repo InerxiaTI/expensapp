@@ -31,7 +31,7 @@ const HeaderShoppingDetailComponent = ({
 
   const navigator = useNavigation();
   const { authState } = useContext(AuthContext);
-  const { shoppingState, setRefreshShoppings} = useContext(ShoppingContext);
+  const { shoppingState, setRefreshShoppings, setShoppingToEdit} = useContext(ShoppingContext);
   const { hideContextMenu, showContextMenu, isContextMenuVisible } = useContextMenu()
 
 
@@ -114,14 +114,13 @@ const HeaderShoppingDetailComponent = ({
     try {
       await removeShopping(shoppingState.idShoppingCardSelected)
       ToastAndroid.show("Compra eliminada con exito", ToastAndroid.SHORT)
-      setIsLoadingOnRemove(false);
-      setRefreshShoppings(true)
 
     } catch (error) {
       errorLog("Falla al eliminar lista", error)
       ToastAndroid.showWithGravity("No se pudo elimnar la lista de compras", ToastAndroid.LONG, 1)
 
     } finally {
+      setShoppingToEdit(undefined)
       setIsLoadingOnRemove(false)
       setRefreshShoppings(true)
 

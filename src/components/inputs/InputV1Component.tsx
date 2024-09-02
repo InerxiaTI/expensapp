@@ -3,6 +3,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { View, Text, TextInput, StyleSheet, KeyboardType, KeyboardTypeOptions, TouchableOpacity } from 'react-native'
 
 interface InputV1Props {
+    required?: boolean,
     showPencil?: boolean,
     title?: string,
     placeholder?: string,
@@ -19,6 +20,7 @@ interface InputV1Props {
 }
 
 const InputV1Component = ({
+    required,
     showPencil,
     title = '', 
     placeholder = '', onChangeText, value, editable= true, 
@@ -32,10 +34,24 @@ const InputV1Component = ({
         <View
             style={{
                 borderWidth: 0,
-                borderColor: 'red'
+                borderColor: 'red',
+                flex: 1
             }}
         >
-            <Text style={styles.textInfoInput}>{title}</Text>
+            <View style={{flexDirection: 'row'}}>
+                <Text style={styles.textInfoInput}>{title}</Text>
+                {required && (
+                    <Text style={{
+                        fontSize: 20,
+                        color: 'red',
+                        opacity: 0.5, 
+                        borderWidth: 0, 
+                        borderColor: 'white'
+                        }}> *</Text>
+                )}
+
+               
+            </View>
             <View 
                 style={{
                     ...styles.searchContainer,
