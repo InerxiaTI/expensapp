@@ -35,7 +35,6 @@ const InputV1Component = ({
             style={{
                 borderWidth: 0,
                 borderColor: 'red',
-                flex: 1
             }}
         >
             <View style={{flexDirection: 'row'}}>
