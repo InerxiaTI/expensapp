@@ -8,6 +8,7 @@ import { infoLog } from '../utils/HandlerError';
 import { useNavigation } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { GoogleSignin} from '@react-native-google-signin/google-signin';
 
 
 const SettingsScreen = () => {
@@ -15,7 +16,8 @@ const SettingsScreen = () => {
   const { t } = useTranslation();
 
 
-  const { logOut } = useContext(AuthContext);
+  const {authState, logOut} = useContext(AuthContext);
+  const user = authState.user
 
   React.useEffect(() => {
     // Use `setOptions` to update the button that we previously specified
@@ -34,15 +36,17 @@ const SettingsScreen = () => {
             height: 150
           }}
         >
-          <Text>Nombre usuario</Text>
+          <Text>{user?.nombres} {user?.apellidos}</Text>
         </SafeAreaView>
       ),
 
     });
   }, [navigator]);
 
-  const handleLogOut = () => {
+  const handleLogOut = async () => {
     logOut()
+    await GoogleSignin.signOut(); // Cierra sesión y elimina tokens almacenados
+    await GoogleSignin.revokeAccess(); // Revoca acceso de Google
   }
 
   return (

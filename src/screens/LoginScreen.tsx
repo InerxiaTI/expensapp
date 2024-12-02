@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react'
-import { Dimensions, Platform, StyleSheet, Text, TouchableOpacity, View, ToastAndroid, BackHandler } from 'react-native';
+import { Dimensions, Platform, StyleSheet, Text, TouchableOpacity, View, ToastAndroid, BackHandler, Alert } from 'react-native';
 import { ScrollView, TextInput } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { AuthContext } from '../context/AuthContext'
@@ -13,6 +13,9 @@ import { ButtonV2Component } from '../components/buttons/ButtonV2Component';
 import { useForm } from '../hooks/useForm';
 import SplashScreen from 'react-native-splash-screen';
 import { useTranslation } from 'react-i18next';
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+import { User } from '../interfaces/UserInterface';
+
 
 const { height } = Dimensions.get('window');
 
@@ -50,7 +53,7 @@ const LoginScreen = () => {
         try {
           console.log("1.");
           let myuser = await validateUser(form.email.email, form.password.password);
-          const userLogged = myuser?.data.body
+          const userLogged: User = myuser?.data.body
           console.log("6.", JSON.stringify(myuser?.data.body.correo));
 
 
@@ -104,6 +107,62 @@ const LoginScreen = () => {
     }, [])
   );
 
+  const signInWithGoogle = async () => {
+    try {
+      
+
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      console.log('Información del usuario:', userInfo.user);
+      //TODO: usuario logueado con google, entonces, validar si existe en bd,
+      //TODO: buscarlo por correo o id google
+      //TODO: si existe, simplemente traer el id de la bd, y cargarlo en el async storage
+      //TODO: sino existe, crearlo, debe habilitarse un endpoint para crearlo
+      //TODO: una vez creado se asigna al async storage
+      const userLogged: User  = {
+        id: 2, //TODO: borrar y dejar ID de usuario realmente existente o usuario nuevo
+        nombres: userInfo.user.givenName!,
+        apellidos: userInfo.user.familyName!,
+        correo: userInfo.user.email,
+        activo: true,
+        contrasena: 'x'
+      }
+
+      
+      if (userLogged) {
+        if (userLogged && userLogged.activo === true) {
+          console.log("usuario encontrado");
+          signIn(userLogged)
+          setShouldNavigateToTabs(true);
+
+        } else {
+          console.log("usuario o contraseña incorrecta / o usuario inactivo");
+          ToastAndroid.show("Usuario o contraseña incorrecta", ToastAndroid.LONG)
+        }
+
+      }
+      //await GoogleSignin.signOut(); // Cierra sesión y elimina tokens almacenados
+      //await GoogleSignin.revokeAccess(); // Revoca acceso de Google
+
+    } catch (error: any) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        console.log('El usuario canceló el inicio de sesión.');
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        console.log('Inicio de sesión en progreso.');
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        console.log('Google Play Services no está disponible.');
+      } else {
+        console.error('Error desconocido:', error);
+      }
+    }
+  };
+
+  useEffect(()=>{
+    GoogleSignin.configure({
+      webClientId: '220702327585-erb58nonkm46cdg692l1oneonk8m3jki.apps.googleusercontent.com', // Este es el ID de cliente de tu OAuth
+      offlineAccess: true, // Para obtener tokens de actualización
+    });
+  },[])
 
   useEffect(() => {
     const getUserFromStorage = async () => {
@@ -325,6 +384,7 @@ const LoginScreen = () => {
                   borderRadius: 8
 
                 }}
+                onPress={signInWithGoogle}
               >
                 <Icon
                   name='google'
@@ -333,14 +393,14 @@ const LoginScreen = () => {
 
                 />
               </TouchableOpacity>
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 style={{
                   backgroundColor: '#6B7280',
                   width: 60,
                   height: 60,
                   justifyContent: 'center',
                   alignItems: 'center',
-                  borderRadius: 8
+                  borderRadius: 8,
 
                 }}
               >
@@ -368,7 +428,7 @@ const LoginScreen = () => {
                   size={40}
 
                 />
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
 
           </View>
