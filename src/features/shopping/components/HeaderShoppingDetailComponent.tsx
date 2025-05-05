@@ -16,6 +16,7 @@ import ConfirmDialogComponent from '../../../components/base/ConfirmDialogCompon
 import { AddExpenseParams } from '../../../interfaces/ShoppingInterface';
 import { useContextMenu } from '../hooks/useContextMenu';
 import { useConfirmDialog } from '../../../hooks/useConfirmDialog';
+import { useCloseShoppingList } from '../hooks/useCloseShoppingList';
 
 interface HeaderShoppingDetailProps {
   idListaCompras: number;
@@ -37,12 +38,14 @@ const HeaderShoppingDetailComponent = ({
 
   const { hideConfirmationDialog, showConfirmationDialog, confirmationVisible } = useConfirmDialog()
   const { setIsLoading, saveStartShoppingList, shoppingList, isLoading } = useStartShoppingList()
+  const { setIsLoading: setIsLoadingOnClose, saveCloseShoppingList, shoppingList: shoppingListOnClose, isLoading: isLoadingOnClose } = useCloseShoppingList()
   const { removeShopping, setIsLoading: setIsLoadingOnRemove, isLoading: isLoadingOnRemove } = useDeleteShopping()
 
 
   const [iconActionButton, setIconActionButton] = useState('cart-arrow-right')
   const [question, setQuestion] = useState("")
   const [description, setDescription] = useState("")
+  const [stateName, setStateName] = useState("Abrir")
   const [action, setAction] = useState("none")
   const user = authState.user
 
@@ -130,19 +133,22 @@ const HeaderShoppingDetailComponent = ({
 
   const handleActionShoppingList = async () => {
 
-    infoLog("Handle Action")
+    infoLog("Handle Action: "+estado)
 
     switch (estado) {
       case 'CONFIGURANDO': {
         // Al darle click entonces se llama al servicio para inicializar y pasar al estado PENDIENTE
-        console.log("cambiando a estado PENDIENTE");
+        infoLog("cambiando a estado PENDIENTE");
         setIsLoading(true);
 
         try {
           await saveStartShoppingList(idListaCompras);
           setIsLoading(false);
           hideConfirmationDialog();
-          infoLog(JSON.stringify(shoppingList), "AQUI----")
+          infoLog("Info nueva en estado PENDIENTE: "+JSON.stringify(shoppingList))
+          infoLog("Info nueva en estado PENDIENTE: "+JSON.stringify(shoppingState.shoppingList))
+          infoLog("despues del start...");
+
           //setShoppingList(shoppingList!)
           setRefreshShoppings(true)
           //navigator.goBack() // Volver a la pantalla anterior
@@ -168,7 +174,37 @@ const HeaderShoppingDetailComponent = ({
         // Se cambia a cerrado - icono de bolsa de compra check
         // se muestra boton para volver a estado PENDIENTE O reabrir la lista
         // para corregir algun valor de una compra o alguna otra cosa
-        console.log("cambiando a estado CERRADO");
+        infoLog("cambiando a estado CERRADO");
+
+        // Al darle click entonces se llama al servicio para inicializar y pasar al estado PENDIENTE
+        infoLog("cambiando a estado PENDIENTE");
+        setIsLoading(true);
+
+        try {
+          await saveCloseShoppingList(idListaCompras);
+          setIsLoadingOnClose(false);
+          hideConfirmationDialog();
+          infoLog("Info nueva en estado EN_CIERRE: "+JSON.stringify(shoppingListOnClose))
+          infoLog("Info nueva en estado EN_CIERRE: "+JSON.stringify(shoppingState.shoppingList))
+          infoLog("despues del CLOSE...");
+
+          //setShoppingList(shoppingList!)
+          setRefreshShoppings(true)
+          //navigator.goBack() // Volver a la pantalla anterior
+
+        } catch (error) {
+          //console.error("Falla al guardar: " + error);
+          errorLog("No se pudo iniciar lista de compras", error)
+          if (error!.response.data.message === 'TOTAL_PERCENTAGES_MUST_BE_100_PERCENT') {
+            ToastAndroid.showWithGravity("Total porcentaje debe ser 100", ToastAndroid.LONG, 1)
+          } else if(error!.response.data.message === 'HAS_PENDING_REQUESTS') {
+            ToastAndroid.showWithGravity("Error: Tiene solicitudes de colaboradores pendientes", ToastAndroid.LONG, 1)
+          } else {
+            ToastAndroid.showWithGravity("No se pudo cerrar lista de compras", ToastAndroid.LONG, 1)
+          }
+
+        }
+
         break
 
       }
@@ -186,7 +222,8 @@ const HeaderShoppingDetailComponent = ({
   useEffect(() => {
     infoLog("renderizando HEADER ####################")
     infoLog("ID SHOPPING TO EDIT OR DELETE: " + shoppingState.idShoppingCardSelected)
-    infoLog("ID SHOPPING " + estado)
+    infoLog("SHOPPING LIST: " + JSON.stringify(shoppingState.shoppingList))
+    infoLog("ID SHOPPING ESTADO" + estado)
 
     switch (estado) {
       //CONFIGURANDO: estado inicial, no permite agregar compras, solo configurar porcentajes, siguiente estado: PENDIENTE
@@ -194,25 +231,32 @@ const HeaderShoppingDetailComponent = ({
         setIconActionButton('cart-arrow-right')
         setQuestion(`¿Desea iniciar la lista de compras?`)
         setDescription("No podrá deshacer esta acción.")
+        setStateName("Abrir")
         break;
       //PENDIENTE O ABIERTO: estado que permite agregar compras, no configurar porcentajes, permite pasar a: EN_CIERRE
       case 'PENDIENTE':
-        setIconActionButton('cart-check')
+        setIconActionButton('cart-remove')
         setQuestion(`La lista pasará al estado EN CIERRE ¿Desea cerrar la lista de compras?`)
         setDescription('Podrás deshacer está acción')
+        setStateName("Cerrar")
+
         break;
       //EN_CIERRE: no permite agregar compras, es un estado previo al FINALIZADO
       //permite revisar las compras, ver los deudores y montos
       //permite regresar al estado PENDIENTE para modificar alguna compra si es necesario.
       case 'EN_CIERRE':
+        setIconActionButton('cart-check')
+        setQuestion(`La lista pasará al estado FINALIZADA ¿Desea finalizar la lista de compras?`)
+        setDescription('No podrás deshacer está acción')
+        setStateName("Finalizar")
 
-      break;
+        break;
       //FINALIZADO: es el ultimo estado, no permite regresar a ningun estado
       //significa que ya la lista está finalizada, no permite agregar compras ni revisar,
       //y todas als deudas entre integrantes están saldadas
       case 'FINALIZADO':
 
-      break;
+        break;
     
       default:
         break;
@@ -238,6 +282,7 @@ const HeaderShoppingDetailComponent = ({
                   <ToolItemComponent
                     onPress={showConfirmDialogOnChangeState}
                     icon={iconActionButton}
+                    name={stateName}
                   />
                   :
                   <></>
