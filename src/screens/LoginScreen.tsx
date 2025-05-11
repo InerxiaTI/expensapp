@@ -113,7 +113,7 @@ const LoginScreen = () => {
 
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      console.log('Información del usuario:', userInfo.user);
+      infoLog('Información del usuario:' + JSON.stringify(userInfo.user));
       //TODO: usuario logueado con google, entonces, validar si existe en bd,
       //TODO: buscarlo por correo o id google
       //TODO: si existe, simplemente traer el id de la bd, y cargarlo en el async storage
@@ -450,7 +450,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 24,
     borderRadius: 20,
-    borderWidth: 1,
+    borderWidth: 0,
     borderColor: '#6B7280',
     backgroundColor: '#201F21'
 

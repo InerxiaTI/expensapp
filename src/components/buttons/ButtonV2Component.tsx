@@ -9,21 +9,23 @@ interface ButtonV2Props {
     isLoading?: boolean,
     buttonColor?: string
     textColor?: string
+    height?: number,
+    borderRadius?: number
+    titleSize?: number
 }
 
 export const ButtonV2Component = ({ 
     title = 'Button name', 
     onPress, 
     habilitarBoton = true,
-    isLoading = false, buttonColor = '#7600D3', textColor = '#FFFFFF'}: ButtonV2Props) => {
+    isLoading = false, buttonColor = '#7600D3', textColor = '#FFFFFF', height = 50,
+    borderRadius = 20, titleSize = 14}: ButtonV2Props) => {
     return (
         <View
             style={{
                 borderWidth: 0,
                 borderColor: 'white',
                 // paddingHorizontal: 28,
-                justifyContent: 'flex-end', // Alinea el botón al final
-                paddingBottom: 5, // Espacio inferior para el botón
                 backgroundColor: 'transparent',
             }}
         >
@@ -33,8 +35,8 @@ export const ButtonV2Component = ({
                 onPress={onPress}
                 style={{
                     backgroundColor: buttonColor,
-                    borderRadius: 20,
-                    height: 50,
+                    borderRadius: borderRadius,
+                    height: height,
                     justifyContent: 'center',
                     alignItems: 'center',
                     elevation: 3,
@@ -49,7 +51,7 @@ export const ButtonV2Component = ({
                         (
                             <Text
                                 style={{
-                                    fontSize: 14,
+                                    fontSize: titleSize,
                                     fontWeight: '700',
                                     color: textColor
 

@@ -15,7 +15,7 @@ const ToolItemComponent = ({onPress, icon, name}: ToolItemProps) => {
             style={{
                 flexDirection: 'row',
                 borderColor: 'red',
-                borderWidth: 1,
+                borderWidth: 0,
                 height: '100%',
                 paddingHorizontal: 5,
                 alignItems: 'center',

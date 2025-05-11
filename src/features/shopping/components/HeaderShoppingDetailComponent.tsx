@@ -13,10 +13,11 @@ import { errorLog, infoLog } from '../../../utils/HandlerError';
 import { ShoppingContext } from '../../../context/ShoppingContext';
 import { useDeleteShopping } from '../hooks/useDeleteShopping';
 import ConfirmDialogComponent from '../../../components/base/ConfirmDialogComponent';
-import { AddExpenseParams } from '../../../interfaces/ShoppingInterface';
+import { AddExpenseParams, Estado } from '../../../interfaces/ShoppingInterface';
 import { useContextMenu } from '../hooks/useContextMenu';
 import { useConfirmDialog } from '../../../hooks/useConfirmDialog';
 import { useCloseShoppingList } from '../hooks/useCloseShoppingList';
+import { useFinalizarShoppingList } from '../hooks/useFinalizarShoppingList';
 
 interface HeaderShoppingDetailProps {
   idListaCompras: number;
@@ -30,6 +31,9 @@ interface HeaderShoppingDetailProps {
 const HeaderShoppingDetailComponent = ({
   title, code, idListaCompras, idUsuarioCreador, estado }: HeaderShoppingDetailProps) => {
 
+    infoLog("idUsuarioCreador:= "+idUsuarioCreador);
+    
+
   const navigator = useNavigation();
   const { authState } = useContext(AuthContext);
   const { shoppingState, setRefreshShoppings, setShoppingToEdit} = useContext(ShoppingContext);
@@ -38,6 +42,7 @@ const HeaderShoppingDetailComponent = ({
 
   const { hideConfirmationDialog, showConfirmationDialog, confirmationVisible } = useConfirmDialog()
   const { setIsLoading, saveStartShoppingList, shoppingList, isLoading } = useStartShoppingList()
+  const { setIsLoading: setIsLoadingOnFinalize, updateFinalizingShoppingList, shoppingList: shoppingListOnFinalize, isLoading: isLoadingOnFinalize } = useFinalizarShoppingList()
   const { setIsLoading: setIsLoadingOnClose, saveCloseShoppingList, shoppingList: shoppingListOnClose, isLoading: isLoadingOnClose } = useCloseShoppingList()
   const { removeShopping, setIsLoading: setIsLoadingOnRemove, isLoading: isLoadingOnRemove } = useDeleteShopping()
 
@@ -47,6 +52,11 @@ const HeaderShoppingDetailComponent = ({
   const [description, setDescription] = useState("")
   const [stateName, setStateName] = useState("Abrir")
   const [action, setAction] = useState("none")
+  const [iconReopen, setIconReopen] = useState('undo-variant')
+  const [questionReopen, setQuestionReopen] = useState("La lista pasará al estado ABIERTA ¿Desea re-abrir la lista de compras?")
+  const [descriptionReopen, setDescriptionReopen] = useState("Podrás gestionar compras nuevamente.")
+
+
   const user = authState.user
 
   const collaboratorsParams: CollaboratorsParams = {
@@ -64,6 +74,11 @@ const HeaderShoppingDetailComponent = ({
 
   const showConfirmDialogOnChangeState = () => {
     setAction("changeState")
+    showConfirmationDialog()
+  }
+
+  const showConfirmDialogOnReOpen = () => {
+    setAction("reOpen")
     showConfirmationDialog()
   }
 
@@ -97,14 +112,85 @@ const HeaderShoppingDetailComponent = ({
         await removeShoppingById();
         break;
       case 'changeState':
-        handleConfirmActionToPending();
+        await handleConfirmActionToPending();
         break; 
+      case 'reOpen':
+        handleReopenAction()
+        break;
       default: console.log("sin acción definida");
         break;
       
     }
     hideConfirmationDialog();
   };
+
+  const handleReopenAction = async () => {
+    infoLog("Reabriendo")
+    await startShoppingList(true)
+
+  }
+
+  const startShoppingList = async(reopen: boolean = false) => {
+     // Al darle click entonces se llama al servicio para inicializar y pasar al estado PENDIENTE
+     infoLog("cambiando a estado PENDIENTE o ABIERTO");
+     setIsLoading(true);
+
+     try {
+       await saveStartShoppingList(idListaCompras, reopen);
+       setIsLoading(false);
+       hideConfirmationDialog();
+       infoLog("Info nueva en estado PENDIENTE: "+JSON.stringify(shoppingList))
+       infoLog("Info nueva en estado PENDIENTE: "+JSON.stringify(shoppingState.shoppingList))
+       infoLog("despues del start...");
+
+       //setShoppingList(shoppingList!)
+       setRefreshShoppings(true)
+       //navigator.goBack() // Volver a la pantalla anterior
+
+     } catch (error) {
+       //console.error("Falla al guardar: " + error);
+       errorLog("No se pudo iniciar lista de compras", error)
+       if (error!.response.data.message === 'TOTAL_PERCENTAGES_MUST_BE_100_PERCENT') {
+         ToastAndroid.showWithGravity("Total porcentaje debe ser 100", ToastAndroid.LONG, 1)
+       } else if(error!.response.data.message === 'HAS_PENDING_REQUESTS') {
+         ToastAndroid.showWithGravity("Error: Tiene solicitudes de colaboradores pendientes", ToastAndroid.LONG, 1)
+       } else {
+         ToastAndroid.showWithGravity("No se pudo iniciar lista de compras", ToastAndroid.LONG, 1)
+       }
+
+     }
+  }
+
+  const finalizeShoppingList = async() => {
+    // Al darle click entonces se llama al servicio para inicializar y pasar al estado PENDIENTE
+    infoLog("cambiando a estado FINALIZADO");
+    setIsLoadingOnFinalize(true);
+
+    try {
+      await updateFinalizingShoppingList(idListaCompras);
+      setIsLoadingOnFinalize(false);
+      hideConfirmationDialog();
+      infoLog("Info nueva en estado FINALIZADO: "+JSON.stringify(shoppingListOnFinalize))
+      infoLog("Info nueva en estado FINALIZADO: "+JSON.stringify(shoppingState.shoppingList))
+      infoLog("despues del finalize...");
+
+      //setShoppingList(shoppingList!)
+      setRefreshShoppings(true)
+      //navigator.goBack() // Volver a la pantalla anterior
+
+    } catch (error) {
+      //console.error("Falla al guardar: " + error);
+      errorLog("No se pudo finalizar lista de compras", error)
+      if (error!.response.data.message === 'DEBTS_NOT_CLOSED') {
+        ToastAndroid.showWithGravity("Todas las deudas deben estar cerradas. Revisa el cierre.", ToastAndroid.LONG, 1)
+      } else if(error!.response.data.message === 'PURCHASE_LIST_FINALIZED') {
+        ToastAndroid.showWithGravity("La lista de compras ya fue finalizada. Actualiza.", ToastAndroid.LONG, 1)
+      } else {
+        ToastAndroid.showWithGravity("No se pudo finalizar lista de compras", ToastAndroid.LONG, 1)
+      }
+
+    }
+ }
 
   const handleConfirmActionToPending = async () => {
     // Lógica a ejecutar cuando se presiona el botón "Aceptar"
@@ -137,38 +223,8 @@ const HeaderShoppingDetailComponent = ({
 
     switch (estado) {
       case 'CONFIGURANDO': {
-        // Al darle click entonces se llama al servicio para inicializar y pasar al estado PENDIENTE
-        infoLog("cambiando a estado PENDIENTE");
-        setIsLoading(true);
-
-        try {
-          await saveStartShoppingList(idListaCompras);
-          setIsLoading(false);
-          hideConfirmationDialog();
-          infoLog("Info nueva en estado PENDIENTE: "+JSON.stringify(shoppingList))
-          infoLog("Info nueva en estado PENDIENTE: "+JSON.stringify(shoppingState.shoppingList))
-          infoLog("despues del start...");
-
-          //setShoppingList(shoppingList!)
-          setRefreshShoppings(true)
-          //navigator.goBack() // Volver a la pantalla anterior
-
-        } catch (error) {
-          //console.error("Falla al guardar: " + error);
-          errorLog("No se pudo iniciar lista de compras", error)
-          if (error!.response.data.message === 'TOTAL_PERCENTAGES_MUST_BE_100_PERCENT') {
-            ToastAndroid.showWithGravity("Total porcentaje debe ser 100", ToastAndroid.LONG, 1)
-          } else if(error!.response.data.message === 'HAS_PENDING_REQUESTS') {
-            ToastAndroid.showWithGravity("Error: Tiene solicitudes de colaboradores pendientes", ToastAndroid.LONG, 1)
-          } else {
-            ToastAndroid.showWithGravity("No se pudo iniciar lista de compras", ToastAndroid.LONG, 1)
-          }
-
-        }
-
-
+        await startShoppingList()
         break
-
       }
       case 'PENDIENTE': {
         // Se cambia a cerrado - icono de bolsa de compra check
@@ -208,10 +264,11 @@ const HeaderShoppingDetailComponent = ({
         break
 
       }
-      case 'CERRADO': {
+      case 'EN_CIERRE': {
         //No iconos, no botones.
         // en este esatdo ya la lista queda archivada, finalizada
-        console.log("cambiadno a estado FINALIZADO");
+        infoLog("cambiadno a estado FINALIZADO");
+        await finalizeShoppingList()
         break
 
       }
@@ -273,10 +330,16 @@ const HeaderShoppingDetailComponent = ({
           !shoppingState.shoppingCardSelected || shoppingState.idShoppingCardSelected === 0 ?
 
             <>
-              <ToolItemComponent
-                onPress={showContextMenu}
-                icon='dots-vertical'
-              />
+              {
+                (estado === Estado.EnCierre && user?.id === idUsuarioCreador) || (estado !== Estado.EnCierre )?
+                <ToolItemComponent
+                  onPress={showContextMenu}
+                  icon='dots-vertical'
+                />
+                :<></>
+
+              }
+  
               {
                 user?.id === idUsuarioCreador && estado !== 'FINALIZADO'?
                   <ToolItemComponent
@@ -286,6 +349,15 @@ const HeaderShoppingDetailComponent = ({
                   />
                   :
                   <></>
+              }
+              {
+                user?.id === idUsuarioCreador && estado === Estado.EnCierre?
+                  <ToolItemComponent
+                    onPress={showConfirmDialogOnReOpen}
+                    icon={iconReopen}
+                    name={"Re-abrir"}
+                  />
+                :<></>
               }
             </>
             :
@@ -315,8 +387,8 @@ const HeaderShoppingDetailComponent = ({
         visible={confirmationVisible}
         onRequestClose={hideConfirmationDialog}
         onConfirm={handleConfirmAction}
-        question={question}
-        description={description}
+        question={action==="reOpen"?questionReopen:question}
+        description={action==="reOpen"?descriptionReopen:description}
       />
 
       <Modal

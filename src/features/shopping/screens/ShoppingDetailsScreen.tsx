@@ -9,7 +9,7 @@ import FloatingActionButton from '../../../components/FloatingActionButton';
 import { StackScreenProps } from '@react-navigation/stack';
 import { RootStackParams } from '../../../navigation/MainStackNavigator';
 import { AuthContext } from '../../../context/AuthContext';
-import { AddExpenseParams, CreateShoppingRequest } from '../../../interfaces/ShoppingInterface';
+import { AddExpenseParams, CreateShoppingRequest, Estado } from '../../../interfaces/ShoppingInterface';
 import { useFetchShoppingListDetail } from '../hooks/useFetchShoppingListDetail';
 import { useFetchCollaborators } from '../../../hooks/collaborators/useFetchCollaborators';
 import { CollaboratorsFilterRequest } from '../../../interfaces/UserInterface';
@@ -17,6 +17,7 @@ import { ShoppingContext } from '../../../context/ShoppingContext';
 import { infoLog } from '../../../utils/HandlerError';
 import { ShoppingV2Context } from '../context/ShoppingV2Context';
 import currencyFormatter from 'currency-formatter'
+import { ButtonV2Component } from '../../../components/buttons/ButtonV2Component';
 
 
 interface ShoppingDetailsScreenProps extends StackScreenProps<RootStackParams, 'ShoppingDetails'> { }
@@ -133,6 +134,37 @@ const ShoppingDetailsScreen = ({ route, navigation }: ShoppingDetailsScreenProps
 
   return (
     <BaseScreenComponent>
+      {
+        shoppingState.shoppingList?.estado === Estado.EnCierre || shoppingState.shoppingList?.estado === Estado.Finalizado
+        ?
+        <View 
+        style={{
+          borderWidth: 0,
+          borderColor: 'red',
+          flexDirection: 'row-reverse',
+          justifyContent: 'space-between',
+          marginVertical: 5,
+          paddingVertical: 5,
+          paddingHorizontal: 10
+        }}
+      >
+        <View
+          style={{
+            ...styles.buttonCierre
+          }}
+        >
+         
+          <ButtonV2Component 
+            title='Ver cierre'
+            buttonColor='#262626'
+            height={38}
+            onPress={() => navigation.navigate('Clousure',{shoppingList: shoppingState.shoppingList} )}
+          />
+        </View>
+      </View>
+      :<></>
+      }
+    
       
       {/* Shoppers */}
       <View
@@ -287,6 +319,15 @@ const styles = StyleSheet.create({
     left: 120,
     top: 5
     
+  }, 
+  buttonCierre: {
+    borderWidth: 0,
+    borderColor: 'white',
+    width: 90,
+    height: 38,
+    flexDirection: 'column',
+    justifyContent: 'center',
+
   }
 
 });

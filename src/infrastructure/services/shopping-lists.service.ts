@@ -86,11 +86,27 @@ const editShopping = async (shopping: EditShoppingRequest) => {
 }
 
 
-const startShoppingList = async (idListaCompras: number) => {
+const startShoppingList = async (idListaCompras: number, reopen: boolean) => {
 
 	try {
 		const response = await expenseMateApi.put<CreateShoppingListResponse>(
-			`/lista-compra/inicializar-lista-compras/${idListaCompras}`
+			`/lista-compra/inicializar-lista-compras/${idListaCompras}?back=${reopen}`
+		)
+		console.log("88888888888888888888888888888888\n response: " + JSON.stringify(response.data.body));
+
+		return response.data.body
+
+	} catch (error) {
+		throw error;
+	}
+
+}
+
+const finalizeShoppingList = async (idListaCompras: number) => {
+
+	try {
+		const response = await expenseMateApi.put<CreateShoppingListResponse>(
+			`/lista-compra/finalizar-lista-compras/${idListaCompras}`
 		)
 		console.log("88888888888888888888888888888888\n response: " + JSON.stringify(response.data.body));
 
@@ -143,6 +159,7 @@ export {
 	startShoppingList,
 	sendRequestAddCollaborator,
 	editShopping,
-	closeShoppingList
+	closeShoppingList,
+	finalizeShoppingList
 
 }
