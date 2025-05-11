@@ -30,3 +30,8 @@ https://www.nativewind.dev/quick-starts/react-native-cli
 
 https://dribbble.com/shots/20159263-Task-and-Project-Management-Mobile-App
 
+## Requisitos
+
+- node 18.20.3
+- npm 10.7.0
+- jdk 11

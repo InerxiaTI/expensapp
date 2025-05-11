@@ -7,6 +7,7 @@ import AddCollaboratorAsShopperScreen from "../features/add-shopping/screens/Add
 import AssignPercentageCollaboratorScreen from "../features/shopping/screens/AssignPercentageCollaboratorScreen";
 import CollaboratorsScreen from "../features/shopping/screens/CollaboratorsScreen";
 import AddCategoryToShopScreen from '../features/add-shopping/screens/AddCategoryToShopScreen';
+import ClousureScreen from "../features/shopping/screens/ClousureScreen";
 
 const HomeStack = createStackNavigator<RootStackParams>();
 
@@ -59,6 +60,15 @@ export const HomeNavigation = () => {
                 options={{
                     title: 'Collaborators',
                     cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+                    presentation: "card"
+
+                 }}
+            />
+            <HomeStack.Screen name="Clousure" component={ClousureScreen} 
+                options={{
+                    title: 'Clousure',
+                    cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+                    headerStyleInterpolator: HeaderStyleInterpolators.forSlideLeft ,
                     presentation: "card"
 
                  }}

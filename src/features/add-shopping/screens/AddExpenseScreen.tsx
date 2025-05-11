@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Image, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
+import { Image, StyleSheet, Text, ToastAndroid, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import expenseBanner from '../../../../assets/expenseBanner.png';
 import { getFormatedDate } from 'react-native-modern-datepicker';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
@@ -198,7 +198,11 @@ const AddExpenseScreen = ({ route, navigation }: AddExpenseScreenProps) => {
 			navigation.goBack() // Volver a la pantalla anterior
 
 		} catch (error) {
-			console.error("Falla al guardar: " + error);
+			//console.error("Falla al guardar: " + error);
+			if (error.response.data.message === "ADD_PURCHASE_NOT_ALLOWED") {
+				ToastAndroid.show("Lista de compra cerrada o no permite agregar compras", ToastAndroid.LONG)
+			}
+			
 		} finally {
 			setIsLoading(false);
 			setHabilitarBoton(true)

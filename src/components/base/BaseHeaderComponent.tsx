@@ -16,7 +16,7 @@ const BaseHeaderComponent = ({children}: BaseHeaderProps) => {
         height: 0,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        borderWidth: 1,
+        borderWidth: 0,
         borderColor: 'red',
         width: '100%',
       }}>

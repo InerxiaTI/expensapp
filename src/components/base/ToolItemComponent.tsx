@@ -1,17 +1,19 @@
 import React from 'react'
-import { TouchableOpacity } from 'react-native'
+import { TouchableOpacity, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 interface ToolItemProps {
     onPress: ()=>void;
     icon: string;
+    name?: string
     
 }
 
-const ToolItemComponent = ({onPress, icon}: ToolItemProps) => {
+const ToolItemComponent = ({onPress, icon, name}: ToolItemProps) => {
     return (
         <TouchableOpacity
             style={{
+                flexDirection: 'row',
                 borderColor: 'red',
                 borderWidth: 0,
                 height: '100%',
@@ -21,6 +23,9 @@ const ToolItemComponent = ({onPress, icon}: ToolItemProps) => {
             }}
             onPress={onPress}
         >
+            {
+                name && (<Text>{name}</Text>)
+            }
             <Icon name={icon} size={25} color='white' />
         </TouchableOpacity>
     )

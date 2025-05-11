@@ -20,7 +20,7 @@ export const useNewShopping = () => {
             setRefreshHome(true)
             setShopping(response)
         } catch (error) {
-            console.error("ERROR °°°°°°°°°°°° ", error.response.data);
+            //console.warn("ERROR °°°°°°°°°°°° ", error.response.data);
             throw error;
         } finally{
             setIsLoading(false)

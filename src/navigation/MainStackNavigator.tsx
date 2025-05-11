@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../context/AuthContext';
 import LoginScreen from '../screens/LoginScreen';
 import { TabsNavigator } from './TabsNavigator';
-import { AddExpenseParams, ShoppingList } from '../interfaces/ShoppingInterface';
+import { AddExpenseParams, ClousureParams, ShoppingList } from '../interfaces/ShoppingInterface';
 import SettingsScreen from '../screens/SettingsScreen';
 import NewShoppingListScreen from '../features/create-shopping-list/screens/NewShoppingListScreen';
 import { AddCollaboratorAsShopperParams } from '../features/add-shopping/screens/AddCollaboratorAsShopperScreen';
@@ -35,7 +35,8 @@ export type RootStackParams = {
   ErrorInesperado: any,
   Categories: any,
   CategoriesList: any,
-  AddCategory: AddCategoryParams
+  AddCategory: AddCategoryParams,
+  Clousure: ClousureParams,
 
 }
 

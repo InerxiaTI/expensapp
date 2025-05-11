@@ -9,6 +9,12 @@ export interface GenericResponse<T> {
 	body:        Body<T>;
 }
 
+export interface GenericResponseV2<T> {
+	description: string;
+	message:     string;
+	body:        T;
+}
+
 export interface Body<T> {
 	content:          T[];
 	pageable:         Pageable;
@@ -162,7 +168,9 @@ export interface ShoppingList {
 export enum Estado {
 	Configurando = "CONFIGURANDO",
 	Pendiente = "PENDIENTE",
-    Cerrado = "CERRADO"
+    Cerrado = "CERRADO",
+    EnCierre = "EN_CIERRE",
+    Finalizado = "FINALIZADO"
 }
 
 export interface Pageable {
@@ -194,6 +202,10 @@ export interface EditShoppingRequest {
     valor:             number;
     descripcion:       string;
     nombreCategoria:   string;
+}
+
+export interface ClousureParams {
+    shoppingList?: ShoppingList
 }
 
 

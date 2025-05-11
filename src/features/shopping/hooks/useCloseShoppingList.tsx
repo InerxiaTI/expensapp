@@ -1,20 +1,20 @@
 import { useState, useContext } from "react"
 import { ShoppingList } from "../../../interfaces/ShoppingInterface"
-import { startShoppingList } from "../../../infrastructure/services/shopping-lists.service"
+import { closeShoppingList } from "../../../infrastructure/services/shopping-lists.service"
 import { ShoppingContext } from "../../../context/ShoppingContext";
 
 
-export const useStartShoppingList = () => {
+export const useCloseShoppingList = () => {
     const { setRefreshHome, setShoppingList: setSoppingListContext } = useContext(ShoppingContext);
 
     const [isLoading, setIsLoading] = useState(false)
     const [shoppingList, setShoppingList] = useState<ShoppingList>()
 
 
-    const saveStartShoppingList = async (idListaCompras: number, reopen: boolean = false) => {
+    const saveCloseShoppingList = async (idListaCompras: number) => {
 
         try {
-            const response = await startShoppingList(idListaCompras, reopen)
+            const response = await closeShoppingList(idListaCompras)
             console.log("QQQQQQQQQQQQQQQQQQ---- "+JSON.stringify(response));
             setShoppingList(response)
             setSoppingListContext(response)
@@ -31,6 +31,6 @@ export const useStartShoppingList = () => {
         isLoading,
         setIsLoading,
         shoppingList,
-        saveStartShoppingList
+        saveCloseShoppingList
     }
 }
